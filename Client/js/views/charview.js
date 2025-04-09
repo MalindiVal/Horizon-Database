@@ -18,7 +18,7 @@ class CharView{
             this.race = document.getElementById("character-race");
             this.bio = document.getElementById("character-background");
             this.relationdiv = document.getElementById("character-relationships")
-            
+            this.editbutton = document.getElementById("editbutton");
             this.DisplayCharacter(id)
         }
     }
@@ -83,6 +83,7 @@ class CharView{
         this.relationdiv.innerHTML = "";
         let ul = document.createElement("ul");
 
+        this.editbutton.href += "?id="+id;
         for (let i = 0; i < relations.length; i++ ){
             let li = document.createElement("li");
             li.innerHTML = relations[i].titre + " de ";
