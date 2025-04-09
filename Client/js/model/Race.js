@@ -12,6 +12,14 @@ class Race{
         return this.id;
     }
 
+    set Id(id){
+        this.id = id;
+    }
+
+    set Nom(nom){
+        this.nom = nom;
+    }
+
 
 
 
