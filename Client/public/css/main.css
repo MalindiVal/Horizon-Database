@@ -1,0 +1,20 @@
+
+
+img#logo{
+    height: 250px;
+    justify-self: center;
+    align-self: center;
+}
+
+#imglogo{
+    display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+}
+nav{
+    margin: 15px;
+    padding: 10px;
+    background-color: black;
+}
+
