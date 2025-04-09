@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the characters of My Fantasy World. Learn about their backgrounds, powers, and relationships.">
+    <title>Personnage - Project Horizon</title>
+    <link href="public/css/bootstrap.min.css" rel="stylesheet" >
+    <link rel="stylesheet" href="public/css/main.css">
+    <script src="js/model/Race.js" ></script>
+    <script src="js/model/Personnage.js" ></script>
+    <script src="js/model/Relation.js" ></script>
+    <script src="js/data/DAO.js" ></script>
+    <script src="js/data/PersonnageDAO.js" ></script>
+    <script src="js/data/RelationDAO.js" ></script>
+    <script src="js/views/charview.js" ></script>
+    <script src="js/main.js" ></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">Edit</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="personnages.html">Personnages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Histoire.html">Histoire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Races.html">Races</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Factions.html">Factions</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mt-5">
+        <h1 id="title" >Edit </h1>
+        <label for="name">Nom</label>
+        <input type="text" name="name" id="name">
+        <label for="gender">Genre</label>
+        <select name="gender" id="gender">
+            <option value="m">Male</option>
+            <option value="f">Female</option>
+            <option value="n">Neutral</option>
+        </select>
+        <label for="race">Race</label>
+        <select name="race" id="race">
+        </select>
+        <label for="tag">Tagline</label>
+        <input type="text" name="tag" id="tag">
+        <label for="bio">Bio</label>
+        <textarea name="bio" id="bio"></textarea>
+        <button id="submit">Ajouter</button>
+    </main>
+
+    <footer class="bg-light text-center py-3">
+        <p>&copy; 2025 My Fantasy World. All rights reserved.</p>
+    </footer>
+
+    <script src="public/js/bootstrap.js" ></script>
+   
+</body>
+</html>
