@@ -7,21 +7,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-class FactionView {
+class CharsView {
     constructor() {
-        this.dao = new FactionDAO();
+        this.dao = new PersonnageDAO();
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
-        this.title = document.getElementById("faction-name");
-        this.bio = document.getElementById("faction-background");
-        this.DisplayFaction(id);
+        this.div = document.getElementById("characterlist");
+        this.ListAllChars();
     }
-    ListAllFactions() {
+    ListAllChars() {
         return __awaiter(this, void 0, void 0, function* () {
             let list = yield this.dao.GetAll();
             this.div.innerHTML = "";
             if (!list || list.length === 0) {
-                this.div.innerHTML = "<p>Aucune faction trouvé.</p>";
+                this.div.innerHTML = "<p>Aucun personnage trouvé.</p>";
                 return;
             }
             for (let i = 0; i < list.length; i++) {
@@ -40,7 +39,7 @@ class FactionView {
                 nom.innerHTML = list[i].Nom;
                 body.appendChild(nom);
                 let a = document.createElement("a");
-                a.href = "faction.html?id=" + list[i].Id;
+                a.href = "personnage.html?id=" + list[i].Id;
                 a.innerText = "Voir plus";
                 a.classList.add("btn");
                 a.classList.add("btn-primary");
@@ -51,12 +50,5 @@ class FactionView {
             }
         });
     }
-    DisplayFaction(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let faction = yield this.dao.GetById(id);
-            this.title.innerHTML = faction.Nom;
-            this.bio.innerHTML = faction.Bio;
-        });
-    }
 }
-//# sourceMappingURL=factionview.js.map
+//# sourceMappingURL=charsview.js.map

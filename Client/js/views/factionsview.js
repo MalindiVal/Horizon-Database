@@ -7,14 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-class FactionView {
+class FactionsView {
     constructor() {
         this.dao = new FactionDAO();
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
-        this.title = document.getElementById("faction-name");
-        this.bio = document.getElementById("faction-background");
-        this.DisplayFaction(id);
+        this.div = document.getElementById("factionlist");
+        this.ListAllFactions();
     }
     ListAllFactions() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -51,12 +48,5 @@ class FactionView {
             }
         });
     }
-    DisplayFaction(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let faction = yield this.dao.GetById(id);
-            this.title.innerHTML = faction.Nom;
-            this.bio.innerHTML = faction.Bio;
-        });
-    }
 }
-//# sourceMappingURL=factionview.js.map
+//# sourceMappingURL=factionsview.js.map

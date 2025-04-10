@@ -1,45 +1,29 @@
-class Relation{
-    constructor(){
-        this.id = 0;
-        this.titre = "";
-        this.description = "";
-        this.cible = "";
-    }
-
-    get Id(){
+class Relation {
+    get Id() {
         return this.id;
     }
-
-    get Titre(){
+    get Titre() {
         return this.titre;
     }
-
-    get Description(){
+    get Description() {
         return this.description;
     }
-
-    get Cible(){
+    get Cible() {
         return this.cible;
     }
-
-
-
-
-    hydrate(data){
-        if(data["id_p2"]){
+    hydrate(data) {
+        if (data["id_p2"]) {
             this.id = data["id_p2"];
         }
-
-        if(data["titre"]){
+        if (data["titre"]) {
             this.titre = data["titre"];
         }
-
-        if(data["description"]){
+        if (data["description"]) {
             this.description = data["description"];
         }
-
-        if(data["cible"]){
+        if (data["cible"]) {
             this.cible = data["cible"];
         }
     }
 }
+//# sourceMappingURL=Relation.js.map

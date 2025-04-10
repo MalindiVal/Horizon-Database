@@ -1,4 +1,4 @@
 window.onload = function () {
     let view = new FactionView();
-};
-//# sourceMappingURL=faction.js.map
+
+}
