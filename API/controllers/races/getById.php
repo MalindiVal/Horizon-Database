@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-require_once("./../../models/FactionManager.php");
+require_once("./../../models/RaceManager.php");
 $db = new RaceManager();
 if (isset($_GET["id"])){
     echo json_encode($db->getByID(intval($_GET["id"])));
