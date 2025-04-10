@@ -1,6 +1,7 @@
 class EditCharView{
     
     private perso : Personnage;
+    private exist : boolean;
     private dao : PersonnageDAO;
     private nameinput : HTMLInputElement;
     private genderinput : HTMLSelectElement;
@@ -11,7 +12,13 @@ class EditCharView{
 
     constructor(char : Personnage, dao : PersonnageDAO){
 
-        this.perso = char;
+        this.exist = false;
+        if (char){
+            this.perso = char;
+            this.exist = true;
+        } else {
+            this.perso = new Personnage();
+        }
         this.dao = dao;
         this.nameinput = document.getElementById("name") as HTMLInputElement;
         this.genderinput = document.getElementById("gender") as HTMLSelectElement;
@@ -37,7 +44,7 @@ class EditCharView{
     }
 
     fillInfos(){
-        if (this.perso){
+        if (this.exist){
             this.nameinput.value = this.perso.Nom;
             
             for (let i = 0; i < this.genderinput.options.length; i++){
@@ -58,10 +65,15 @@ class EditCharView{
         }
     }
 
-    Validate(){
-        this.perso.Nom = this.nameinput.textContent;
-        this.perso.Tagline = this.taginput.textContent;
-        this.perso.Race.Id = Number(this.raceinput.value);
-        this.perso.Bio = this.bioinput.textContent;
+    async Validate(){
+        this.perso.Nom = this.nameinput.value;
+        this.perso.Tagline = this.taginput.value;
+        this.perso.Gender = this.genderinput.value.toUpperCase();
+        let r = new Race();
+        r.Id = Number(this.raceinput.value);
+        this.perso.Race = r;
+        this.perso.Bio = this.bioinput.value;
+
+        let res = await this.dao.Add(this.perso);
     }
 }

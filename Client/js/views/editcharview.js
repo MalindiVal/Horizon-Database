@@ -9,7 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 class EditCharView {
     constructor(char, dao) {
-        this.perso = char;
+        this.exist = false;
+        if (char) {
+            this.perso = char;
+            this.exist = true;
+        }
+        else {
+            this.perso = new Personnage();
+        }
         this.dao = dao;
         this.nameinput = document.getElementById("name");
         this.genderinput = document.getElementById("gender");
@@ -34,7 +41,7 @@ class EditCharView {
         });
     }
     fillInfos() {
-        if (this.perso) {
+        if (this.exist) {
             this.nameinput.value = this.perso.Nom;
             for (let i = 0; i < this.genderinput.options.length; i++) {
                 if (this.genderinput.options[i].value.toUpperCase() == this.perso.Gender) {
@@ -53,10 +60,16 @@ class EditCharView {
         }
     }
     Validate() {
-        this.perso.Nom = this.nameinput.textContent;
-        this.perso.Tagline = this.taginput.textContent;
-        this.perso.Race.Id = Number(this.raceinput.value);
-        this.perso.Bio = this.bioinput.textContent;
+        return __awaiter(this, void 0, void 0, function* () {
+            this.perso.Nom = this.nameinput.value;
+            this.perso.Tagline = this.taginput.value;
+            this.perso.Gender = this.genderinput.value.toUpperCase();
+            let r = new Race();
+            r.Id = Number(this.raceinput.value);
+            this.perso.Race = r;
+            this.perso.Bio = this.bioinput.value;
+            let res = yield this.dao.Add(this.perso);
+        });
     }
 }
 //# sourceMappingURL=editcharview.js.map

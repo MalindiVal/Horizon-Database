@@ -50,4 +50,23 @@ class PersonnageDAO{
             throw new Error(`An error occurred while fetching characters: ${error.message}`);
         }
     }
+
+    async Add(char : Personnage) {
+        try {
+            let liste = [];
+            let apiurl = this.api + "Add.php";
+            let response = await fetch(apiurl,{
+                method : "POST",
+                body : JSON.stringify(char)
+            });
+    
+            if (response.status === 200) {
+                return true;
+            } else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
+            }
+        } catch (error) {
+            return false;
+        }
+    }
 }

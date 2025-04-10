@@ -61,5 +61,26 @@ class PersonnageDAO {
             }
         });
     }
+    Add(char) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let liste = [];
+                let apiurl = this.api + "Add.php";
+                let response = yield fetch(apiurl, {
+                    method: "POST",
+                    body: JSON.stringify(char)
+                });
+                if (response.status === 200) {
+                    return true;
+                }
+                else {
+                    throw new Error(`HTTP Error! Status: ${response.status}`);
+                }
+            }
+            catch (error) {
+                return false;
+            }
+        });
+    }
 }
 //# sourceMappingURL=PersonnageDAO.js.map

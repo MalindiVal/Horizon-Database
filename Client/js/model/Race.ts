@@ -4,27 +4,27 @@ class Race{
     private nom : string;
     private bio : string;
 
-    public get Nom(){
+    public get Nom() : string{
         return this.nom;
     }
 
-    public get Bio(){
+    public get Bio() : string{
         return this.bio;
     }
 
-    public get Id(){
+    public get Id() : number{
         return this.id;
     }
 
-    public set Id(id){
+    public set Id(id : number){
         this.id = id;
     }
 
-    public set Nom(nom){
+    public set Nom(nom : string){
         this.nom = nom;
     }
 
-    public set Bio(bio){
+    public set Bio(bio : string){
         this.bio = bio;
     }
 
