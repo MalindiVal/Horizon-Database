@@ -38,5 +38,27 @@ class RaceDAO {
             }
         });
     }
+    GetById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let apiurl = this.api + "getById.php?id=" + id;
+                let response = yield fetch(apiurl);
+                if (response.status === 200) {
+                    // Extraction des données JSON
+                    let data = yield response.json();
+                    let race = new Race();
+                    race.Id = data.Id;
+                    race.Nom = data.nom;
+                    return race;
+                }
+                else {
+                    throw new Error(`HTTP Error! Status: ${response.status}`);
+                }
+            }
+            catch (error) {
+                throw new Error(`An error occurred while fetching characters: ${error.message}`);
+            }
+        });
+    }
 }
 //# sourceMappingURL=RaceDAO.js.map

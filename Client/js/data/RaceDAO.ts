@@ -29,4 +29,24 @@ class RaceDAO{
             throw new Error(`An error occurred while fetching races: ${error.message}`);
         }
     }
+
+    async GetById(id) {
+        try {
+            let apiurl = this.api + "getById.php?id="+id;
+            let response = await fetch(apiurl);
+    
+            if (response.status === 200) {
+                // Extraction des données JSON
+                let data = await response.json();
+                let race = new Race();
+                race.Id = data.Id;
+                race.Nom = data.nom;
+                return race;
+            } else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
+            }
+        } catch (error) {
+            throw new Error(`An error occurred while fetching characters: ${error.message}`);
+        }
+    }
 }
