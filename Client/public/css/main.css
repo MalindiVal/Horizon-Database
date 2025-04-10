@@ -12,9 +12,13 @@ img#logo{
         justify-content: space-around;
         align-items: center;
 }
-nav{
-    margin: 15px;
+nav.main-nav{
     padding: 10px;
     background-color: black;
+}
+
+.navbar-brand:hover{
+    color: rgb(0, 255, 174);
+    transition: 1s;
 }
 
