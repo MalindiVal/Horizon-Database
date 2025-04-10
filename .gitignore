@@ -19,3 +19,5 @@ package-lock.json
 .eslintcache
 *v8.log
 /lib/
+Client/Client.code-workspace
+Horizon-Database.code-workspace
