@@ -49,7 +49,7 @@ class Personnage {
             this.tagline = data["tagline"];
         }
         if (data["gender"]) {
-            this.tagline = data["gender"];
+            this.gender = data["gender"];
         }
         if (data["id_race"]) {
             this.race = new Race();

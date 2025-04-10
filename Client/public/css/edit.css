@@ -1,0 +1,11 @@
+div#biodiv {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: fit-content;
+}
+
+.section {
+    margin: 15px;
+}
+

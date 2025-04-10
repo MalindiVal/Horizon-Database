@@ -76,7 +76,7 @@ class Personnage{
         }
 
         if(data["gender"]){
-            this.tagline = data["gender"];
+            this.gender = data["gender"];
         }
 
         if(data["id_race"]){

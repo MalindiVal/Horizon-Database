@@ -14,7 +14,7 @@ class EditCharView {
         this.nameinput = document.getElementById("name");
         this.genderinput = document.getElementById("gender");
         this.raceinput = document.getElementById("race");
-        this.taginput = document.getElementById("tagline");
+        this.taginput = document.getElementById("tag");
         this.bioinput = document.getElementById("bio");
         this.validatebutton = document.getElementById("submit");
         this.validatebutton.addEventListener("click", () => this.Validate());
@@ -30,7 +30,27 @@ class EditCharView {
                 option.value = element.id;
                 this.raceinput.appendChild(option);
             });
+            this.fillInfos();
         });
+    }
+    fillInfos() {
+        if (this.perso) {
+            this.nameinput.value = this.perso.Nom;
+            for (let i = 0; i < this.genderinput.options.length; i++) {
+                if (this.genderinput.options[i].value.toUpperCase() == this.perso.Gender) {
+                    this.genderinput.options.selectedIndex = i;
+                    break;
+                }
+            }
+            for (let i = 0; i < this.raceinput.options.length; i++) {
+                if (Number(this.raceinput.options[i].value) == this.perso.Race.Id) {
+                    this.raceinput.options.selectedIndex = i;
+                    break;
+                }
+            }
+            this.taginput.value = this.perso.Tagline;
+            this.bioinput.value = this.perso.Bio;
+        }
     }
     Validate() {
         this.perso.Nom = this.nameinput.textContent;

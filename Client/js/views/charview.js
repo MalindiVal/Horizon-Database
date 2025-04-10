@@ -25,7 +25,7 @@ class CharView {
             this.bio.innerHTML = this.perso.Bio;
             let arace = document.createElement("a");
             arace.href = "Race?id=" + this.perso.Race.Id;
-            arace.innerHTML = this.perso.Nom;
+            arace.innerHTML = this.perso.Race.Nom;
             this.race.appendChild(arace);
             let relations = yield this.rdao.GetByCharacters(this.perso.Id);
             this.relationdiv.innerHTML = "";
