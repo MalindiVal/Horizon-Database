@@ -14,8 +14,8 @@ class Personnage {
     get Tagline() {
         return this.tagline;
     }
-    get Race() {
-        return this.race;
+    get IdRace() {
+        return this.idrace;
     }
     set Id(id) {
         this.id = id;
@@ -32,8 +32,8 @@ class Personnage {
     set Tagline(tag) {
         this.tagline = tag;
     }
-    set Race(race) {
-        this.race = race;
+    set IdRace(race) {
+        this.idrace = race;
     }
     hydrate(data) {
         if (data["id"]) {
@@ -52,8 +52,7 @@ class Personnage {
             this.gender = data["gender"];
         }
         if (data["id_race"]) {
-            this.race = new Race();
-            this.race.hydrate(data);
+            this.IdRace = data["id_race"];
         }
     }
 }
