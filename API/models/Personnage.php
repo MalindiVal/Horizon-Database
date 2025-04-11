@@ -73,11 +73,11 @@ class Personnage{
         }
 
         if(isset($data["id_race"])){
-            $this->setIdRace($data["id_race"]);
+            $this->setIdRace(intval($data["id_race"]));
         }
 
-        if(isset($data["genre"])){
-            $this->setGenre($data["genre"]);
+        if(isset($data["gender"])){
+            $this->setGenre($data["gender"]);
         }
         
     }

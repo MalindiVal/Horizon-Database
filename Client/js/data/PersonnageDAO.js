@@ -64,20 +64,23 @@ class PersonnageDAO {
     Add(char) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let liste = [];
                 let apiurl = this.api + "Add.php";
                 let response = yield fetch(apiurl, {
                     method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                     body: JSON.stringify(char)
                 });
-                if (response.status === 200) {
-                    return true;
+                if (response.ok) {
+                    return yield response.json(); // if your PHP returns true/false
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
                 }
             }
             catch (error) {
+                console.error(error);
                 return false;
             }
         });

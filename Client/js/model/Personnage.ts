@@ -5,7 +5,7 @@ class Personnage{
     private bio : string;
     private gender : string;
     private tagline : string;
-    private idrace : number;
+    private id_race : number;
 
     get Id(){
         return this.id;
@@ -28,7 +28,7 @@ class Personnage{
     }
 
     get IdRace(){
-        return this.idrace;
+        return this.id_race;
     }
 
     set Id(id : number){
@@ -52,7 +52,7 @@ class Personnage{
     }
 
     set IdRace(race : number){
-        this.idrace = race;
+        this.id_race = race;
     }
 
 

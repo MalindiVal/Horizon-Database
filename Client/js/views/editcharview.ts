@@ -55,7 +55,7 @@ class EditCharView{
             }
 
             for (let i = 0; i < this.raceinput.options.length; i++){
-                if (Number(this.raceinput.options[i].value) == this.perso.IdRace){
+                if (this.raceinput.options[i].value == String(this.perso.IdRace)){
                     this.raceinput.options.selectedIndex = i; 
                     break;
                 }
