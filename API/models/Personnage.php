@@ -1,43 +1,61 @@
 <?php
 class Personnage{
-    private $id;
-    private $nom;
-    private $tagline;
-    private $bio;
+    private int $id;
+    private string $nom;
+    private string $genre;
+    private string $tagline;
+    private string $bio;
+    private int $idrace;
 
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    public function getNom() {
+    public function getIdRace(): int {
+        return $this->idrace;
+    }
+
+    public function getNom(): string {
         return $this->nom;
     }
 
-    public function getTagline(){
+    public function getTagline(): string{
         return $this->tagline;
     }
 
-    public function getBio() {
+    public function getBio(): string {
         return $this->bio;
     }
 
-    public function setId(int $id){
+    public function getGenre(): string {
+        return $this->genre;
+    }
+
+    public function setId(int $id): void{
         $this->id = $id;
     }
 
-    public function setNom(string $nom) {
+    public function setNom(string $nom): void {
         $this->nom = $nom;
     }
 
-    public function setTagline(string $tag) {
+    public function setTagline(string $tag): void {
         $this->tagline = $tag;
     }
 
-    public function setBio(string $bio) {
+    public function setBio(string $bio): void {
         $this->bio = $bio;
     }
+
+    public function setGenre(string $genre): void {
+        $this->genre = $genre;
+    }
+
+    public function setIdRace(int $idrace): void {
+        $this->idrace = $idrace;
+    }
     
-    public function hydrate(array $data) {
+    public function hydrate(array $data): void {
         if(isset($data["id"])){
             $this->setId($data["id"]);
         }
@@ -52,6 +70,14 @@ class Personnage{
 
         if(isset($data["bio"])){
             $this->setBio($data["bio"]);
+        }
+
+        if(isset($data["id_race"])){
+            $this->setIdRace($data["id_race"]);
+        }
+
+        if(isset($data["genre"])){
+            $this->setGenre($data["genre"]);
         }
         
     }

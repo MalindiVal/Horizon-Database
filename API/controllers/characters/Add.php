@@ -13,4 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once("./../../models/PersonnageManager.php");
 $db = new PersonnageManager();
 
-echo json_encode($_POST);
+
+require_once("./../../models/Personnage.php");
+$perso = new Personnage();
+$perso->hydrate($_POST);
+echo json_encode($db->AddPersonnage($perso) > 0);

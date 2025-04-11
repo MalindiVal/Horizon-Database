@@ -55,7 +55,7 @@ class EditCharView{
             }
 
             for (let i = 0; i < this.raceinput.options.length; i++){
-                if (Number(this.raceinput.options[i].value) == this.perso.Race.Id){
+                if (Number(this.raceinput.options[i].value) == this.perso.IdRace){
                     this.raceinput.options.selectedIndex = i; 
                     break;
                 }
@@ -69,11 +69,12 @@ class EditCharView{
         this.perso.Nom = this.nameinput.value;
         this.perso.Tagline = this.taginput.value;
         this.perso.Gender = this.genderinput.value.toUpperCase();
-        let r = new Race();
-        r.Id = Number(this.raceinput.value);
-        this.perso.Race = r;
+        this.perso.IdRace = Number(this.raceinput.value);
         this.perso.Bio = this.bioinput.value;
 
         let res = await this.dao.Add(this.perso);
+        if (res){
+            
+        }
     }
 }

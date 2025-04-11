@@ -30,8 +30,10 @@ class CharView{
         this.bio.innerHTML = this.perso.Bio;
         
         let arace = document.createElement("a");
-        arace.href = "race.html?id="+this.perso.Race.Id;
-        arace.innerHTML = this.perso.Race.Nom;
+        arace.href = "race.html?id="+this.perso.IdRace;
+        let raceddao = new RaceDAO();
+        let racename = await raceddao.GetById(this.perso.IdRace);
+        arace.innerHTML = racename.Nom;
         this.race.appendChild(arace)
 
         let relations = await this.rdao.GetByCharacters(this.perso.Id);

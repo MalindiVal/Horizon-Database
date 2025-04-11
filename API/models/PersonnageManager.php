@@ -15,7 +15,7 @@ class PersonnageManager extends Model{
     }
 
     public function getByID(int $id) {
-        $sql = 'SELECT p.* , r.nom AS race FROM personnages p JOIN Races r  ON p.id_race = r.id WHERE p.id = ?';  // Remplacez par le nom de votre table Pokemon
+        $sql = 'SELECT id, nom , genre , id_race, bio, tagline FROM personnages WHERE id = ?'; 
         $result = $this->execRequest($sql, [$id]);
 
         $row = $result->fetch();
@@ -25,5 +25,22 @@ class PersonnageManager extends Model{
             //$type = new Personnage();
             //$type->hydrate($row);
         return $row;
+    }
+
+    public function AddPersonnage(Personnage $personnage) : int {
+        $sql = "INSERT INTO personnages (nom,gender,id_race,tagline,bio)  Values (?,?,?,?,?)";
+        try{
+            $result = $this->execRequest($sql, [
+                $personnage->getNom(),
+                $personnage->getGenre(),
+                $personnage->getIdRace(),
+                $personnage->getTagline(),
+                $personnage->getBio()
+            ]);
+
+            return 1;
+        } catch (Exception $ex){
+            return 0;
+        }
     }
 }
