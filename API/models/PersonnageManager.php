@@ -15,7 +15,7 @@ class PersonnageManager extends Model{
     }
 
     public function getByID(int $id) {
-        $sql = 'SELECT id, nom , genre , id_race, bio, tagline FROM personnages WHERE id = ?'; 
+        $sql = 'SELECT id, nom , gender , id_race, bio, tagline FROM personnages WHERE id = ?'; 
         $result = $this->execRequest($sql, [$id]);
 
         $row = $result->fetch();
