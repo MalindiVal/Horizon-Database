@@ -22,8 +22,8 @@ class PersonnageManager extends Model{
         if (!$row) {
             return null;
         }
-            //$type = new Personnage();
-            //$type->hydrate($row);
+            //$personnage = new Personnage();
+            //$personnage->hydrate($row);
         return $row;
     }
 
@@ -36,6 +36,24 @@ class PersonnageManager extends Model{
                 $personnage->getIdRace(),
                 $personnage->getTagline(),
                 $personnage->getBio()
+            ]);
+
+            return 1;
+        } catch (Exception $ex){
+            return 0;
+        }
+    }
+
+    public function UpdatePersonnage(Personnage $personnage) : int {
+        $sql = "Update INTO personnages SET nom=? ,gender=?,id_race=?,tagline=?,bio=? Where id=?";
+        try{
+            $result = $this->execRequest($sql, [
+                $personnage->getNom(),
+                $personnage->getGenre(),
+                $personnage->getIdRace(),
+                $personnage->getTagline(),
+                $personnage->getBio(),
+                $personnage->getId()
             ]);
 
             return 1;
