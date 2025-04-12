@@ -7,6 +7,8 @@ class Personnage{
     private string $bio;
     private int $idrace;
 
+    private string $description;
+
     public function getId(): int {
         return $this->id;
     }
@@ -31,6 +33,10 @@ class Personnage{
         return $this->genre;
     }
 
+    public function getDescription(): string {
+        return $this->description;
+    }
+
     public function setId(int $id): void{
         $this->id = $id;
     }
@@ -49,6 +55,10 @@ class Personnage{
 
     public function setGenre(string $genre): void {
         $this->genre = $genre;
+    }
+
+    public function setDescription(string $desc): void {
+        $this->description = $desc;
     }
 
     public function setIdRace(int $idrace): void {
@@ -78,6 +88,10 @@ class Personnage{
 
         if(isset($data["gender"])){
             $this->setGenre($data["gender"]);
+        }
+
+        if(isset($data["description"])){
+            $this->setDescription($data["description"]);
         }
         
     }

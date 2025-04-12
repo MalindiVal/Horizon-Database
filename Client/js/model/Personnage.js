@@ -17,6 +17,9 @@ class Personnage {
     get IdRace() {
         return this.id_race;
     }
+    get Description() {
+        return this.description;
+    }
     set Id(id) {
         this.id = id;
     }
@@ -34,6 +37,9 @@ class Personnage {
     }
     set IdRace(race) {
         this.id_race = race;
+    }
+    set Description(desc) {
+        this.description = desc;
     }
     hydrate(data) {
         if (data["id"]) {
@@ -53,6 +59,9 @@ class Personnage {
         }
         if (data["id_race"]) {
             this.IdRace = data["id_race"];
+        }
+        if (data["description"]) {
+            this.Description = data["description"];
         }
     }
 }

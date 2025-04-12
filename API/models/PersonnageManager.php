@@ -15,7 +15,7 @@ class PersonnageManager extends Model{
     }
 
     public function getByID(int $id) {
-        $sql = 'SELECT id, nom , gender , id_race, bio, tagline FROM personnages WHERE id = ?'; 
+        $sql = 'SELECT id, nom , gender , id_race, bio, tagline, description FROM personnages WHERE id = ?'; 
         $result = $this->execRequest($sql, [$id]);
 
         $row = $result->fetch();
@@ -28,13 +28,14 @@ class PersonnageManager extends Model{
     }
 
     public function AddPersonnage(Personnage $personnage) : int {
-        $sql = "INSERT INTO personnages (nom,gender,id_race,tagline,bio)  Values (?,?,?,?,?)";
+        $sql = "INSERT INTO personnages (nom,gender,id_race,tagline,description,bio)  Values (?,?,,?,?,?,?)";
         try{
             $result = $this->execRequest($sql, [
                 $personnage->getNom(),
                 $personnage->getGenre(),
                 $personnage->getIdRace(),
                 $personnage->getTagline(),
+                $personnage->getDescription(),
                 $personnage->getBio()
             ]);
 
@@ -45,7 +46,7 @@ class PersonnageManager extends Model{
     }
 
     public function UpdatePersonnage(Personnage $personnage) : int {
-        $sql = "Update INTO personnages SET nom=? ,gender=?,id_race=?,tagline=?,bio=? Where id=?";
+        $sql = "Update personnages SET nom=? ,gender=?,id_race=?,tagline=?,bio=? Where id=?";
         try{
             $result = $this->execRequest($sql, [
                 $personnage->getNom(),

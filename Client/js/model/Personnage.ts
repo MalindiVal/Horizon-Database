@@ -5,60 +5,67 @@ class Personnage{
     private bio : string;
     private gender : string;
     private tagline : string;
+    private description : string;
     private id_race : number;
 
-    get Id(){
+    public get Id(){
         return this.id;
     }
 
-    get Nom(){
+    public get Nom(){
         return this.nom;
     }
 
-    get Bio(){
+    public get Bio(){
         return this.bio;
     }
 
-    get Gender(){
+    public get Gender(){
         return this.gender;
     }
 
-    get Tagline(){
+    public get Tagline(){
         return this.tagline;
     }
 
-    get IdRace(){
+    public get IdRace(){
         return this.id_race;
     }
 
-    set Id(id : number){
+    public get Description(){
+        return this.description;
+    }
+
+    public set Id(id : number){
         this.id = id;
     }
 
-    set Nom(nom : string){
+    public set Nom(nom : string){
         this.nom = nom;
     }
 
-    set Bio(bio : string){
+    public set Bio(bio : string){
         this.bio = bio;
     }
 
-    set Gender(gender : string){
+    public set Gender(gender : string){
         this.gender = gender;
     }
 
-    set Tagline(tag : string){
+    public set Tagline(tag : string){
         this.tagline = tag;
     }
 
-    set IdRace(race : number){
+    public set IdRace(race : number){
         this.id_race = race;
     }
 
+    public set Description (desc : string){
+        this.description = desc;
+    }
 
 
-
-    hydrate(data){
+    public hydrate(data){
         if(data["id"]){
             this.id = data["id"];
         }
@@ -81,6 +88,10 @@ class Personnage{
 
         if(data["id_race"]){
             this.IdRace = data["id_race"];
+        }
+
+        if(data["description"]){
+            this.Description = data["description"];
         }
     }
 }
