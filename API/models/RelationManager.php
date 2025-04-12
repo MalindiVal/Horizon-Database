@@ -1,5 +1,6 @@
 <?php
 require_once("Model.php");
+require_once("Relation.php");
 class RelationManager extends Model{
     public function getAll() {
         $sql = "SELECT * FROM relations";
@@ -23,5 +24,42 @@ class RelationManager extends Model{
         }
 
         return $typeList;
+    }
+
+    public function AddRelation(Relation $relation) {
+        try{
+            $sql = "INSERT INTO relations (id_p1,id_p2,type,titre,description) Values (?,?,?,?,?)";
+            $result = $this->execRequest($sql, params: [
+                $relation->getId_P1(),
+                $relation->getId_P2(),
+                $relation->getId_Type(),
+                $relation->getTitre(),
+                $relation->getDescription()
+            ]);
+
+            return true;
+        } catch (Exception $ex){
+            return false;
+        }
+        
+    }
+
+    public function UpdateRelation(Relation $relation) {
+        try{
+            $sql = "Update relations SET id_p1=? ,id_p2=? ,type=? ,titre=? ,description=? Where id= ?";
+            $result = $this->execRequest($sql, params: [
+                $relation->getId_P1(),
+                $relation->getId_P2(),
+                $relation->getId_Type(),
+                $relation->getTitre(),
+                $relation->getDescription(),
+                $relation->getId()
+            ]);
+
+            return true;
+        } catch (Exception $ex){
+            return false;
+        }
+        
     }
 }
