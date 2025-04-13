@@ -72,4 +72,26 @@ class PersonnageDAO{
             return false;
         }
     }
+
+    async Update(char : Personnage) {
+        try {
+            let apiurl = this.api + "Update.php";
+            let response = await fetch(apiurl,{
+                method : "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                body : JSON.stringify(char)
+            });
+    
+            if (response.ok) {
+                return await response.json(); // if your PHP returns true/false
+            } else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    }
 }

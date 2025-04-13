@@ -7,6 +7,7 @@ class EditCharView{
     private genderinput : HTMLSelectElement;
     private raceinput : HTMLSelectElement;
     private taginput : HTMLInputElement;
+    private descinput : HTMLTextAreaElement;
     private bioinput : HTMLTextAreaElement;
     private validatebutton : HTMLButtonElement;
 
@@ -24,13 +25,14 @@ class EditCharView{
         this.genderinput = document.getElementById("gender") as HTMLSelectElement;
         this.raceinput = document.getElementById("race") as HTMLSelectElement;
         this.taginput = document.getElementById("tag") as HTMLInputElement;
+        this.descinput = document.getElementById("desc") as HTMLTextAreaElement;
         this.bioinput = document.getElementById("bio") as HTMLTextAreaElement;
         this.validatebutton = document.getElementById("submit") as HTMLButtonElement
         this.validatebutton.addEventListener("click",() => this.Validate());
         this.initRaceList();
     }
 
-    async initRaceList(){
+    private async initRaceList(){
         let dao = new RaceDAO();
         let races = await dao.GetAll();
 
@@ -43,7 +45,7 @@ class EditCharView{
         this.fillInfos();
     }
 
-    fillInfos(){
+    private fillInfos(){
         if (this.exist){
             this.nameinput.value = this.perso.Nom;
             
@@ -65,16 +67,22 @@ class EditCharView{
         }
     }
 
-    async Validate(){
+    private async Validate(){
         this.perso.Nom = this.nameinput.value;
         this.perso.Tagline = this.taginput.value;
         this.perso.Gender = this.genderinput.value.toUpperCase();
         this.perso.IdRace = Number(this.raceinput.value);
         this.perso.Bio = this.bioinput.value;
-
-        let res = await this.dao.Add(this.perso);
+        this.perso.Description = this.descinput.value
+        let res = false
+        if (this.exist){
+            res = await this.dao.Update(this.perso);
+        } else {
+            res = await this.dao.Add(this.perso);
+        }
+        
         if (res){
-            
+           // window.document.URL = "personnage.html"
         }
     }
 }

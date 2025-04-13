@@ -15,6 +15,8 @@ class CharView {
         this.title = document.getElementById("character-name");
         this.race = document.getElementById("character-race");
         this.bio = document.getElementById("character-background");
+        this.tag = document.getElementById("character-tagline");
+        this.desc = document.getElementById("character-description");
         this.relationdiv = document.getElementById("character-relationships");
         this.editbutton = document.getElementById("editbutton");
         this.DisplayCharacter();
@@ -23,6 +25,8 @@ class CharView {
         return __awaiter(this, void 0, void 0, function* () {
             this.title.innerHTML = this.perso.Nom;
             this.bio.innerHTML = this.perso.Bio;
+            this.desc.innerHTML = this.perso.Description;
+            this.tag.innerHTML = this.perso.Tagline;
             let arace = document.createElement("a");
             arace.href = "race.html?id=" + this.perso.IdRace;
             let raceddao = new RaceDAO();

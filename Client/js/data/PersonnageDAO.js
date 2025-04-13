@@ -85,5 +85,29 @@ class PersonnageDAO {
             }
         });
     }
+    Update(char) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let apiurl = this.api + "Update.php";
+                let response = yield fetch(apiurl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8"
+                    },
+                    body: JSON.stringify(char)
+                });
+                if (response.ok) {
+                    return yield response.json(); // if your PHP returns true/false
+                }
+                else {
+                    throw new Error(`HTTP Error! Status: ${response.status}`);
+                }
+            }
+            catch (error) {
+                console.error(error);
+                return false;
+            }
+        });
+    }
 }
 //# sourceMappingURL=PersonnageDAO.js.map

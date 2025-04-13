@@ -22,6 +22,7 @@ class EditCharView {
         this.genderinput = document.getElementById("gender");
         this.raceinput = document.getElementById("race");
         this.taginput = document.getElementById("tag");
+        this.descinput = document.getElementById("desc");
         this.bioinput = document.getElementById("bio");
         this.validatebutton = document.getElementById("submit");
         this.validatebutton.addEventListener("click", () => this.Validate());
@@ -66,8 +67,16 @@ class EditCharView {
             this.perso.Gender = this.genderinput.value.toUpperCase();
             this.perso.IdRace = Number(this.raceinput.value);
             this.perso.Bio = this.bioinput.value;
-            let res = yield this.dao.Add(this.perso);
+            this.perso.Description = this.descinput.value;
+            let res = false;
+            if (this.exist) {
+                res = yield this.dao.Update(this.perso);
+            }
+            else {
+                res = yield this.dao.Add(this.perso);
+            }
             if (res) {
+                // window.document.URL = "personnage.html"
             }
         });
     }
