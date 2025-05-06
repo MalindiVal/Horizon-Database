@@ -8,45 +8,51 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 class RacesView {
-    constructor() {
-        this.dao = new RaceDAO();
+    constructor(ctrl) {
+        this.ctrl = ctrl;
         const urlParams = new URLSearchParams(window.location.search);
         this.div = document.getElementById("raceslist");
         this.ListAllRaces();
     }
+    Notify(msg) {
+        throw new Error("Method not implemented.");
+    }
+    AjoutPerso(p) {
+    }
+    AjoutFaction(f) {
+    }
+    AjoutRace(r) {
+        let vig = document.createElement("div");
+        vig.classList.add("col-md-4");
+        vig.classList.add("mb-4");
+        let carte = document.createElement("div");
+        carte.classList.add("card");
+        let img = document.createElement("img");
+        img.src = "public/img/" + r.Nom + ".png";
+        carte.appendChild(img);
+        let body = document.createElement("div");
+        body.classList.add("card-body");
+        let nom = document.createElement("h5");
+        nom.classList.add("card-title");
+        nom.innerHTML = r.Nom;
+        body.appendChild(nom);
+        let a = document.createElement("a");
+        a.href = "race.html?id=" + r.Id;
+        a.innerText = "Voir plus";
+        a.classList.add("btn");
+        a.classList.add("btn-primary");
+        body.appendChild(a);
+        carte.appendChild(body);
+        vig.appendChild(carte);
+        this.div.appendChild(vig);
+    }
+    Error(msg) {
+        this.div.innerHTML = "<p>Aucune race trouvée.</p>";
+    }
     ListAllRaces() {
         return __awaiter(this, void 0, void 0, function* () {
-            let list = yield this.dao.GetAll();
             this.div.innerHTML = "";
-            if (!list || list.length === 0) {
-                this.div.innerHTML = "<p>Aucune race trouvée.</p>";
-                return;
-            }
-            for (let i = 0; i < list.length; i++) {
-                let vig = document.createElement("div");
-                vig.classList.add("col-md-4");
-                vig.classList.add("mb-4");
-                let carte = document.createElement("div");
-                carte.classList.add("card");
-                let img = document.createElement("img");
-                img.src = "public/img/" + list[i].Nom + ".png";
-                carte.appendChild(img);
-                let body = document.createElement("div");
-                body.classList.add("card-body");
-                let nom = document.createElement("h5");
-                nom.classList.add("card-title");
-                nom.innerHTML = list[i].Nom;
-                body.appendChild(nom);
-                let a = document.createElement("a");
-                a.href = "race.html?id=" + list[i].Id;
-                a.innerText = "Voir plus";
-                a.classList.add("btn");
-                a.classList.add("btn-primary");
-                body.appendChild(a);
-                carte.appendChild(body);
-                vig.appendChild(carte);
-                this.div.appendChild(vig);
-            }
+            yield this.ctrl.List();
         });
     }
 }

@@ -1,28 +1,28 @@
-class RacesView{
+class RacesView implements Observer{
 
-    private dao : RaceDAO;
+    private ctrl : RaceController;
     private div : HTMLDivElement;
-    constructor(){
+    constructor(ctrl : RaceController){
        
-        this.dao = new RaceDAO();
+        this.ctrl = ctrl;
         const urlParams = new URLSearchParams(window.location.search);
 
         this.div = document.getElementById("raceslist") as HTMLDivElement;
         this.ListAllRaces();
     }
-
-    async ListAllRaces () {
-        let list = await this.dao.GetAll();
-        this.div.innerHTML = "";
+    Notify(msg: string): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutPerso(p: Personnage): void {
         
-        if (!list || list.length === 0) {
-            this.div.innerHTML = "<p>Aucune race trouvée.</p>";
-            return;
-        }
-        
+    }
 
-        for (let i = 0; i < list.length; i++){
-            let vig = document.createElement("div");
+    AjoutFaction(f: Faction): void {
+        
+    }
+    
+    AjoutRace(r: Race): void {
+        let vig = document.createElement("div");
             vig.classList.add("col-md-4");
             vig.classList.add("mb-4");
 
@@ -30,7 +30,7 @@ class RacesView{
             carte.classList.add("card");
 
             let img = document.createElement("img");
-            img.src = "public/img/" + list[i].Nom + ".png";
+            img.src = "public/img/" + r.Nom + ".png";
 
             carte.appendChild(img);
 
@@ -39,11 +39,11 @@ class RacesView{
 
             let nom = document.createElement("h5");
             nom.classList.add("card-title");
-            nom.innerHTML = list[i].Nom
+            nom.innerHTML = r.Nom
             body.appendChild(nom);
 
             let a = document.createElement("a");
-            a.href = "race.html?id=" + list[i].Id;
+            a.href = "race.html?id=" + r.Id;
             a.innerText = "Voir plus";
             a.classList.add("btn");
             a.classList.add("btn-primary");
@@ -53,7 +53,15 @@ class RacesView{
             vig.appendChild(carte);
 
             this.div.appendChild(vig);
-        }
+    }
+    Error(msg: string): void {
+        this.div.innerHTML = "<p>Aucune race trouvée.</p>";
+    }
+
+    async ListAllRaces () {
+        this.div.innerHTML = "";
+        await this.ctrl.List();
+
     }
 
 }
