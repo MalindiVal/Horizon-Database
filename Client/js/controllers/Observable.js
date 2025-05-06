@@ -15,6 +15,11 @@ class Observable {
             element.AjoutPerso(p);
         });
     }
+    NotifyAjoutFaction(f) {
+        this.observers.forEach(element => {
+            element.AjoutFaction(f);
+        });
+    }
     NotifyError(msg) {
         this.observers.forEach(element => {
             element.Error(msg);

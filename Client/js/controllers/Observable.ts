@@ -20,6 +20,12 @@ class Observable{
         });
     }
 
+    protected NotifyAjoutFaction(f : Faction){
+        this.observers.forEach(element => {
+            element.AjoutFaction(f);
+        });
+    }
+
     protected NotifyError(msg : string){
         this.observers.forEach(element => {
             element.Error(msg);

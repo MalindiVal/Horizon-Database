@@ -3,6 +3,7 @@ interface Observer{
 
     AjoutPerso(p : Personnage) : void;
 
+    AjoutFaction(f : Faction) : void;
 
     Error(msg : string) : void;
 }
