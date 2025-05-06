@@ -25,5 +25,16 @@ class PersonnageController extends Observable {
             }
         });
     }
+    GetById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let response = yield this.dao.GetById(id);
+                this.NotifyAjoutPerso(response);
+            }
+            catch (_a) {
+                this.NotifyError("Erreur");
+            }
+        });
+    }
 }
 //# sourceMappingURL=PersonnageController.js.map

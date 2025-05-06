@@ -26,6 +26,12 @@ class Observable{
         });
     }
 
+    protected NotifyAjoutRace(r : Race){
+        this.observers.forEach(element => {
+            element.AjoutRace(r);
+        });
+    }
+
     protected NotifyError(msg : string){
         this.observers.forEach(element => {
             element.Error(msg);

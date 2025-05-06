@@ -5,5 +5,7 @@ interface Observer{
 
     AjoutFaction(f : Faction) : void;
 
+    AjoutRace(r : Race) : void;
+
     Error(msg : string) : void;
 }

@@ -18,4 +18,14 @@ class PersonnageController extends Observable{
             this.NotifyError("Erreur");
         }
     }
+
+    async GetById (id : number) {
+        try
+        {
+            let response = await this.dao.GetById(id);
+            this.NotifyAjoutPerso(response);
+        } catch {
+            this.NotifyError("Erreur");
+        }
+    }
 }

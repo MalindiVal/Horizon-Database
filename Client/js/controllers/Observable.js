@@ -20,6 +20,11 @@ class Observable {
             element.AjoutFaction(f);
         });
     }
+    NotifyAjoutRace(r) {
+        this.observers.forEach(element => {
+            element.AjoutRace(r);
+        });
+    }
     NotifyError(msg) {
         this.observers.forEach(element => {
             element.Error(msg);
