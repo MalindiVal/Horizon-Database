@@ -13,7 +13,13 @@ require_once("./../../models/PersonnageManager.php");
 require_once("./../../models/Personnage.php");
 
 $rawData = file_get_contents("php://input");
+
+var_dump($rawData);
+
+
 $data = json_decode($rawData, true);
+
+var_dump($data);
 
 if (empty($data)) {
     echo json_encode(["error" => "No input data"]);

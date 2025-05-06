@@ -14,7 +14,7 @@ class EditCharView implements Observer{
     private title : HTMLTitleElement;
 
     constructor(ctrl : PersonnageController , racectrl : RaceController){
-        
+        this.perso = null;
         this.ctrl = ctrl;
         this.ctrl.register(this);
         this.exist = false;
@@ -38,11 +38,12 @@ class EditCharView implements Observer{
         throw new Error("Method not implemented.");
     }
     AjoutPerso(p: Personnage): void {
-        this.perso = p;
-        this.exist = true;
-        this.title.innerHTML = "Edit";
-        document.title = "Modification de " + this.perso.Nom + " - Project Horizon";
-        this.nameinput.value = this.perso.Nom;
+        if (this.perso == null){
+            this.perso = p;
+            this.exist = true;
+            this.title.innerHTML = "Edit";
+            document.title = "Modification de " + this.perso.Nom + " - Project Horizon";
+            this.nameinput.value = this.perso.Nom;
             
             for (let i = 0; i < this.genderinput.options.length; i++){
                 if (this.genderinput.options[i].value.toUpperCase() == this.perso.Gender){
@@ -59,6 +60,7 @@ class EditCharView implements Observer{
             }
             this.taginput.value = this.perso.Tagline;
             this.bioinput.value = this.perso.Bio;
+        }
     }
     AjoutFaction(f: Faction): void {
         throw new Error("Method not implemented.");

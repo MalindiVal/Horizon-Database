@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 class EditCharView {
     constructor(ctrl, racectrl) {
+        this.perso = null;
         this.ctrl = ctrl;
         this.ctrl.register(this);
         this.exist = false;
@@ -31,25 +32,27 @@ class EditCharView {
         throw new Error("Method not implemented.");
     }
     AjoutPerso(p) {
-        this.perso = p;
-        this.exist = true;
-        this.title.innerHTML = "Edit";
-        document.title = "Modification de " + this.perso.Nom + " - Project Horizon";
-        this.nameinput.value = this.perso.Nom;
-        for (let i = 0; i < this.genderinput.options.length; i++) {
-            if (this.genderinput.options[i].value.toUpperCase() == this.perso.Gender) {
-                this.genderinput.options.selectedIndex = i;
-                break;
+        if (this.perso == null) {
+            this.perso = p;
+            this.exist = true;
+            this.title.innerHTML = "Edit";
+            document.title = "Modification de " + this.perso.Nom + " - Project Horizon";
+            this.nameinput.value = this.perso.Nom;
+            for (let i = 0; i < this.genderinput.options.length; i++) {
+                if (this.genderinput.options[i].value.toUpperCase() == this.perso.Gender) {
+                    this.genderinput.options.selectedIndex = i;
+                    break;
+                }
             }
-        }
-        for (let i = 0; i < this.raceinput.options.length; i++) {
-            if (this.raceinput.options[i].value == String(this.perso.IdRace)) {
-                this.raceinput.options.selectedIndex = i;
-                break;
+            for (let i = 0; i < this.raceinput.options.length; i++) {
+                if (this.raceinput.options[i].value == String(this.perso.IdRace)) {
+                    this.raceinput.options.selectedIndex = i;
+                    break;
+                }
             }
+            this.taginput.value = this.perso.Tagline;
+            this.bioinput.value = this.perso.Bio;
         }
-        this.taginput.value = this.perso.Tagline;
-        this.bioinput.value = this.perso.Bio;
     }
     AjoutFaction(f) {
         throw new Error("Method not implemented.");

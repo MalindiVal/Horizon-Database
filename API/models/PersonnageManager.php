@@ -28,15 +28,15 @@ class PersonnageManager extends Model{
     }
 
     public function AddPersonnage(Personnage $personnage) : int {
-        $sql = "INSERT INTO personnages (nom,gender,id_race,tagline,description,bio)  Values (?,?,,?,?,?,?)";
+        $sql = "INSERT INTO personnages (nom,gender,id_race,tagline,bio,description)  Values (?,?,?,?,?,?)";
         try{
             $result = $this->execRequest($sql, [
                 $personnage->getNom(),
                 $personnage->getGenre(),
                 $personnage->getIdRace(),
                 $personnage->getTagline(),
-                $personnage->getDescription(),
-                $personnage->getBio()
+                $personnage->getBio(),
+                $personnage->getDescription()
             ]);
 
             return 1;
@@ -46,7 +46,7 @@ class PersonnageManager extends Model{
     }
 
     public function UpdatePersonnage(Personnage $personnage) : int {
-        $sql = "Update personnages SET nom=? ,gender=?,id_race=?,tagline=?,bio=? Where id=?";
+        $sql = "Update personnages SET nom=? ,gender=?,id_race=?,tagline=?,bio=?,description,=? Where id=?";
         try{
             $result = $this->execRequest($sql, [
                 $personnage->getNom(),
@@ -54,6 +54,7 @@ class PersonnageManager extends Model{
                 $personnage->getIdRace(),
                 $personnage->getTagline(),
                 $personnage->getBio(),
+                $personnage->getDescription(),
                 $personnage->getId()
             ]);
 
