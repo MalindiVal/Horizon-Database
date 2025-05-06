@@ -1,60 +1,64 @@
-class CharsView{
+class CharsView implements Observer{
 
-    private dao : PersonnageDAO;
+    private ctrl : PersonnageController;
     private div : HTMLDivElement;
-    constructor(){
+    private list : Array<Personnage>;
+    constructor(ctrl : PersonnageController){
        
-        this.dao = new PersonnageDAO();
+        this.list = new Array<Personnage>();
+        this.ctrl = ctrl;
+        this.ctrl.register(this);
         const urlParams = new URLSearchParams(window.location.search);
 
         const id = urlParams.get('id');
         this.div = document.getElementById("characterlist") as HTMLDivElement;
         this.ListAllChars();
     }
+    Notify(msg: string): void {
+        throw new Error("Method not implemented.");
+    }
+
+    AjoutPerso(p: Personnage): void {
+        let vig = document.createElement("div");
+        vig.classList.add("col-md-4");
+        vig.classList.add("mb-4");
+
+        let carte = document.createElement("div");
+        carte.classList.add("card");
+
+        let img = document.createElement("img");
+        img.src = "public/img/" + p.Nom + ".png";
+
+        carte.appendChild(img);
+
+        let body = document.createElement("div");
+        body.classList.add("card-body");
+
+        let nom = document.createElement("h5");
+        nom.classList.add("card-title");
+        nom.innerHTML = p.Nom
+        body.appendChild(nom);
+
+        let a = document.createElement("a");
+        a.href = "personnage.html?id=" + p.Id;
+        a.innerText = "Voir plus";
+        a.classList.add("btn");
+        a.classList.add("btn-primary");
+        body.appendChild(a);
+
+        carte.appendChild(body);
+        vig.appendChild(carte);
+
+        this.div.appendChild(vig);
+    }
+
+    Error(msg: string): void {
+        this.div.innerHTML = "<p>Aucun personnage trouvé.</p>";
+    }
 
     async ListAllChars () {
-        let list = await this.dao.GetAll();
-        this.div.innerHTML = "";
-        
-        if (!list || list.length === 0) {
-            this.div.innerHTML = "<p>Aucun personnage trouvé.</p>";
-            return;
-        }
-        
-
-        for (let i = 0; i < list.length; i++){
-            let vig = document.createElement("div");
-            vig.classList.add("col-md-4");
-            vig.classList.add("mb-4");
-
-            let carte = document.createElement("div");
-            carte.classList.add("card");
-
-            let img = document.createElement("img");
-            img.src = "public/img/" + list[i].Nom + ".png";
-
-            carte.appendChild(img);
-
-            let body = document.createElement("div");
-            body.classList.add("card-body");
-
-            let nom = document.createElement("h5");
-            nom.classList.add("card-title");
-            nom.innerHTML = list[i].Nom
-            body.appendChild(nom);
-
-            let a = document.createElement("a");
-            a.href = "personnage.html?id=" + list[i].Id;
-            a.innerText = "Voir plus";
-            a.classList.add("btn");
-            a.classList.add("btn-primary");
-            body.appendChild(a);
-
-            carte.appendChild(body);
-            vig.appendChild(carte);
-
-            this.div.appendChild(vig);
-        }
+        this.div.innerHTML = ""; 
+        await this.ctrl.ListAllChars(); 
     }
 
 }
