@@ -32,6 +32,7 @@ class PersonnageController extends Observable {
     }
     GetById(id) {
         return __awaiter(this, void 0, void 0, function* () {
+            let perso = new Personnage();
             try {
                 let response = yield this.dao.GetById(id);
                 this.NotifyAjoutPerso(response);
@@ -41,10 +42,36 @@ class PersonnageController extends Observable {
                 relations.forEach(element => {
                     this.NotifyAjoutRelation(element);
                 });
+                perso = response;
             }
             catch (_a) {
                 this.NotifyError("Erreur");
             }
+            return perso;
+        });
+    }
+    Add(char) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let res = false;
+            try {
+                res = yield this.dao.Add(char);
+            }
+            catch (error) {
+                this.NotifyError("Erreur");
+            }
+            return res;
+        });
+    }
+    Update(char) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let res = false;
+            try {
+                res = yield this.dao.Update(char);
+            }
+            catch (error) {
+                this.NotifyError("Erreur");
+            }
+            return res;
         });
     }
 }

@@ -27,6 +27,7 @@ class PersonnageController extends Observable{
     }
 
     async GetById (id : number) {
+        let perso = new Personnage()
         try
         {
             let response = await this.dao.GetById(id);
@@ -37,9 +38,31 @@ class PersonnageController extends Observable{
             relations.forEach(element => {
                 this.NotifyAjoutRelation(element);
             });
+            perso = response;
 
         } catch {
             this.NotifyError("Erreur");
         }
+        return perso;
+    }
+
+    async Add(char : Personnage) {
+        let res = false;
+        try {
+            res = await this.dao.Add(char);
+        } catch (error) {
+            this.NotifyError("Erreur");
+        }
+        return res;
+    }
+
+    async Update(char : Personnage) {
+        let res = false;
+        try {
+            res = await this.dao.Update(char);
+        } catch (error) {
+            this.NotifyError("Erreur");
+        }
+        return res;
     }
 }
