@@ -8,15 +8,18 @@ class RaceController extends Observable{
     }
 
     async List() {
+        let list = new Array<Race>();
         try
         {
             let response = await this.dao.GetAll();
             response.forEach( element => {
                 this.NotifyAjoutRace(element);
+                list.push(element);
             });
         } catch {
             this.NotifyError("Erreur");
         }
+        return list;
     }
 
     async GetById (id : number) {

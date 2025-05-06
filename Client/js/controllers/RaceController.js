@@ -14,15 +14,18 @@ class RaceController extends Observable {
     }
     List() {
         return __awaiter(this, void 0, void 0, function* () {
+            let list = new Array();
             try {
                 let response = yield this.dao.GetAll();
                 response.forEach(element => {
                     this.NotifyAjoutRace(element);
+                    list.push(element);
                 });
             }
             catch (_a) {
                 this.NotifyError("Erreur");
             }
+            return list;
         });
     }
     GetById(id) {
