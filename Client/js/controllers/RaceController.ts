@@ -20,12 +20,15 @@ class RaceController extends Observable{
     }
 
     async GetById (id : number) {
+        let race = new Race();
         try
         {
             let response = await this.dao.GetById(id);
             this.NotifyAjoutRace(response);
+            race = response
         } catch {
             this.NotifyError("Erreur");
         }
+        return race
     }
 }

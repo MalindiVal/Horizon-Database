@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 class RaceView {
     constructor(ctrl) {
         this.ctrl = ctrl;
+        this.ctrl.register(this);
         this.title = document.getElementById("race-name");
         this.bio = document.getElementById("race-background");
         this.DisplayRace();

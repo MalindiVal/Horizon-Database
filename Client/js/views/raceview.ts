@@ -8,6 +8,7 @@ class RaceView implements Observer{
 
     constructor(ctrl: RaceController){
         this.ctrl = ctrl;
+        this.ctrl.register(this);
         this.title = document.getElementById("race-name") as HTMLTitleElement;
         this.bio = document.getElementById("race-background") as HTMLParagraphElement;
             

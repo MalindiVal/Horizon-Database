@@ -27,13 +27,16 @@ class RaceController extends Observable {
     }
     GetById(id) {
         return __awaiter(this, void 0, void 0, function* () {
+            let race = new Race();
             try {
                 let response = yield this.dao.GetById(id);
                 this.NotifyAjoutRace(response);
+                race = response;
             }
             catch (_a) {
                 this.NotifyError("Erreur");
             }
+            return race;
         });
     }
 }

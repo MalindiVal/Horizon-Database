@@ -11,6 +11,7 @@ class PersonnageController extends Observable {
     constructor(dao) {
         super();
         this.dao = dao;
+        this.racectrl = new RaceController(new RaceDAO());
     }
     ListAllChars() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -30,6 +31,8 @@ class PersonnageController extends Observable {
             try {
                 let response = yield this.dao.GetById(id);
                 this.NotifyAjoutPerso(response);
+                let race = yield this.racectrl.GetById(response.IdRace);
+                this.NotifyAjoutRace(race);
             }
             catch (_a) {
                 this.NotifyError("Erreur");

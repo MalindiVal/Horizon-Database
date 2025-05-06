@@ -8,11 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 window.onload = () => __awaiter(this, void 0, void 0, function* () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
     let dao = new RaceDAO();
-    let race = yield dao.GetById(id);
-    document.title = race.Nom + "- Project Horizon";
-    let view = new RaceView(race);
+    let ctrl = new RaceController(dao);
+    let view = new RaceView(ctrl);
 });
 //# sourceMappingURL=race.js.map

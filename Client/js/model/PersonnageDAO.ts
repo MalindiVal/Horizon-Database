@@ -5,7 +5,7 @@ class PersonnageDAO{
         this.api = "http://localhost:80/horizon/API/controllers/characters/";
     }
 
-    async GetAll() {
+    async GetAll() : Promise<Personnage[]> {
         try {
             let liste = [];
             let apiurl = this.api + "getAll.php";
@@ -29,7 +29,7 @@ class PersonnageDAO{
         }
     }
 
-    async GetById(id) {
+    async GetById(id) : Promise<Personnage>{
         try {
             let liste = [];
             let apiurl = this.api + "getById.php?id="+id;
