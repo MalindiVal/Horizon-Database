@@ -1,0 +1,24 @@
+class Observable {
+    constructor() {
+        this.observers = new Array();
+    }
+    register(obs) {
+        this.observers.push(obs);
+    }
+    Notify(type) {
+        this.observers.forEach(element => {
+            element.Notify(type);
+        });
+    }
+    NotifyAjoutPerso(p) {
+        this.observers.forEach(element => {
+            element.AjoutPerso(p);
+        });
+    }
+    NotifyError(msg) {
+        this.observers.forEach(element => {
+            element.Error(msg);
+        });
+    }
+}
+//# sourceMappingURL=Observable.js.map
