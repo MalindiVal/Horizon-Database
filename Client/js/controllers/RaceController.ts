@@ -7,7 +7,7 @@ class RaceController extends Observable{
         this.dao = dao;
     }
 
-    async List () {
+    async List() {
         try
         {
             let response = await this.dao.GetAll();
