@@ -11,6 +11,9 @@ class FactionsView implements Observer{
         this.div = document.getElementById("factionlist") as HTMLDivElement;
         this.ListAllFactions();
     }
+    AjoutRace(r: Race): void {
+        throw new Error("Method not implemented.");
+    }
 
     Notify(msg: string): void {
         

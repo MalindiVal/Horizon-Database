@@ -17,6 +17,9 @@ class CharsView {
         this.div = document.getElementById("characterlist");
         this.ListAllChars();
     }
+    AjoutRace(r) {
+        throw new Error("Method not implemented.");
+    }
     AjoutFaction(f) {
     }
     Notify(msg) {

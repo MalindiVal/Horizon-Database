@@ -14,6 +14,9 @@ class FactionsView {
         this.div = document.getElementById("factionlist");
         this.ListAllFactions();
     }
+    AjoutRace(r) {
+        throw new Error("Method not implemented.");
+    }
     Notify(msg) {
     }
     AjoutPerso(p) {

@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 class CharView {
-    constructor(person) {
-        this.perso = person;
-        this.dao = new PersonnageDAO();
+    constructor(ctrl) {
+        this.ctrl = ctrl;
+        this.ctrl.register(this);
         this.rdao = new RelationDAO();
         this.title = document.getElementById("character-name");
         this.race = document.getElementById("character-race");
@@ -21,18 +21,34 @@ class CharView {
         this.editbutton = document.getElementById("editbutton");
         this.DisplayCharacter();
     }
+    AjoutRace(r) {
+        let arace = document.createElement("a");
+        arace.href = "race.html?id=" + this.perso.IdRace;
+        arace.innerHTML = r.Nom;
+        this.race.appendChild(arace);
+    }
+    Notify(msg) {
+        throw new Error("Method not implemented.");
+    }
+    AjoutPerso(p) {
+        this.perso = p;
+        document.title = this.perso.Nom + "- Project Horizon";
+        this.title.innerHTML = this.perso.Nom;
+        this.bio.innerHTML = this.perso.Bio;
+        this.desc.innerHTML = this.perso.Description;
+        this.tag.innerHTML = this.perso.Tagline;
+    }
+    AjoutFaction(f) {
+        throw new Error("Method not implemented.");
+    }
+    Error(msg) {
+        throw new Error("Method not implemented.");
+    }
     DisplayCharacter() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.title.innerHTML = this.perso.Nom;
-            this.bio.innerHTML = this.perso.Bio;
-            this.desc.innerHTML = this.perso.Description;
-            this.tag.innerHTML = this.perso.Tagline;
-            let arace = document.createElement("a");
-            arace.href = "race.html?id=" + this.perso.IdRace;
-            let raceddao = new RaceDAO();
-            let racename = yield raceddao.GetById(this.perso.IdRace);
-            arace.innerHTML = racename.Nom;
-            this.race.appendChild(arace);
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            yield this.ctrl.GetById(Number(id));
             let relations = yield this.rdao.GetByCharacters(this.perso.Id);
             this.relationdiv.innerHTML = "";
             let ul = document.createElement("ul");

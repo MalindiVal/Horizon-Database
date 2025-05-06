@@ -1,7 +1,7 @@
-class CharView{
+class CharView implements Observer{
 
     private perso : Personnage;
-    private dao : PersonnageDAO;
+    private ctrl : PersonnageController;
     private rdao : RelationDAO;
     private title : HTMLTitleElement;
     private race : HTMLParagraphElement;
@@ -11,11 +11,11 @@ class CharView{
     private relationdiv : HTMLDivElement;
     private editbutton : HTMLLinkElement;
 
-    constructor(person : Personnage){
+    constructor(ctrl : PersonnageController){
        
-        this.perso = person
-        this.dao = new PersonnageDAO();
-
+        
+        this.ctrl = ctrl;
+        this.ctrl.register(this)
         
         this.rdao = new RelationDAO();
         this.title = document.getElementById("character-name") as HTMLTitleElement;
@@ -27,19 +27,38 @@ class CharView{
         this.editbutton = document.getElementById("editbutton") as HTMLLinkElement;
         this.DisplayCharacter();
     }
+    AjoutRace(r: Race): void {
+        let arace = document.createElement("a");
+        arace.href = "race.html?id="+this.perso.IdRace;
+        arace.innerHTML = r.Nom;
+        this.race.appendChild(arace)
+    }
 
-    async DisplayCharacter() {
-        
+    Notify(msg: string): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutPerso(p: Personnage): void {
+        this.perso = p;
+        document.title = this.perso.Nom + "- Project Horizon";
         this.title.innerHTML = this.perso.Nom;
         this.bio.innerHTML = this.perso.Bio;
         this.desc.innerHTML = this.perso.Description;
         this.tag.innerHTML = this.perso.Tagline;
-        let arace = document.createElement("a");
-        arace.href = "race.html?id="+this.perso.IdRace;
-        let raceddao = new RaceDAO();
-        let racename = await raceddao.GetById(this.perso.IdRace);
-        arace.innerHTML = racename.Nom;
-        this.race.appendChild(arace)
+    }
+    AjoutFaction(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
+    Error(msg: string): void {
+        throw new Error("Method not implemented.");
+    }
+
+    async DisplayCharacter() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        await this.ctrl.GetById(Number(id))
+        
+        
 
         let relations = await this.rdao.GetByCharacters(this.perso.Id);
         this.relationdiv.innerHTML = "";

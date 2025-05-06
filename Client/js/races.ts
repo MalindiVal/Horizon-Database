@@ -1,4 +1,6 @@
 window.onload = function () {
-    let view = new RacesView();
+    let dao = new RaceDAO();
+    let ctrl = new RaceController(dao);
+    let view = new RacesView(ctrl);
 
 }

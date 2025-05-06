@@ -1,24 +1,42 @@
-class RaceView{
+class RaceView implements Observer{
 
     private race : Race;
    private title : HTMLTitleElement;
     private bio : HTMLParagraphElement;
+    private ctrl: RaceController;
 
 
-    constructor(race : Race){
-       
-        this.race = race;
+    constructor(ctrl: RaceController){
+        this.ctrl = ctrl;
         this.title = document.getElementById("race-name") as HTMLTitleElement;
         this.bio = document.getElementById("race-background") as HTMLParagraphElement;
             
         this.DisplayRace()
     }
-
-    async DisplayRace() {
+    Notify(msg: string): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutPerso(p: Personnage): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutFaction(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRace(r: Race): void {
+        this.race = r;
+        document.title = this.race.Nom + "- Project Horizon";
         this.title.innerHTML = this.race.Nom;
         this.bio.innerHTML = this.race.Bio;
-        
-        
+    }
+    Error(msg: string): void {
+       
+    }
+
+    async DisplayRace() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        await this.ctrl.GetById(Number(id));
+
     }
 
 }

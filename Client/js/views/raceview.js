@@ -8,16 +8,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 class RaceView {
-    constructor(race) {
-        this.race = race;
+    constructor(ctrl) {
+        this.ctrl = ctrl;
         this.title = document.getElementById("race-name");
         this.bio = document.getElementById("race-background");
         this.DisplayRace();
     }
+    Notify(msg) {
+        throw new Error("Method not implemented.");
+    }
+    AjoutPerso(p) {
+        throw new Error("Method not implemented.");
+    }
+    AjoutFaction(f) {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRace(r) {
+        this.race = r;
+        document.title = this.race.Nom + "- Project Horizon";
+        this.title.innerHTML = this.race.Nom;
+        this.bio.innerHTML = this.race.Bio;
+    }
+    Error(msg) {
+    }
     DisplayRace() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.title.innerHTML = this.race.Nom;
-            this.bio.innerHTML = this.race.Bio;
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            yield this.ctrl.GetById(Number(id));
         });
     }
 }

@@ -5,11 +5,12 @@ class RacesView implements Observer{
     constructor(ctrl : RaceController){
        
         this.ctrl = ctrl;
-        const urlParams = new URLSearchParams(window.location.search);
-
+        this.ctrl.register(this);
+        
         this.div = document.getElementById("raceslist") as HTMLDivElement;
         this.ListAllRaces();
     }
+
     Notify(msg: string): void {
         throw new Error("Method not implemented.");
     }
@@ -20,7 +21,7 @@ class RacesView implements Observer{
     AjoutFaction(f: Faction): void {
         
     }
-    
+
     AjoutRace(r: Race): void {
         let vig = document.createElement("div");
             vig.classList.add("col-md-4");
@@ -58,7 +59,7 @@ class RacesView implements Observer{
         this.div.innerHTML = "<p>Aucune race trouvée.</p>";
     }
 
-    async ListAllRaces () {
+    async ListAllRaces() {
         this.div.innerHTML = "";
         await this.ctrl.List();
 

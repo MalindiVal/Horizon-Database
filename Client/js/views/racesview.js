@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 class RacesView {
     constructor(ctrl) {
         this.ctrl = ctrl;
-        const urlParams = new URLSearchParams(window.location.search);
+        this.ctrl.register(this);
         this.div = document.getElementById("raceslist");
         this.ListAllRaces();
     }
