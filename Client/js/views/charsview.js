@@ -17,8 +17,9 @@ class CharsView {
         this.div = document.getElementById("characterlist");
         this.ListAllChars();
     }
+    AjoutFaction(f) {
+    }
     Notify(msg) {
-        throw new Error("Method not implemented.");
     }
     AjoutPerso(p) {
         let vig = document.createElement("div");

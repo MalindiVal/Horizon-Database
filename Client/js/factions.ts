@@ -1,4 +1,6 @@
 window.onload = function () {
-    let view = new FactionsView();
+    let dao = new FactionDAO();
+    let ctrl = new FactionController(dao);
+    let view = new FactionsView(ctrl);
 
 }
