@@ -9,7 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 window.onload = () => __awaiter(this, void 0, void 0, function* () {
     let dao = new PersonnageDAO();
-    let ctrl = new PersonnageController(dao);
+    let racectrl = new RaceController(new RaceDAO());
+    let relationctrl = new RelationController(new RelationDAO());
+    let ctrl = new PersonnageController(dao, racectrl, relationctrl);
     let view = new CharView(ctrl);
 });
 //# sourceMappingURL=char.js.map

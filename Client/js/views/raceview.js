@@ -15,6 +15,9 @@ class RaceView {
         this.bio = document.getElementById("race-background");
         this.DisplayRace();
     }
+    AjoutRelation(r) {
+        throw new Error("Method not implemented.");
+    }
     Notify(msg) {
         throw new Error("Method not implemented.");
     }

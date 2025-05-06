@@ -10,6 +10,9 @@ class RacesView implements Observer{
         this.div = document.getElementById("raceslist") as HTMLDivElement;
         this.ListAllRaces();
     }
+    AjoutRelation(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
 
     Notify(msg: string): void {
         throw new Error("Method not implemented.");

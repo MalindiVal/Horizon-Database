@@ -7,45 +7,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-class PersonnageController extends Observable {
-    constructor(dao, racectrl, relationctrl) {
+class RelationController extends Observable {
+    constructor(dao) {
         super();
         this.dao = dao;
-        this.racectrl = racectrl;
-        this.relationctrl = relationctrl;
     }
-    ListAllChars() {
+    listRelations() {
         return __awaiter(this, void 0, void 0, function* () {
             let list = Array();
             try {
                 let response = yield this.dao.GetAll();
                 response.forEach(element => {
-                    this.NotifyAjoutPerso(element);
+                    this.NotifyAjoutRelation(element);
                     list.push(element);
                 });
             }
-            catch (_a) {
-                this.NotifyError("Erreur");
+            catch (e) {
+                this.NotifyError(e.Message);
             }
             return list;
         });
     }
-    GetById(id) {
+    GetByPersonnage(id) {
         return __awaiter(this, void 0, void 0, function* () {
+            let list = Array();
             try {
-                let response = yield this.dao.GetById(id);
-                this.NotifyAjoutPerso(response);
-                let race = yield this.racectrl.GetById(response.IdRace);
-                this.NotifyAjoutRace(race);
-                let relations = yield this.relationctrl.GetByPersonnage(id);
-                relations.forEach(element => {
+                let response = yield this.dao.GetByCharacters(id);
+                response.forEach(element => {
                     this.NotifyAjoutRelation(element);
+                    list.push(element);
                 });
             }
-            catch (_a) {
-                this.NotifyError("Erreur");
+            catch (e) {
+                this.NotifyError(e.Message);
             }
+            return list;
         });
     }
 }
-//# sourceMappingURL=PersonnageController.js.map
+//# sourceMappingURL=RelationController.js.map

@@ -14,6 +14,9 @@ class RaceView implements Observer{
             
         this.DisplayRace()
     }
+    AjoutRelation(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
     Notify(msg: string): void {
         throw new Error("Method not implemented.");
     }

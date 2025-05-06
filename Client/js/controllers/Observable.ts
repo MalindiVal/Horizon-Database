@@ -32,6 +32,12 @@ class Observable{
         });
     }
 
+    protected NotifyAjoutRelation(r : Relation){
+        this.observers.forEach(element => {
+            element.AjoutRelation(r);
+        });
+    }
+
     protected NotifyError(msg : string){
         this.observers.forEach(element => {
             element.Error(msg);

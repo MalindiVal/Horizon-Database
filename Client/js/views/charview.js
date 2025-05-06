@@ -21,6 +21,15 @@ class CharView {
         this.editbutton = document.getElementById("editbutton");
         this.DisplayCharacter();
     }
+    AjoutRelation(r) {
+        let li = document.createElement("li");
+        li.innerHTML = r.Titre + " de ";
+        let a = document.createElement("a");
+        a.href = "personnage.html?id=" + r.Id;
+        a.innerHTML += r.Cible;
+        li.appendChild(a);
+        this.relationul.appendChild(li);
+    }
     AjoutRace(r) {
         let arace = document.createElement("a");
         arace.href = "race.html?id=" + this.perso.IdRace;
@@ -32,6 +41,7 @@ class CharView {
     }
     AjoutPerso(p) {
         this.perso = p;
+        this.editbutton.href += "?id=" + this.perso.Id;
         document.title = this.perso.Nom + "- Project Horizon";
         this.title.innerHTML = this.perso.Nom;
         this.bio.innerHTML = this.perso.Bio;
@@ -48,21 +58,10 @@ class CharView {
         return __awaiter(this, void 0, void 0, function* () {
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
-            yield this.ctrl.GetById(Number(id));
-            let relations = yield this.rdao.GetByCharacters(this.perso.Id);
             this.relationdiv.innerHTML = "";
-            let ul = document.createElement("ul");
-            this.editbutton.href += "?id=" + this.perso.Id;
-            for (let i = 0; i < relations.length; i++) {
-                let li = document.createElement("li");
-                li.innerHTML = relations[i].titre + " de ";
-                let a = document.createElement("a");
-                a.href = "personnage.html?id=" + relations[i].id;
-                a.innerHTML += relations[i].cible;
-                li.appendChild(a);
-                ul.appendChild(li);
-            }
-            this.relationdiv.appendChild(ul);
+            this.relationul = document.createElement("ul");
+            yield this.ctrl.GetById(Number(id));
+            this.relationdiv.appendChild(this.relationul);
         });
     }
 }

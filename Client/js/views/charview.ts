@@ -9,6 +9,7 @@ class CharView implements Observer{
     private desc : HTMLParagraphElement;
     private tag : HTMLTitleElement;
     private relationdiv : HTMLDivElement;
+    private relationul : HTMLUListElement;
     private editbutton : HTMLLinkElement;
 
     constructor(ctrl : PersonnageController){
@@ -27,6 +28,18 @@ class CharView implements Observer{
         this.editbutton = document.getElementById("editbutton") as HTMLLinkElement;
         this.DisplayCharacter();
     }
+
+    AjoutRelation(r: Relation): void {
+       
+        let li = document.createElement("li");
+        li.innerHTML = r.Titre + " de ";
+        let a = document.createElement("a");
+        a.href = "personnage.html?id="+r.Id;
+        a.innerHTML += r.Cible;
+        li.appendChild(a);
+        this.relationul.appendChild(li);
+        
+    }
     AjoutRace(r: Race): void {
         let arace = document.createElement("a");
         arace.href = "race.html?id="+this.perso.IdRace;
@@ -39,6 +52,7 @@ class CharView implements Observer{
     }
     AjoutPerso(p: Personnage): void {
         this.perso = p;
+        this.editbutton.href += "?id="+this.perso.Id;
         document.title = this.perso.Nom + "- Project Horizon";
         this.title.innerHTML = this.perso.Nom;
         this.bio.innerHTML = this.perso.Bio;
@@ -55,26 +69,12 @@ class CharView implements Observer{
     async DisplayCharacter() {
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
-
-        await this.ctrl.GetById(Number(id))
-        
-        
-
-        let relations = await this.rdao.GetByCharacters(this.perso.Id);
         this.relationdiv.innerHTML = "";
-        let ul = document.createElement("ul");
+        this.relationul = document.createElement("ul");
 
-        this.editbutton.href += "?id="+this.perso.Id;
-        for (let i = 0; i < relations.length; i++ ){
-            let li = document.createElement("li");
-            li.innerHTML = relations[i].titre + " de ";
-            let a = document.createElement("a");
-            a.href = "personnage.html?id="+relations[i].id;
-            a.innerHTML += relations[i].cible;
-            li.appendChild(a);
-            ul.appendChild(li);
-        }
-        this.relationdiv.appendChild(ul);
+        await this.ctrl.GetById(Number(id));
+
+        this.relationdiv.appendChild(this.relationul);
 
     }
 

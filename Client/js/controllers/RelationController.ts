@@ -1,0 +1,38 @@
+class RelationController extends Observable{
+    private dao : RelationDAO;
+    private persoctrl : PersonnageController;
+
+    constructor(dao : RelationDAO){
+        super();
+        this.dao = dao;
+    }
+
+    async listRelations(){
+        let list = Array<Relation>();
+        try{
+            let response = await this.dao.GetAll();
+            response.forEach(element => {
+                this.NotifyAjoutRelation(element);
+                list.push(element);
+            });
+
+        } catch (e){
+            this.NotifyError(e.Message);
+        }
+        return list;
+    }
+
+    async GetByPersonnage(id : number){
+        let list = Array<Relation>();
+        try{
+            let response = await this.dao.GetByCharacters(id);
+            response.forEach(element => {
+                this.NotifyAjoutRelation(element);
+                list.push(element);
+            });
+        } catch (e){
+            this.NotifyError(e.Message);
+        }
+        return list;
+    }
+}

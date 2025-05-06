@@ -25,6 +25,11 @@ class Observable {
             element.AjoutRace(r);
         });
     }
+    NotifyAjoutRelation(r) {
+        this.observers.forEach(element => {
+            element.AjoutRelation(r);
+        });
+    }
     NotifyError(msg) {
         this.observers.forEach(element => {
             element.Error(msg);

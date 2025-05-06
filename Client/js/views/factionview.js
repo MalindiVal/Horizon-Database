@@ -16,6 +16,9 @@ class FactionView {
         this.bio = document.getElementById("faction-background");
         this.DisplayFaction(id);
     }
+    AjoutRelation(r) {
+        throw new Error("Method not implemented.");
+    }
     Notify(msg) {
         throw new Error("Method not implemented.");
     }

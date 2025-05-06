@@ -7,5 +7,7 @@ interface Observer{
 
     AjoutRace(r : Race) : void;
 
+    AjoutRelation(r : Relation) : void;
+
     Error(msg : string) : void;
 }

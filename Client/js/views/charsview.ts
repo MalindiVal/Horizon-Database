@@ -14,6 +14,9 @@ class CharsView implements Observer{
         this.div = document.getElementById("characterlist") as HTMLDivElement;
         this.ListAllChars();
     }
+    AjoutRelation(r: Relation): void {
+        
+    }
     AjoutRace(r: Race): void {
         throw new Error("Method not implemented.");
     }

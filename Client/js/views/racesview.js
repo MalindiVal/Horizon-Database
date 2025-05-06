@@ -14,6 +14,9 @@ class RacesView {
         this.div = document.getElementById("raceslist");
         this.ListAllRaces();
     }
+    AjoutRelation(r) {
+        throw new Error("Method not implemented.");
+    }
     Notify(msg) {
         throw new Error("Method not implemented.");
     }

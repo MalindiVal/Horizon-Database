@@ -19,6 +19,9 @@ class FactionView implements Observer{
             
         this.DisplayFaction(id)
     }
+    AjoutRelation(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
 
     Notify(msg: string): void {
         throw new Error("Method not implemented.");
