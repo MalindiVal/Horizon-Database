@@ -23,7 +23,10 @@ class RelationDAO{
                 return liste;
             } else {
                 throw new Error(`HTTP Error! Status: ${response.status}`);
-            }
+            } 
+
+            
+            
         } catch (error) {
             throw new Error(`An error occurred while fetching characters: ${error.message}`);
         }

@@ -26,11 +26,11 @@ class RelationDAO {
                         char.hydrate(row);
                         liste.push(char); // Correction ici
                     });
-                    return liste;
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
                 }
+                return liste;
             }
             catch (error) {
                 throw new Error(`An error occurred while fetching characters: ${error.message}`);
