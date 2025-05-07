@@ -2,8 +2,8 @@ node_modules/
 .node_modules/
 built/*
 *.config
-js/**/*.js
-js/**/*.js.map
+Client/js/**/*.js
+Client/js/**/*.js.map
 **/.DS_Store
 .settings
 **/.vs
