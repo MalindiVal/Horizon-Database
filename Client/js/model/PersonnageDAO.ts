@@ -70,7 +70,6 @@ class PersonnageDAO{
     }
 
     async Update(char : Personnage) {
-        let res = false
         let apiurl = this.api + "Update.php";
         let response = await fetch(apiurl,{
             method : "POST",
@@ -80,12 +79,8 @@ class PersonnageDAO{
             body : JSON.stringify(char)
         });
     
-        if (response.ok) {
-            res =  await response.json(); // if your PHP returns true/false
-        } else {
+        if (!response.ok) {
             throw new Error(`HTTP Error! Status: ${response.status}`);
         }
-
-        return res;
     }
 }

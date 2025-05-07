@@ -50,6 +50,7 @@ class PersonnageController extends Observable{
         let res = false;
         try {
             res = await this.dao.Add(char);
+            this.NotifyAjoutPerso(char);
         } catch (error) {
             this.NotifyError("Erreur");
         }
@@ -59,9 +60,9 @@ class PersonnageController extends Observable{
     async Update(char : Personnage) {
         let res = false;
         try {
-            res = await this.dao.Update(char);
+            await this.dao.Update(char);
         } catch (error) {
-            this.NotifyError("Erreur");
+            this.NotifyError("Erreur lors de la mise à jour");
         }
         return res;
     }

@@ -12,6 +12,7 @@ class EditCharView implements Observer{
     private bioinput : HTMLTextAreaElement;
     private validatebutton : HTMLButtonElement;
     private title : HTMLTitleElement;
+    private relationdiv : HTMLDivElement
 
     constructor(ctrl : PersonnageController , racectrl : RaceController){
         this.perso = null;
@@ -28,9 +29,12 @@ class EditCharView implements Observer{
         this.taginput = document.getElementById("tag") as HTMLInputElement;
         this.descinput = document.getElementById("desc") as HTMLTextAreaElement;
         this.bioinput = document.getElementById("bio") as HTMLTextAreaElement;
+        this.relationdiv = document.getElementById("relations") as HTMLDivElement;
         this.validatebutton = document.getElementById("submit") as HTMLButtonElement
         this.validatebutton.addEventListener("click",() => this.Validate());
         this.title.innerHTML = "Ajout";
+        let addbutton = document.getElementById("plusaddrelation") as HTMLButtonElement;
+        addbutton.addEventListener("click", () => this.addRelationInput());
         this.init();
     }
 
@@ -44,6 +48,7 @@ class EditCharView implements Observer{
             this.title.innerHTML = "Edit";
             document.title = "Modification de " + this.perso.Nom + " - Project Horizon";
             this.nameinput.value = this.perso.Nom;
+            this.descinput.value = this.perso.Description;
             
             for (let i = 0; i < this.genderinput.options.length; i++){
                 if (this.genderinput.options[i].value.toUpperCase() == this.perso.Gender){
@@ -60,6 +65,9 @@ class EditCharView implements Observer{
             }
             this.taginput.value = this.perso.Tagline;
             this.bioinput.value = this.perso.Bio;
+        } else {
+
+
         }
     }
     AjoutFaction(f: Faction): void {
@@ -78,8 +86,13 @@ class EditCharView implements Observer{
         throw new Error("Method not implemented.");
     }
     Error(msg: string): void {
-        this.perso = new Personnage();
-        this.exist = false;
+        if (!this.perso){
+            this.perso = new Personnage();
+            this.exist = false;
+        } else {
+            alert(msg);
+        }
+        
     }
 
     private async init(){
@@ -91,8 +104,82 @@ class EditCharView implements Observer{
 
     }
 
+    async addRelationInput(){
+        
+        let i = this.relationdiv.children.length
+        
+        let setting = document.createElement("div");
+        setting.classList.add("relation_settings");
+
+        let h3 = document.createElement("h3");
+        h3.innerHTML = "Relation " + i;
+        setting.appendChild(h3);
+        let div1 = document.createElement("div");
+        let ciblelabel = document.createElement("label") as HTMLLabelElement;
+        ciblelabel.htmlFor = "persocible" + i;
+        ciblelabel.innerHTML = "Personnage Cible"
+        div1.appendChild(ciblelabel);
+        let cible = document.createElement("select") as HTMLSelectElement;
+        cible.name = "persocible" + i;
+        cible.id = "persocible" + i;
+        
+        let chardao = new PersonnageDAO();
+        let listcible = await chardao.GetAll();
+        listcible.forEach((element) => {
+            let option = document.createElement("option") as HTMLOptionElement;
+            option.value = element.Id.toString();
+            option.innerText = element.Nom;
+            cible.appendChild(option);
+        });
+        div1.appendChild(cible);
+        setting.appendChild(div1);
+
+        let div2 = document.createElement("div");
+        let typelabel = document.createElement("label") as HTMLLabelElement;
+        typelabel.htmlFor = "relation_type" + i;
+        typelabel.innerHTML = "Type de Relation"
+        let type = document.createElement("select") as HTMLSelectElement;
+        cible.name = "relation_type" + i;;
+        cible.id = "relation_type" + i;
+        div2.appendChild(typelabel);
+        div2.appendChild(type);
+        setting.appendChild(div2);
+
+                
+        let div3 = document.createElement("div");
+        let name_relationlabel = document.createElement("label") as HTMLLabelElement;
+        name_relationlabel.htmlFor = "name_relation" + i;
+        name_relationlabel.innerHTML = "Nom :";
+        let name_relation = document.createElement("input") as HTMLInputElement;
+        cible.name = "name_relation" + i;;
+        cible.id = "name_relation" + i;
+        div3.appendChild(name_relationlabel);
+        div3.appendChild(name_relation);
+        setting.appendChild(div3);
+
+        let div4 = document.createElement("div");
+        let desc_relationlabel = document.createElement("label") as HTMLLabelElement;
+        desc_relationlabel.htmlFor = "desc_relation" + i;
+        desc_relationlabel.innerHTML = "Description : "
+        let desc_relation = document.createElement("textarea") as HTMLTextAreaElement;
+        cible.name = "desc_relation" + i;;
+        cible.id = "desc_relation" + i;
+        div4.appendChild(desc_relationlabel);
+        div4.appendChild(desc_relation);
+        setting.appendChild(div4);
+
+        let div5 = document.createElement("div");
+        let delbut = document.createElement("button") as HTMLButtonElement;
+        delbut.innerHTML = "Supprimmer";
+        div5.appendChild(delbut);
+        setting.appendChild(div5);
+
+        this.relationdiv.appendChild(setting);
+
+    }
+
     private async Validate(){
-        this.perso.Nom = this.nameinput.value;
+        this.perso.Nom = this.nameinput.value   ;
         this.perso.Tagline = this.taginput.value;
         this.perso.Gender = this.genderinput.value.toUpperCase();
         this.perso.IdRace = Number(this.raceinput.value);
@@ -103,10 +190,6 @@ class EditCharView implements Observer{
             res = await this.ctrl.Update(this.perso);
         } else {
             res = await this.ctrl.Add(this.perso);
-        }
-        
-        if (res){
-           // window.document.URL = "personnage.html"
         }
     }
 }

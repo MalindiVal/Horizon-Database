@@ -45,8 +45,8 @@ class PersonnageManager extends Model{
         }
     }
 
-    public function UpdatePersonnage(Personnage $personnage) : int {
-        $sql = "Update personnages SET nom=? ,gender=?,id_race=?,tagline=?,bio=?,description,=? Where id=?";
+    public function UpdatePersonnage(Personnage $personnage) : void {
+        $sql = "Update personnages SET nom=? ,gender=?,id_race=?,tagline=?,bio=?,description=? Where id=?";
         try{
             $result = $this->execRequest($sql, [
                 $personnage->getNom(),
@@ -58,9 +58,8 @@ class PersonnageManager extends Model{
                 $personnage->getId()
             ]);
 
-            return 1;
         } catch (Exception $ex){
-            return 0;
+            throw $ex;
         }
     }
 }

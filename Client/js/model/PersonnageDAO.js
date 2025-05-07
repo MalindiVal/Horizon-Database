@@ -79,7 +79,6 @@ class PersonnageDAO {
     }
     Update(char) {
         return __awaiter(this, void 0, void 0, function* () {
-            let res = false;
             let apiurl = this.api + "Update.php";
             let response = yield fetch(apiurl, {
                 method: "POST",
@@ -88,13 +87,9 @@ class PersonnageDAO {
                 },
                 body: JSON.stringify(char)
             });
-            if (response.ok) {
-                res = yield response.json(); // if your PHP returns true/false
-            }
-            else {
+            if (!response.ok) {
                 throw new Error(`HTTP Error! Status: ${response.status}`);
             }
-            return res;
         });
     }
 }

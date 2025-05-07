@@ -13,13 +13,10 @@ require_once("./../../models/PersonnageManager.php");
 require_once("./../../models/Personnage.php");
 
 $rawData = file_get_contents("php://input");
-var_dump($rawData);
-$rawData = mb_convert_encoding($rawData, 'UTF-8', 'UTF-8');
 
 $data = json_decode($rawData, true);
-
-if ($data === null) {
-    echo json_encode(["error" => "Invalid or empty JSON data"]);
+if(json_last_error() !== JSON_ERROR_NONE){
+    echo json_encode(["error" => "JSON decode error : ", json_last_error_msg()]);
     exit;
 }
 
@@ -28,16 +25,14 @@ if (empty($data)) {
     exit;
 }
 
-var_dump($data);
-
 $perso = new Personnage();
 $perso->hydrate($data);
 
 $db = new PersonnageManager();
 
 try {
-    $res = $db->UpdatePersonnage($perso);
-    echo json_encode($res > 0);
+    $db->UpdatePersonnage($perso);
+    http_response_code(200);
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode(["error" => $e->getMessage()]);
