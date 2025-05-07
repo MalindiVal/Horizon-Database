@@ -13,100 +13,88 @@ class PersonnageDAO {
     }
     GetAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let liste = [];
-                let apiurl = this.api + "getAll.php";
-                let response = yield fetch(apiurl);
-                if (response.status === 200) {
-                    // Extraction des données JSON
-                    let data = yield response.json();
+            let liste = [];
+            let apiurl = this.api + "getAll.php";
+            let response = yield fetch(apiurl);
+            if (response.status === 200) {
+                // Extraction des données JSON
+                let data = yield response.json();
+                if (data) {
                     data.forEach((row) => {
                         // Hydratation
                         let char = new Personnage();
                         char.hydrate(row);
                         liste.push(char); // Correction ici
                     });
-                    return liste;
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
                 }
             }
-            catch (error) {
-                throw new Error(`An error occurred while fetching characters: ${error.message}`);
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return liste;
         });
     }
     GetById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let liste = [];
-                let apiurl = this.api + "getById.php?id=" + id;
-                let response = yield fetch(apiurl);
-                if (response.status === 200) {
-                    // Extraction des données JSON
-                    let data = yield response.json();
-                    // Hydratation
-                    let char = new Personnage();
+            let char = new Personnage();
+            let apiurl = this.api + "getById.php?id=" + id;
+            let response = yield fetch(apiurl);
+            if (response.status === 200) {
+                let data = yield response.json();
+                if (data) {
                     char.hydrate(data);
-                    liste.push(char); // Correction ici
-                    return char;
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
                 }
             }
-            catch (error) {
-                throw new Error(`An error occurred while fetching characters: ${error.message}`);
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return char;
         });
     }
     Add(char) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let apiurl = this.api + "Add.php";
-                let response = yield fetch(apiurl, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(char)
-                });
-                if (response.ok) {
-                    return yield response.json(); // if your PHP returns true/false
-                }
-                else {
-                    throw new Error(`HTTP Error! Status: ${response.status}`);
-                }
+            let res = false;
+            let apiurl = this.api + "Add.php";
+            let response = yield fetch(apiurl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(char)
+            });
+            if (response.ok) {
+                res = yield response.json(); // if your PHP returns true/false
             }
-            catch (error) {
-                console.error(error);
-                return false;
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return res;
         });
     }
     Update(char) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let apiurl = this.api + "Update.php";
-                let response = yield fetch(apiurl, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json;charset=utf-8"
-                    },
-                    body: JSON.stringify(char)
-                });
-                if (response.ok) {
-                    return yield response.json(); // if your PHP returns true/false
-                }
-                else {
-                    throw new Error(`HTTP Error! Status: ${response.status}`);
-                }
+            let res = false;
+            let apiurl = this.api + "Update.php";
+            let response = yield fetch(apiurl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                body: JSON.stringify(char)
+            });
+            if (response.ok) {
+                res = yield response.json(); // if your PHP returns true/false
             }
-            catch (error) {
-                console.error(error);
-                return false;
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return res;
         });
     }
 }

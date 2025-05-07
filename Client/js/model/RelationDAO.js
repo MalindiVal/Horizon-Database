@@ -13,54 +13,54 @@ class RelationDAO {
     }
     GetAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let liste = [];
-                let apiurl = this.api + "getAll.php";
-                let response = yield fetch(apiurl);
-                if (response.status === 200) {
-                    // Extraction des données JSON
-                    let data = yield response.json();
+            let liste = [];
+            let apiurl = this.api + "getAll.php";
+            let response = yield fetch(apiurl);
+            if (response.status === 200) {
+                // Extraction des données JSON
+                let data = yield response.json();
+                if (data) {
                     data.forEach((row) => {
                         // Hydratation
                         let char = new Relation();
                         char.hydrate(row);
                         liste.push(char); // Correction ici
                     });
-                    return liste;
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
                 }
             }
-            catch (error) {
-                throw new Error(`An error occurred while fetching characters: ${error.message}`);
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return liste;
         });
     }
     GetByCharacters(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let liste = [];
-                let apiurl = this.api + "getByCharacters.php?id=" + id;
-                let response = yield fetch(apiurl);
-                if (response.status === 200) {
-                    // Extraction des données JSON
-                    let data = yield response.json();
+            let liste = [];
+            let apiurl = this.api + "getByCharacters.php?id=" + id;
+            let response = yield fetch(apiurl);
+            if (response.status === 200) {
+                // Extraction des données JSON
+                let data = yield response.json();
+                if (data) {
                     data.forEach((row) => {
                         // Hydratation
                         let char = new Relation();
                         char.hydrate(row);
                         liste.push(char); // Correction ici
                     });
-                    return liste;
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
                 }
             }
-            catch (error) {
-                throw new Error(`An error occurred while fetching characters: ${error.message}`);
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return liste;
         });
     }
 }

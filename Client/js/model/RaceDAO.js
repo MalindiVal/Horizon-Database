@@ -13,13 +13,13 @@ class RaceDAO {
     }
     GetAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let liste = [];
-                let apiurl = this.api + "getAll.php";
-                let response = yield fetch(apiurl);
-                if (response.status === 200) {
-                    // Extraction des données JSON
-                    let data = yield response.json();
+            let liste = [];
+            let apiurl = this.api + "getAll.php";
+            let response = yield fetch(apiurl);
+            if (response.status === 200) {
+                // Extraction des données JSON
+                let data = yield response.json();
+                if (data) {
                     data.forEach((row) => {
                         // Hydratation
                         let race = new Race();
@@ -27,37 +27,37 @@ class RaceDAO {
                         race.Nom = row.nom;
                         liste.push(race); // Correction ici
                     });
-                    return liste;
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
                 }
             }
-            catch (error) {
-                throw new Error(`An error occurred while fetching races: ${error.message}`);
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return liste;
         });
     }
     GetById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let apiurl = this.api + "getById.php?id=" + id;
-                let response = yield fetch(apiurl);
-                if (response.status === 200) {
-                    // Extraction des données JSON
-                    let data = yield response.json();
-                    let race = new Race();
+            let race = new Race();
+            let apiurl = this.api + "getById.php?id=" + id;
+            let response = yield fetch(apiurl);
+            if (response.status === 200) {
+                // Extraction des données JSON
+                let data = yield response.json();
+                if (data) {
                     race.Id = data.Id;
                     race.Nom = data.nom;
-                    return race;
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
                 }
             }
-            catch (error) {
-                throw new Error(`An error occurred while fetching characters: ${error.message}`);
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return race;
         });
     }
 }

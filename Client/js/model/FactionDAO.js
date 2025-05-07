@@ -13,52 +13,51 @@ class FactionDAO {
     }
     GetAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let liste = [];
-                let apiurl = this.api + "getAll.php";
-                let response = yield fetch(apiurl);
-                if (response.status === 200) {
-                    // Extraction des données JSON
-                    let data = yield response.json();
+            let liste = [];
+            let apiurl = this.api + "getAll.php";
+            let response = yield fetch(apiurl);
+            if (response.status === 200) {
+                // Extraction des données JSON
+                let data = yield response.json();
+                if (data) {
                     data.forEach((row) => {
                         // Hydratation
                         let faction = new Faction();
                         faction.hydrate(row);
                         liste.push(faction); // Correction ici
                     });
-                    return liste;
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
                 }
             }
-            catch (error) {
-                throw new Error(`An error occurred while fetching factions: ${error.message}`);
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return liste;
         });
     }
     GetById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let liste = [];
-                let apiurl = this.api + "getById.php?id=" + id;
-                let response = yield fetch(apiurl);
-                if (response.status === 200) {
-                    // Extraction des données JSON
-                    let data = yield response.json();
-                    // Hydratation
-                    let faction = new Faction();
+            let faction = new Faction();
+            let liste = [];
+            let apiurl = this.api + "getById.php?id=" + id;
+            let response = yield fetch(apiurl);
+            if (response.status === 200) {
+                // Extraction des données 
+                let data = yield response.json();
+                if (data) {
                     faction.hydrate(data);
-                    liste.push(faction); // Correction ici
-                    return faction;
+                    liste.push(faction);
                 }
                 else {
-                    throw new Error(`HTTP Error! Status: ${response.status}`);
+                    throw new Error(`Aucune Donnée`);
                 }
             }
-            catch (error) {
-                throw new Error(`An error occurred while fetching factions: ${error.message}`);
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
             }
+            return faction;
         });
     }
 }
