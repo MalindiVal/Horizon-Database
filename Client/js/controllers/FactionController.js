@@ -25,5 +25,16 @@ class FactionController extends Observable {
             }
         });
     }
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let response = yield this.dao.GetById(id);
+                this.NotifyAjoutFaction(response);
+            }
+            catch (e) {
+                this.NotifyError(e.Message);
+            }
+        });
+    }
 }
 //# sourceMappingURL=FactionController.js.map

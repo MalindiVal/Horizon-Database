@@ -63,5 +63,31 @@ class RelationDAO {
             return liste;
         });
     }
+    GetAllTypes() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let liste = new Array();
+            let apiurl = this.api + "getAllTypes.php";
+            let response = yield fetch(apiurl);
+            if (response.status === 200) {
+                // Extraction des données JSON
+                let data = yield response.json();
+                if (data) {
+                    data.forEach((row) => {
+                        // Hydratation
+                        let relation = new RelationType();
+                        relation.hydrate(row);
+                        liste.push(relation); // Correction ici
+                    });
+                }
+                else {
+                    throw new Error(`HTTP Error! Status: ${response.status}`);
+                }
+            }
+            else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
+            }
+            return liste;
+        });
+    }
 }
 //# sourceMappingURL=RelationDAO.js.map

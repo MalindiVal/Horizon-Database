@@ -15,7 +15,9 @@ class EditCharView implements Observer{
     private validatebutton : HTMLButtonElement;
     private title : HTMLTitleElement;
     private relationdiv : HTMLDivElement
+
     private listcible: Array<Personnage>;
+    private listtype: Array<RelationType>;
 
     constructor(ctrl : PersonnageController , racectrl : RaceController, relationctrl : RelationController){
         this.perso = null;
@@ -105,6 +107,8 @@ class EditCharView implements Observer{
         this.perso = await this.ctrl.GetById(id);
         let chardao = new PersonnageDAO();
         this.listcible = await chardao.GetAll();
+        let relatiodao = new RelationDAO();
+        this.listtype = await relatiodao.GetAllTypes();
         let list = await this.relationctrl.GetByPersonnage(this.perso.Id);
         
         
@@ -153,6 +157,13 @@ class EditCharView implements Observer{
         type.name = "relation_type" + i;;
         type.id = "relation_type" + i;
         div2.appendChild(typelabel);
+        this.listtype.forEach((element) => {
+            let option = document.createElement("option") as HTMLOptionElement;
+            option.value = element.Id.toString();
+            option.innerText = element.Titre;
+            type.appendChild(option);
+        });
+
         div2.appendChild(type);
         setting.appendChild(div2);
 

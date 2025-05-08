@@ -56,4 +56,30 @@ class RelationDAO{
             }
             return liste;
     }
+
+    async GetAllTypes() : Promise<RelationType[]> {
+        let liste = new Array<RelationType>();
+        let apiurl = this.api + "getAllTypes.php";
+        let response = await fetch(apiurl);
+
+        if (response.status === 200) {
+            // Extraction des données JSON
+            let data = await response.json();
+            if (data){
+                data.forEach((row) => {
+                    // Hydratation
+                    let relation = new RelationType();
+                    relation.hydrate(row);
+                    liste.push(relation);  // Correction ici
+                });
+            } else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
+            }
+            
+            
+        } else {
+            throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+        return liste;
+}
 }

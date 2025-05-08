@@ -89,6 +89,8 @@ class EditCharView {
             this.perso = yield this.ctrl.GetById(id);
             let chardao = new PersonnageDAO();
             this.listcible = yield chardao.GetAll();
+            let relatiodao = new RelationDAO();
+            this.listtype = yield relatiodao.GetAllTypes();
             let list = yield this.relationctrl.GetByPersonnage(this.perso.Id);
         });
     }
@@ -129,6 +131,12 @@ class EditCharView {
         ;
         type.id = "relation_type" + i;
         div2.appendChild(typelabel);
+        this.listtype.forEach((element) => {
+            let option = document.createElement("option");
+            option.value = element.Id.toString();
+            option.innerText = element.Titre;
+            type.appendChild(option);
+        });
         div2.appendChild(type);
         setting.appendChild(div2);
         let div3 = document.createElement("div");
