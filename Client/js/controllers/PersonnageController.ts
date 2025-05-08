@@ -1,14 +1,10 @@
 class PersonnageController extends Observable{
 
     private dao : PersonnageDAO;
-    private racectrl : RaceController;
-    private relationctrl : RelationController;
 
-    constructor(dao : PersonnageDAO, racectrl : RaceController , relationctrl : RelationController){
+    constructor(dao : PersonnageDAO){
         super();
         this.dao = dao;
-        this.racectrl = racectrl;
-        this.relationctrl = relationctrl;
     }
 
     async ListAllChars () {
@@ -32,12 +28,6 @@ class PersonnageController extends Observable{
         {
             let response = await this.dao.GetById(id);
             this.NotifyAjoutPerso(response);
-            let race = await this.racectrl.GetById(response.IdRace);
-            this.NotifyAjoutRace(race);
-            let relations = await this.relationctrl.GetByPersonnage(id);
-            relations.forEach(element => {
-                this.NotifyAjoutRelation(element);
-            });
             perso = response;
 
         } catch {

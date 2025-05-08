@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 class CharView {
-    constructor(ctrl) {
+    constructor(ctrl, racectrl, relationctrl) {
         this.ctrl = ctrl;
         this.ctrl.register(this);
+        this.racectrl = racectrl;
+        this.racectrl.register(this);
+        this.relationctrl = relationctrl;
+        this.relationctrl.register(this);
         this.rdao = new RelationDAO();
         this.title = document.getElementById("character-name");
         this.race = document.getElementById("character-race");
@@ -60,7 +64,9 @@ class CharView {
             const id = urlParams.get('id');
             this.relationdiv.innerHTML = "";
             this.relationul = document.createElement("ul");
-            yield this.ctrl.GetById(Number(id));
+            let p = yield this.ctrl.GetById(Number(id));
+            yield this.racectrl.GetById(Number(p.IdRace));
+            yield this.relationctrl.GetByPersonnage(Number(id));
             this.relationdiv.appendChild(this.relationul);
         });
     }

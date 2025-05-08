@@ -8,11 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 class PersonnageController extends Observable {
-    constructor(dao, racectrl, relationctrl) {
+    constructor(dao) {
         super();
         this.dao = dao;
-        this.racectrl = racectrl;
-        this.relationctrl = relationctrl;
     }
     ListAllChars() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -36,12 +34,6 @@ class PersonnageController extends Observable {
             try {
                 let response = yield this.dao.GetById(id);
                 this.NotifyAjoutPerso(response);
-                let race = yield this.racectrl.GetById(response.IdRace);
-                this.NotifyAjoutRace(race);
-                let relations = yield this.relationctrl.GetByPersonnage(id);
-                relations.forEach(element => {
-                    this.NotifyAjoutRelation(element);
-                });
                 perso = response;
             }
             catch (_a) {

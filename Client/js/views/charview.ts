@@ -2,6 +2,9 @@ class CharView implements Observer{
 
     private perso : Personnage;
     private ctrl : PersonnageController;
+    private racectrl : RaceController;
+    private relationctrl : RelationController;
+
     private rdao : RelationDAO;
     private title : HTMLTitleElement;
     private race : HTMLParagraphElement;
@@ -12,11 +15,15 @@ class CharView implements Observer{
     private relationul : HTMLUListElement;
     private editbutton : HTMLLinkElement;
 
-    constructor(ctrl : PersonnageController){
+    constructor(ctrl : PersonnageController,racectrl : RaceController, relationctrl : RelationController){
        
         
         this.ctrl = ctrl;
         this.ctrl.register(this)
+        this.racectrl = racectrl;
+        this.racectrl.register(this);
+        this.relationctrl = relationctrl;
+        this.relationctrl.register(this);
         
         this.rdao = new RelationDAO();
         this.title = document.getElementById("character-name") as HTMLTitleElement;
@@ -72,7 +79,9 @@ class CharView implements Observer{
         this.relationdiv.innerHTML = "";
         this.relationul = document.createElement("ul");
 
-        await this.ctrl.GetById(Number(id));
+        let p = await this.ctrl.GetById(Number(id));
+        await this.racectrl.GetById(Number(p.IdRace))
+        await this.relationctrl.GetByPersonnage(Number(id))
 
         this.relationdiv.appendChild(this.relationul);
 
