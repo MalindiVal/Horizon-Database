@@ -4,6 +4,8 @@ class EditCharView implements Observer{
     private exist : boolean;
     private ctrl : PersonnageController;
     private racectrl : RaceController;
+    private relationctrl : RelationController;
+
     private nameinput : HTMLInputElement;
     private genderinput : HTMLSelectElement;
     private raceinput : HTMLSelectElement;
@@ -13,14 +15,17 @@ class EditCharView implements Observer{
     private validatebutton : HTMLButtonElement;
     private title : HTMLTitleElement;
     private relationdiv : HTMLDivElement
+    private listcible: Array<Personnage>;
 
-    constructor(ctrl : PersonnageController , racectrl : RaceController){
+    constructor(ctrl : PersonnageController , racectrl : RaceController, relationctrl : RelationController){
         this.perso = null;
         this.ctrl = ctrl;
         this.ctrl.register(this);
         this.exist = false;
         this.racectrl = racectrl;
         this.racectrl.register(this);
+        this.relationctrl = relationctrl;
+        this.relationctrl.register(this);
         document.title = "Ajout d'un personnage - Project Horizon";
         this.title = document.getElementById("title") as HTMLTitleElement;
         this.nameinput = document.getElementById("name") as HTMLInputElement;
@@ -42,7 +47,7 @@ class EditCharView implements Observer{
         throw new Error("Method not implemented.");
     }
     AjoutPerso(p: Personnage): void {
-        if (this.perso == null){
+
             this.perso = p;
             this.exist = true;
             this.title.innerHTML = "Edit";
@@ -65,10 +70,7 @@ class EditCharView implements Observer{
             }
             this.taginput.value = this.perso.Tagline;
             this.bioinput.value = this.perso.Bio;
-        } else {
 
-
-        }
     }
     AjoutFaction(f: Faction): void {
         throw new Error("Method not implemented.");
@@ -83,7 +85,7 @@ class EditCharView implements Observer{
         }
     }
     AjoutRelation(r: Relation): void {
-        throw new Error("Method not implemented.");
+        this.addRelationInput(r)
     }
     Error(msg: string): void {
         if (!this.perso){
@@ -99,12 +101,17 @@ class EditCharView implements Observer{
         let races = await this.racectrl.List();
 
         const urlParams = new URLSearchParams(window.location.search);
-        let id = urlParams.get('id')
-        this.perso = await this.ctrl.GetById(Number(id));
+        let id = Number(urlParams.get('id'));
+        this.perso = await this.ctrl.GetById(id);
+        let chardao = new PersonnageDAO();
+        this.listcible = await chardao.GetAll();
+        let list = await this.relationctrl.GetByPersonnage(this.perso.Id);
+        
+        
 
     }
 
-    async addRelationInput(){
+    addRelationInput(r : Relation = null){
         
         let i = this.relationdiv.children.length
         
@@ -123,14 +130,18 @@ class EditCharView implements Observer{
         cible.name = "persocible" + i;
         cible.id = "persocible" + i;
         
-        let chardao = new PersonnageDAO();
-        let listcible = await chardao.GetAll();
-        listcible.forEach((element) => {
+        let j = 0;
+        this.listcible.forEach((element) => {
             let option = document.createElement("option") as HTMLOptionElement;
             option.value = element.Id.toString();
             option.innerText = element.Nom;
             cible.appendChild(option);
+            if (r && option.value == r.Id.toString()){
+                cible.selectedIndex = j;
+            }
+            j += 1;
         });
+        
         div1.appendChild(cible);
         setting.appendChild(div1);
 
@@ -139,8 +150,8 @@ class EditCharView implements Observer{
         typelabel.htmlFor = "relation_type" + i;
         typelabel.innerHTML = "Type de Relation"
         let type = document.createElement("select") as HTMLSelectElement;
-        cible.name = "relation_type" + i;;
-        cible.id = "relation_type" + i;
+        type.name = "relation_type" + i;;
+        type.id = "relation_type" + i;
         div2.appendChild(typelabel);
         div2.appendChild(type);
         setting.appendChild(div2);
@@ -151,9 +162,12 @@ class EditCharView implements Observer{
         name_relationlabel.htmlFor = "name_relation" + i;
         name_relationlabel.innerHTML = "Nom :";
         let name_relation = document.createElement("input") as HTMLInputElement;
-        cible.name = "name_relation" + i;;
-        cible.id = "name_relation" + i;
+        name_relation.name = "name_relation" + i;;
+        name_relation.id = "name_relation" + i;
         div3.appendChild(name_relationlabel);
+        if (r){
+            name_relation.value = r.Titre
+        }
         div3.appendChild(name_relation);
         setting.appendChild(div3);
 
@@ -162,9 +176,12 @@ class EditCharView implements Observer{
         desc_relationlabel.htmlFor = "desc_relation" + i;
         desc_relationlabel.innerHTML = "Description : "
         let desc_relation = document.createElement("textarea") as HTMLTextAreaElement;
-        cible.name = "desc_relation" + i;;
-        cible.id = "desc_relation" + i;
+        desc_relation.name = "desc_relation" + i;;
+        desc_relation.id = "desc_relation" + i;
         div4.appendChild(desc_relationlabel);
+        if (r){
+           desc_relation.value = r.Description
+        }
         div4.appendChild(desc_relation);
         setting.appendChild(div4);
 
@@ -173,6 +190,11 @@ class EditCharView implements Observer{
         delbut.innerHTML = "Supprimmer";
         div5.appendChild(delbut);
         setting.appendChild(div5);
+
+        if (r){
+            name_relation.value = r.Titre
+            desc_relation.value = r.Description
+        }
 
         this.relationdiv.appendChild(setting);
 

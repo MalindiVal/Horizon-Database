@@ -31,8 +31,8 @@ class RelationDAO{
             return liste;
     }
 
-    async GetByCharacters(id) {
-            let liste = [];
+    async GetByCharacters(id) : Promise<Relation[]> {
+            let liste = new Array<Relation>();
             let apiurl = this.api + "getByCharacters.php?id="+id;
             let response = await fetch(apiurl);
     
@@ -42,9 +42,9 @@ class RelationDAO{
                 if (data){
                     data.forEach((row) => {
                         // Hydratation
-                        let char = new Relation();
-                        char.hydrate(row);
-                        liste.push(char);  // Correction ici
+                        let relation = new Relation();
+                        relation.hydrate(row);
+                        liste.push(relation);  // Correction ici
                     });
                 } else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);

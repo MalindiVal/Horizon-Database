@@ -39,7 +39,7 @@ class RelationDAO {
     }
     GetByCharacters(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let liste = [];
+            let liste = new Array();
             let apiurl = this.api + "getByCharacters.php?id=" + id;
             let response = yield fetch(apiurl);
             if (response.status === 200) {
@@ -48,9 +48,9 @@ class RelationDAO {
                 if (data) {
                     data.forEach((row) => {
                         // Hydratation
-                        let char = new Relation();
-                        char.hydrate(row);
-                        liste.push(char); // Correction ici
+                        let relation = new Relation();
+                        relation.hydrate(row);
+                        liste.push(relation); // Correction ici
                     });
                 }
                 else {
