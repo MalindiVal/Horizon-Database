@@ -1,8 +1,6 @@
 window.onload = function () {
-    let dao = new PersonnageDAO()
-    let racectrl = new RaceController(new RaceDAO());
-    let relationctrl = new RelationController(new RelationDAO());
-    let ctrl = new PersonnageController(dao,racectrl,relationctrl);
+    let dao = new PersonnageDAO();
+    let ctrl = new PersonnageController(dao);
     let view = new CharsView(ctrl);
 
 }

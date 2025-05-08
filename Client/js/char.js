@@ -11,7 +11,7 @@ window.onload = () => __awaiter(this, void 0, void 0, function* () {
     let dao = new PersonnageDAO();
     let racectrl = new RaceController(new RaceDAO());
     let relationctrl = new RelationController(new RelationDAO());
-    let ctrl = new PersonnageController(dao, racectrl, relationctrl);
-    let view = new CharView(ctrl);
+    let ctrl = new PersonnageController(dao);
+    let view = new CharView(ctrl, racectrl, relationctrl);
 });
 //# sourceMappingURL=char.js.map
