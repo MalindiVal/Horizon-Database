@@ -21,3 +21,6 @@ package-lock.json
 /lib/
 Client/Client.code-workspace
 Horizon-Database.code-workspace
+Client/js/controllers/*.js
+Client/js/model/*.js.map
+Client/js/views/*.js.map
