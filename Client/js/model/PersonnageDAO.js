@@ -7,14 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-class PersonnageDAO {
+class PersonnageDAO extends DAO {
     constructor() {
-        this.api = "http://localhost:80/horizon/API/controllers/characters/";
+        super();
+        this.api += "type=personnage";
     }
     GetAll() {
         return __awaiter(this, void 0, void 0, function* () {
             let liste = [];
-            let apiurl = this.api + "getAll.php";
+            let apiurl = this.api + "&action=get-all";
             let response = yield fetch(apiurl);
             if (response.status === 200) {
                 // Extraction des données JSON
@@ -40,7 +41,7 @@ class PersonnageDAO {
     GetById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             let char = new Personnage();
-            let apiurl = this.api + "getById.php?id=" + id;
+            let apiurl = this.api + "&action=get-by-id&id=" + id;
             let response = yield fetch(apiurl);
             if (response.status === 200) {
                 let data = yield response.json();
@@ -60,7 +61,7 @@ class PersonnageDAO {
     Add(char) {
         return __awaiter(this, void 0, void 0, function* () {
             let res = false;
-            let apiurl = this.api + "Add.php";
+            let apiurl = this.api + "&action=add";
             let response = yield fetch(apiurl, {
                 method: "POST",
                 headers: {
@@ -79,7 +80,7 @@ class PersonnageDAO {
     }
     Update(char) {
         return __awaiter(this, void 0, void 0, function* () {
-            let apiurl = this.api + "Update.php";
+            let apiurl = this.api + "&action=update";
             let response = yield fetch(apiurl, {
                 method: "POST",
                 headers: {
