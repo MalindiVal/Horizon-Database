@@ -7,14 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-class FactionDAO {
+class FactionDAO extends DAO {
     constructor() {
-        this.api = "http://localhost:80/horizon/API/controllers/factions/";
+        super();
+        this.api += "type=faction";
     }
     GetAll() {
         return __awaiter(this, void 0, void 0, function* () {
             let liste = [];
-            let apiurl = this.api + "getAll.php";
+            let apiurl = this.api + "&action=get-all";
             let response = yield fetch(apiurl);
             if (response.status === 200) {
                 // Extraction des données JSON
@@ -41,7 +42,7 @@ class FactionDAO {
         return __awaiter(this, void 0, void 0, function* () {
             let faction = new Faction();
             let liste = [];
-            let apiurl = this.api + "getById.php?id=" + id;
+            let apiurl = this.api + "&action=get-by-id&id=" + id;
             let response = yield fetch(apiurl);
             if (response.status === 200) {
                 // Extraction des données 
