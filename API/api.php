@@ -12,10 +12,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once("controllers/Router/Router.php");
 
+$data = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $rawData = file_get_contents("php://input");
+    $data = json_decode($rawData, true);
+    if(json_last_error() !== JSON_ERROR_NONE){
+        echo json_encode(["error" => "JSON decode error : ", json_last_error_msg()]);
+        exit;
+    }
+
+    if (empty($data)) {
+        echo json_encode(["error" => "No input data"]);
+        exit;
+    }
+}
+
+
 $router = new Router();
 
 // Route the request
-$router->routing($_GET,$_POST);
+$router->routing($_GET,$data);
 
 ?>
 
