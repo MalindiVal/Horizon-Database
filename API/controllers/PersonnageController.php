@@ -1,6 +1,6 @@
 <?php
-require_once("../models/PersonnageManager.php");
-require_once("../models/Personnage.php");
+require_once("./models/PersonnageManager.php");
+require_once("./models/Personnage.php");
 class PersonnageController{
 
     private PersonnageManager $manager;

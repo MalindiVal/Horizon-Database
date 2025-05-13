@@ -1,5 +1,5 @@
 <?php
-require_once("../models/FactionManager.php");
+require_once("./models/FactionManager.php");
 class FactionController{
 
     private FactionManager $manager;

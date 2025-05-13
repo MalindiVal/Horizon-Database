@@ -1,6 +1,5 @@
 <?php
-require_once("../models/RaceManager.php");
-require_once("../models/Race.php");
+require_once("./models/RaceManager.php");
 class RaceController{
 
     private RaceManager $manager;
