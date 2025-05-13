@@ -5,6 +5,8 @@ require_once("Route/RouteAddPersonnage.php");
 require_once("Route/RouteUpdatePersonnage.php");
 require_once("Route/RouteGetAllFactions.php");
 require_once("Route/RouteGetFactionById.php");
+require_once("Route/RouteAddFaction.php");
+require_once("Route/RouteUpdateFaction.php");
 
 require_once("controllers/PersonnageController.php");
 require_once("controllers/FactionController.php");
@@ -42,6 +44,13 @@ class Router {
             "get-by-id" => new RouteGetPersonnagesById($this->ctrlList["personnage"]),
             "add" => new RouteAddPersonnage($this->ctrlList["personnage"]),
             "update" => new RouteUpdatePersonnage($this->ctrlList["personnage"]),
+        ];
+
+        $this->routeList["faction"] =  [
+            "get-all" => new RouteGetAllFactions($this->ctrlList["faction"]),
+            "get-by-id" => new RouteGetFactionById($this->ctrlList["faction"]),
+            "add" => new RouteAddFaction($this->ctrlList["faction"]),
+            "update" => new RouteUpdateFaction($this->ctrlList["faction"]),
         ];
     }
 
