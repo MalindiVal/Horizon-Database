@@ -21,7 +21,7 @@ class PersonnageController{
             $res = $this->manager->AddPersonnage($perso);
             echo json_encode($res > 0);
         } catch (Exception $e) {
-            http_response_code(500);
+            http_response_code(404);
             echo json_encode(["error" => $e->getMessage()]);
         }
     }
@@ -31,7 +31,7 @@ class PersonnageController{
             $this->manager->UpdatePersonnage($perso);
             http_response_code(200);
         } catch (Exception $e) {
-            http_response_code(500);
+            http_response_code(404);
             echo json_encode(["error" => $e->getMessage()]);
         }
     }

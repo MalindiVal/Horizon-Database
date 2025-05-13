@@ -16,13 +16,11 @@ class RouteUpdatePersonnage extends Route {
     }
 
     public function post($params = []) {
-        try {
-            $perso = new Personnage();
-            $perso->hydrate($params);
-            $this->controller->Update($perso);
-        } catch (Exception $e) {
-
-        }
+        $perso = new Personnage();
+        
+        $perso->hydrate($params);
+        var_dump($perso);
+        $this->controller->Update($perso);
     }
 }
 ?>
