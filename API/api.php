@@ -31,8 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $router = new Router();
 
-// Route the request
-$router->routing($_GET,$data);
+if (!$data){
+    // Route the request
+    $router->routing($_GET,$_POST);
+} else {
+    // Route the request
+    $router->routing($_GET,$data);
+}
+
 
 ?>
 
