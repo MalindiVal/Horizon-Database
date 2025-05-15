@@ -18,4 +18,14 @@ class RelationController{
     public function getByPersonnage(int $id){
         echo json_encode($this->manager->getByCharacters($id));
     }
+
+    public function AddRelation(Relation $r){
+        try {
+            $res = $this->manager->AddRelation($r);
+            echo json_encode($res > 0);
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(["error" => $e->getMessage()]);
+        } 
+    }
 }
