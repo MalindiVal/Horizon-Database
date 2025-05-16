@@ -28,4 +28,14 @@ class RelationController{
             echo json_encode(["error" => $e->getMessage()]);
         } 
     }
+
+    public function Update(Relation $r){
+        try {
+            $res = $this->manager->UpdateRelation($r);
+            echo json_encode($res > 0);
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(["error" => $e->getMessage()]);
+        } 
+    }
 }
