@@ -1,13 +1,13 @@
-class RelationDAO{
+class RelationDAO extends DAO{
     
-    private api : string;
     constructor(){
-        this.api = "http://localhost:80/horizon/API/controllers/relationships/";
+        super();
+        this.api += "type=relation";
     }
 
     async GetAll() : Promise<Relation[]> {
         let liste = [];
-        let apiurl = this.api + "getAll.php";
+        let apiurl = this.api + "&action=get-all";
         let response = await fetch(apiurl);
     
             if (response.status === 200) {
@@ -33,7 +33,7 @@ class RelationDAO{
 
     async GetByCharacters(id) : Promise<Relation[]> {
             let liste = new Array<Relation>();
-            let apiurl = this.api + "getByCharacters.php?id="+id;
+            let apiurl = this.api + "&action=get-by-id&id="+id;
             let response = await fetch(apiurl);
     
             if (response.status === 200) {
@@ -59,7 +59,7 @@ class RelationDAO{
 
     async GetAllTypes() : Promise<RelationType[]> {
         let liste = new Array<RelationType>();
-        let apiurl = this.api + "getAllTypes.php";
+        let apiurl = this.api + "&action=get-all-types";
         let response = await fetch(apiurl);
 
         if (response.status === 200) {

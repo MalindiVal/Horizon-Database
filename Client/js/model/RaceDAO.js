@@ -7,14 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-class RaceDAO {
+class RaceDAO extends DAO {
     constructor() {
-        this.api = "http://localhost:80/horizon/API/controllers/races/";
+        super();
+        this.api += "type=race";
     }
     GetAll() {
         return __awaiter(this, void 0, void 0, function* () {
             let liste = [];
-            let apiurl = this.api + "getAll.php";
+            let apiurl = this.api + "&action=get-all";
             let response = yield fetch(apiurl);
             if (response.status === 200) {
                 // Extraction des données JSON
@@ -41,7 +42,7 @@ class RaceDAO {
     GetById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             let race = new Race();
-            let apiurl = this.api + "getById.php?id=" + id;
+            let apiurl = this.api + "&action=get-by-id&id=" + id;
             let response = yield fetch(apiurl);
             if (response.status === 200) {
                 // Extraction des données JSON

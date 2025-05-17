@@ -7,14 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-class RelationDAO {
+class RelationDAO extends DAO {
     constructor() {
-        this.api = "http://localhost:80/horizon/API/controllers/relationships/";
+        super();
+        this.api += "type=relation";
     }
     GetAll() {
         return __awaiter(this, void 0, void 0, function* () {
             let liste = [];
-            let apiurl = this.api + "getAll.php";
+            let apiurl = this.api + "&action=get-all";
             let response = yield fetch(apiurl);
             if (response.status === 200) {
                 // Extraction des données JSON
@@ -40,7 +41,7 @@ class RelationDAO {
     GetByCharacters(id) {
         return __awaiter(this, void 0, void 0, function* () {
             let liste = new Array();
-            let apiurl = this.api + "getByCharacters.php?id=" + id;
+            let apiurl = this.api + "&action=get-by-id&id=" + id;
             let response = yield fetch(apiurl);
             if (response.status === 200) {
                 // Extraction des données JSON
@@ -66,7 +67,7 @@ class RelationDAO {
     GetAllTypes() {
         return __awaiter(this, void 0, void 0, function* () {
             let liste = new Array();
-            let apiurl = this.api + "getAllTypes.php";
+            let apiurl = this.api + "&action=get-all-types";
             let response = yield fetch(apiurl);
             if (response.status === 200) {
                 // Extraction des données JSON

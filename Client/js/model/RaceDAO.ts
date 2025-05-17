@@ -1,13 +1,13 @@
-class RaceDAO{
+class RaceDAO extends DAO{
     
-    private api : string;
     constructor(){
-        this.api = "http://localhost:80/horizon/API/controllers/races/";
+        super();
+        this.api += "type=race";
     }
 
     async GetAll() : Promise<Race[]> {
         let liste = [];
-        let apiurl = this.api + "getAll.php";
+        let apiurl = this.api + "&action=get-all";
         let response = await fetch(apiurl);
     
             if (response.status === 200) {
@@ -34,7 +34,7 @@ class RaceDAO{
 
     async GetById(id)  : Promise<Race> {
         let race = new Race();
-        let apiurl = this.api + "getById.php?id="+id;
+        let apiurl = this.api + "&action=get-by-id&id="+id;
         let response = await fetch(apiurl);
     
         if (response.status === 200) {
