@@ -11,11 +11,14 @@ require_once("Route/RouteUpdateFaction.php");
 
 require_once("Route/RouteGetAllRaces.php");
 require_once("Route/RouteGetRaceById.php");
+require_once("Route/RouteGetAllPeuplesByRace.php");
+require_once("Route/RouteGetMainRace.php");
 require_once("Route/RouteAddRace.php");
 require_once("Route/RouteUpdateRace.php");
 
 require_once("Route/RouteGetAllRelations.php");
-require_once("Route/RouteGetRelationById.php");
+require_once("Route/RouteGetTypesRelations.php");
+require_once("Route/RouteGetRelationsByPersonnages.php");
 require_once("Route/RouteAddRelation.php");
 require_once("Route/RouteUpdateRelation.php");
 
@@ -69,13 +72,16 @@ class Router {
             "get-by-id" => new RouteGetRaceById($this->ctrlList["race"]),
             "add" => new RouteAddRace($this->ctrlList["race"]),
             "update" => new RouteUpdateRace($this->ctrlList["race"]),
+            "get-peuples" => new  RouteGetAllPeuplesByRace($this->ctrlList["race"]),
+            "get-main-races" => new  RouteGetMainRace($this->ctrlList["race"])
         ];
 
         $this->routeList["relation"] =  [
             "get-all" => new RouteGetAllRelations($this->ctrlList["relation"]),
-            "get-by-id" => new RouteGetRelationsBylPersonnages($this->ctrlList["relation"]),
+            "get-by-id" => new RouteGetRelationsByPersonnages($this->ctrlList["relation"]),
             "add" => new RouteAddRelation($this->ctrlList["relation"]),
             "update" => new RouteUpdateRelation($this->ctrlList["relation"]),
+            "get-all-types" => new RouteGetTypesRelations($this->ctrlList["relation"]),
         ];
     }
 
