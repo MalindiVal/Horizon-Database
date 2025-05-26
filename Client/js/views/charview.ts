@@ -1,11 +1,11 @@
-class CharView implements Observer{
+class CharView{
 
     private perso : Personnage;
-    private ctrl : PersonnageController;
-    private racectrl : RaceController;
-    private relationctrl : RelationController;
-
-    private rdao : RelationDAO;
+    
+    private personnagedao : PersonnageDAO;
+    private racedao : RaceDAO;
+    private relationdao : RelationDAO;
+    
     private title : HTMLTitleElement;
     private race : HTMLParagraphElement;
     private bio : HTMLParagraphElement;
@@ -18,14 +18,9 @@ class CharView implements Observer{
     constructor(ctrl : PersonnageController,racectrl : RaceController, relationctrl : RelationController){
        
         
-        this.ctrl = ctrl;
-        this.ctrl.register(this)
-        this.racectrl = racectrl;
-        this.racectrl.register(this);
-        this.relationctrl = relationctrl;
-        this.relationctrl.register(this);
-        
-        this.rdao = new RelationDAO();
+        this.personnagedao = new PersonnageDAO();
+        this.relationdao = new RelationDAO();
+        this.racedao = new RaceDAO();
         this.title = document.getElementById("character-name") as HTMLTitleElement;
         this.race = document.getElementById("character-race") as HTMLParagraphElement;
         this.bio = document.getElementById("character-background") as HTMLParagraphElement;
@@ -36,28 +31,13 @@ class CharView implements Observer{
         this.DisplayCharacter();
     }
 
-    AjoutRelation(r: Relation): void {
-       
-        let li = document.createElement("li");
-        li.innerHTML = r.Titre + " de ";
-        let a = document.createElement("a");
-        a.href = "personnage.html?id="+r.Id;
-        a.innerHTML += r.Cible;
-        li.appendChild(a);
-        this.relationul.appendChild(li);
-        
-    }
-    AjoutRace(r: Race): void {
-        let arace = document.createElement("a");
-        arace.href = "race.html?id="+this.perso.IdRace;
-        arace.innerHTML = r.Nom;
-        this.race.appendChild(arace)
-    }
+    async DisplayCharacter() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        this.relationdiv.innerHTML = "";
+        this.relationul = document.createElement("ul");
 
-    Notify(msg: string): void {
-        throw new Error("Method not implemented.");
-    }
-    AjoutPerso(p: Personnage): void {
+        let p = await this.personnagedao.GetById(Number(id));
         this.perso = p;
         this.editbutton.href += "?id="+this.perso.Id;
         document.title = this.perso.Nom + "- Project Horizon";
@@ -65,23 +45,24 @@ class CharView implements Observer{
         this.bio.innerHTML = this.perso.Bio;
         this.desc.innerHTML = this.perso.Description;
         this.tag.innerHTML = this.perso.Tagline;
-    }
-    AjoutFaction(f: Faction): void {
-        throw new Error("Method not implemented.");
-    }
-    Error(msg: string): void {
-        throw new Error("Method not implemented.");
-    }
 
-    async DisplayCharacter() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
-        this.relationdiv.innerHTML = "";
-        this.relationul = document.createElement("ul");
-
-        let p = await this.ctrl.GetById(Number(id));
-        await this.racectrl.GetById(Number(p.IdRace))
-        await this.relationctrl.GetByPersonnage(Number(id))
+        let race = await this.racedao.GetById(Number(p.IdRace))
+        let arace = document.createElement("a");
+        arace.href = "race.html?id="+this.perso.IdRace;
+        arace.innerHTML = race.Nom;
+        this.race.appendChild(arace)
+        
+        let relations = await this.relationdao.GetByCharacters(Number(id));
+        relations.forEach(r => {
+            let li = document.createElement("li");
+            li.innerHTML = r.Titre + " de ";
+            let a = document.createElement("a");
+            a.href = "personnage.html?id="+r.Id;
+            a.innerHTML += r.Cible;
+            li.appendChild(a);
+            this.relationul.appendChild(li);
+        });
+        
 
         this.relationdiv.appendChild(this.relationul);
 

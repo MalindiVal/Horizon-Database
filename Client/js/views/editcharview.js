@@ -34,29 +34,9 @@ class EditCharView {
         this.init();
     }
     Notify(msg) {
-        throw new Error("Method not implemented.");
     }
     AjoutPerso(p) {
-        this.perso = p;
-        this.exist = true;
-        this.title.innerHTML = "Edit";
-        document.title = "Modification de " + this.perso.Nom + " - Project Horizon";
-        this.nameinput.value = this.perso.Nom;
-        this.descinput.value = this.perso.Description;
-        for (let i = 0; i < this.genderinput.options.length; i++) {
-            if (this.genderinput.options[i].value.toUpperCase() == this.perso.Gender) {
-                this.genderinput.options.selectedIndex = i;
-                break;
-            }
-        }
-        for (let i = 0; i < this.raceinput.options.length; i++) {
-            if (this.raceinput.options[i].value == String(this.perso.IdRace)) {
-                this.raceinput.options.selectedIndex = i;
-                break;
-            }
-        }
-        this.taginput.value = this.perso.Tagline;
-        this.bioinput.value = this.perso.Bio;
+        window.location.href = "personnage.html?id=" + p.Id;
     }
     AjoutFaction(f) {
         throw new Error("Method not implemented.");
@@ -70,28 +50,55 @@ class EditCharView {
         }
     }
     AjoutRelation(r) {
-        this.addRelationInput(r);
     }
     Error(msg) {
-        if (!this.perso) {
-            this.perso = new Personnage();
-            this.exist = false;
-        }
-        else {
-            alert(msg);
-        }
+        alert(msg);
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
-            let races = yield this.racectrl.List();
+            let racedao = new RaceDAO();
+            let races = yield racedao.GetAll();
+            races.forEach(r => {
+                if (this.exist == false) {
+                    let option = document.createElement("option");
+                    option.innerHTML = r.Nom;
+                    option.value = r.Id.toString();
+                    this.raceinput.appendChild(option);
+                }
+            });
             const urlParams = new URLSearchParams(window.location.search);
             let id = Number(urlParams.get('id'));
-            this.perso = yield this.ctrl.GetById(id);
             let chardao = new PersonnageDAO();
+            let p = yield chardao.GetById(id);
+            if (p) {
+                this.perso = p;
+                this.exist = true;
+                this.title.innerHTML = "Edit";
+                document.title = "Modification de " + this.perso.Nom + " - Project Horizon";
+                this.nameinput.value = this.perso.Nom;
+                this.descinput.value = this.perso.Description;
+                for (let i = 0; i < this.genderinput.options.length; i++) {
+                    if (this.genderinput.options[i].value.toUpperCase() == this.perso.Gender) {
+                        this.genderinput.options.selectedIndex = i;
+                        break;
+                    }
+                }
+                for (let i = 0; i < this.raceinput.options.length; i++) {
+                    if (this.raceinput.options[i].value == String(this.perso.IdRace)) {
+                        this.raceinput.options.selectedIndex = i;
+                        break;
+                    }
+                }
+                this.taginput.value = this.perso.Tagline;
+                this.bioinput.value = this.perso.Bio;
+            }
             this.listcible = yield chardao.GetAll();
             let relatiodao = new RelationDAO();
             this.listtype = yield relatiodao.GetAllTypes();
-            let list = yield this.relationctrl.GetByPersonnage(this.perso.Id);
+            let list = yield relatiodao.GetByCharacters(this.perso.Id);
+            list.forEach(r => {
+                this.addRelationInput(r);
+            });
         });
     }
     addRelationInput(r = null) {

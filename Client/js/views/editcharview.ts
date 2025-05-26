@@ -46,10 +46,49 @@ class EditCharView implements Observer{
     }
 
     Notify(msg: string): void {
-        throw new Error("Method not implemented.");
+
     }
     AjoutPerso(p: Personnage): void {
+        window.location.href = "personnage.html?id="+p.Id;
+    }
+    AjoutFaction(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRace(r: Race): void {
+        if (this.exist == false)
+        {
+            let option = document.createElement("option");
+            option.innerHTML = r.Nom;
+            option.value = r.Id.toString();
+            this.raceinput.appendChild(option);
+        }
+    }
+    AjoutRelation(r: Relation): void {
+        
+    }
+    Error(msg: string): void {
+        alert(msg);     
+        
+    }
 
+    private async init(){
+        let racedao = new RaceDAO();
+        let races = await racedao.GetAll();
+        races.forEach(r => {
+            if (this.exist == false)
+            {
+                let option = document.createElement("option");
+                option.innerHTML = r.Nom;
+                option.value = r.Id.toString();
+                this.raceinput.appendChild(option);
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let id = Number(urlParams.get('id'));
+        let chardao = new PersonnageDAO();
+        let p = await chardao.GetById(id);
+        if(p){
             this.perso = p;
             this.exist = true;
             this.title.innerHTML = "Edit";
@@ -72,45 +111,14 @@ class EditCharView implements Observer{
             }
             this.taginput.value = this.perso.Tagline;
             this.bioinput.value = this.perso.Bio;
-
-    }
-    AjoutFaction(f: Faction): void {
-        throw new Error("Method not implemented.");
-    }
-    AjoutRace(r: Race): void {
-        if (this.exist == false)
-        {
-            let option = document.createElement("option");
-            option.innerHTML = r.Nom;
-            option.value = r.Id.toString();
-            this.raceinput.appendChild(option);
         }
-    }
-    AjoutRelation(r: Relation): void {
-        this.addRelationInput(r)
-    }
-    Error(msg: string): void {
-        if (!this.perso){
-            this.perso = new Personnage();
-            this.exist = false;
-        } else {
-            alert(msg);
-        }
-        
-    }
-
-    private async init(){
-        let races = await this.racectrl.List();
-
-        const urlParams = new URLSearchParams(window.location.search);
-        let id = Number(urlParams.get('id'));
-        this.perso = await this.ctrl.GetById(id);
-        let chardao = new PersonnageDAO();
         this.listcible = await chardao.GetAll();
         let relatiodao = new RelationDAO();
         this.listtype = await relatiodao.GetAllTypes();
-        let list = await this.relationctrl.GetByPersonnage(this.perso.Id);
-        
+        let list = await relatiodao.GetByCharacters(this.perso.Id);
+        list.forEach(r => {
+            this.addRelationInput(r)
+        });
         
 
     }

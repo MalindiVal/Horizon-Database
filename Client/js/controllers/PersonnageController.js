@@ -60,6 +60,7 @@ class PersonnageController extends Observable {
             let res = false;
             try {
                 yield this.dao.Update(char);
+                this.NotifyAjoutPerso(char);
             }
             catch (error) {
                 this.NotifyError("Erreur lors de la mise à jour");
