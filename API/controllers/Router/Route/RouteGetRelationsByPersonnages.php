@@ -11,7 +11,7 @@ class RouteGetRelationsByPersonnages extends Route {
     }
 
     public function get($params = []) {
-        $this->controller->getAllTypes($params["id"]);
+        $this->controller->getByPersonnage($params["id"]);
     }
 
     public function post($params = []) {

@@ -11,7 +11,7 @@ class RelationController{
         echo json_encode($this->manager->getAll());
     }
 
-    public function getAllTypes(int $id){
+    public function getAllTypes(){
         echo json_encode($this->manager->getAllTypes());
     }
 

@@ -15,7 +15,7 @@ class PersonnageManager extends Model{
     }
 
     public function getByID(int $id) {
-        $sql = 'SELECT id, nom , gender , id_race, bio, tagline, description FROM personnages WHERE id = ?'; 
+        $sql = 'SELECT p.id, p.nom , p.gender , p.id_race, p.bio, p.tagline, p.description, r.nom as race FROM personnages p JOIN Races r ON p.id_race = r.id   WHERE p.id = ?'; 
         $result = $this->execRequest($sql, [$id]);
 
         $row = $result->fetch();
