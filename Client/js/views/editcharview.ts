@@ -140,7 +140,7 @@ class EditCharView implements Observer{
             option.value = element.Id.toString();
             option.innerText = element.Nom;
             cible.appendChild(option);
-            if (r && option.value == r.Id.toString()){
+            if (r && Number(option.value) == r.Id){
                 cible.selectedIndex = j;
             }
             j += 1;
@@ -157,11 +157,18 @@ class EditCharView implements Observer{
         type.name = "relation_type" + i;;
         type.id = "relation_type" + i;
         div2.appendChild(typelabel);
+        
+        j = 0;
         this.listtype.forEach((element) => {
             let option = document.createElement("option") as HTMLOptionElement;
             option.value = element.Id.toString();
             option.innerText = element.Titre;
             type.appendChild(option);
+            if (r && Number(option.value) == r.IdType){
+                type.selectedIndex = j;
+            }
+            j += 1;
+            
         });
 
         div2.appendChild(type);
@@ -176,9 +183,6 @@ class EditCharView implements Observer{
         name_relation.name = "name_relation" + i;;
         name_relation.id = "name_relation" + i;
         div3.appendChild(name_relationlabel);
-        if (r){
-            name_relation.value = r.Titre
-        }
         div3.appendChild(name_relation);
         setting.appendChild(div3);
 
@@ -190,9 +194,6 @@ class EditCharView implements Observer{
         desc_relation.name = "desc_relation" + i;;
         desc_relation.id = "desc_relation" + i;
         div4.appendChild(desc_relationlabel);
-        if (r){
-           desc_relation.value = r.Description
-        }
         div4.appendChild(desc_relation);
         setting.appendChild(div4);
 

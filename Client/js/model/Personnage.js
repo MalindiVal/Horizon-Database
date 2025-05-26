@@ -17,6 +17,9 @@ class Personnage {
     get IdRace() {
         return this.id_race;
     }
+    get Race() {
+        return this.race;
+    }
     get Description() {
         return this.description;
     }
@@ -59,6 +62,9 @@ class Personnage {
         }
         if (data["id_race"]) {
             this.IdRace = data["id_race"];
+        }
+        if (data["race"]) {
+            this.race = data["race"];
         }
         if (data["description"]) {
             this.Description = data["description"];

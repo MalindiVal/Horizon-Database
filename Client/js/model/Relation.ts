@@ -2,6 +2,7 @@ class Relation{
     private id : number;
     private titre : string;
     private description : string;
+    private id_type : number;
     private cible : string;
 
     public get Id(){
@@ -20,6 +21,10 @@ class Relation{
         return this.cible;
     }
 
+    public get IdType(){
+        return this.id_type;
+    }
+
     public hydrate(data){
         if(data["id_p2"]){
             this.id = data["id_p2"];
@@ -35,6 +40,10 @@ class Relation{
 
         if(data["cible"]){
             this.cible = data["cible"];
+        }
+
+        if(data["id_type"]){
+            this.id_type = data["id_type"];
         }
     }
 }

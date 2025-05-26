@@ -24,8 +24,7 @@ class RaceDAO extends DAO {
                     data.forEach((row) => {
                         // Hydratation
                         let race = new Race();
-                        race.Id = row.Id;
-                        race.Nom = row.nom;
+                        race.hydrate(row);
                         liste.push(race); // Correction ici
                     });
                 }
@@ -48,8 +47,7 @@ class RaceDAO extends DAO {
                 // Extraction des données JSON
                 let data = yield response.json();
                 if (data) {
-                    race.Id = data.Id;
-                    race.Nom = data.nom;
+                    race.hydrate(data);
                 }
                 else {
                     throw new Error(`HTTP Error! Status: ${response.status}`);

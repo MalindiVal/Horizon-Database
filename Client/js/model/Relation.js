@@ -11,6 +11,9 @@ class Relation {
     get Cible() {
         return this.cible;
     }
+    get IdType() {
+        return this.id_type;
+    }
     hydrate(data) {
         if (data["id_p2"]) {
             this.id = data["id_p2"];
@@ -23,6 +26,9 @@ class Relation {
         }
         if (data["cible"]) {
             this.cible = data["cible"];
+        }
+        if (data["id_type"]) {
+            this.id_type = data["id_type"];
         }
     }
 }

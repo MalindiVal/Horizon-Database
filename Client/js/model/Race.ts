@@ -2,18 +2,28 @@ class Race{
 
     private id : number;
     private nom : string;
-    private bio : string;
+    private description : string;
+    private culture : string;
+    private apparence : string;
 
     public get Nom() : string{
         return this.nom;
     }
 
-    public get Bio() : string{
-        return this.bio;
+    public get Description() : string{
+        return this.description;
     }
 
     public get Id() : number{
         return this.id;
+    }
+
+    public get Culture() : string{
+        return this.culture;
+    }
+
+    public get Apparence() : string{
+        return this.apparence;
     }
 
     public set Id(id : number){
@@ -24,20 +34,37 @@ class Race{
         this.nom = nom;
     }
 
-    public set Bio(bio : string){
-        this.bio = bio;
+    public set Description(description : string){
+        this.description = description;
+    }
+
+    public set Culture(culture : string){
+        this.culture = culture;
+    }
+
+    public set Apparence(apparence : string){
+        this.apparence = apparence;
     }
 
     public hydrate(data){
-        if(data["id_race"]){
-            this.id = data["id_race"];
-            if(data["race"]){
-                this.nom = data["race"];
-            }
+        if(data["Id"]){
+            this.id = data["Id"];
+        }
 
-            if(data["bio"]){
-                this.nom = data["bio"];
-            }
+        if(data["nom"]){
+            this.nom = data["nom"];
+        }
+
+        if(data["description"]){
+            this.description = data["description"];
+        }
+
+        if(data["culture"]){
+            this.culture = data["culture"];
+        }
+
+        if(data["apparence"]){
+            this.apparence = data["apparence"];
         }
 
         

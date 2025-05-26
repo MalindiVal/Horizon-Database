@@ -2,11 +2,17 @@ class Race {
     get Nom() {
         return this.nom;
     }
-    get Bio() {
-        return this.bio;
+    get Description() {
+        return this.description;
     }
     get Id() {
         return this.id;
+    }
+    get Culture() {
+        return this.culture;
+    }
+    get Apparence() {
+        return this.apparence;
     }
     set Id(id) {
         this.id = id;
@@ -14,18 +20,30 @@ class Race {
     set Nom(nom) {
         this.nom = nom;
     }
-    set Bio(bio) {
-        this.bio = bio;
+    set Description(description) {
+        this.description = description;
+    }
+    set Culture(culture) {
+        this.culture = culture;
+    }
+    set Apparence(apparence) {
+        this.apparence = apparence;
     }
     hydrate(data) {
-        if (data["id_race"]) {
-            this.id = data["id_race"];
-            if (data["race"]) {
-                this.nom = data["race"];
-            }
-            if (data["bio"]) {
-                this.nom = data["bio"];
-            }
+        if (data["Id"]) {
+            this.id = data["Id"];
+        }
+        if (data["nom"]) {
+            this.nom = data["nom"];
+        }
+        if (data["description"]) {
+            this.description = data["description"];
+        }
+        if (data["culture"]) {
+            this.culture = data["culture"];
+        }
+        if (data["apparence"]) {
+            this.apparence = data["apparence"];
         }
     }
 }
