@@ -27,8 +27,24 @@ class RelationManager extends Model{
     }
 
     public function getByCharacters(int $id) {
-        $sql = 'SELECT r.titre,r.description,p.nom as cible , r.type as id_type ,r.id_p2 FROM relations r JOIN personnages p ON r.id_p2 = p.id WHERE id_p1 = ?';  // Remplacez par le nom de votre table Pokemon
-        $result = $this->execRequest($sql, [$id]);
+        $sql = 'SELECT 
+            r.titre,
+            r.description,
+            CASE
+                WHEN r.id_p1 = :id THEN p2.nom
+                ELSE p1.nom
+            END as cible,
+            r.type as id_type,
+            t.type,
+            r.id_p2,
+            r.id_p1
+        FROM relations r
+        JOIN personnages p1 ON r.id_p1 = p1.id
+        JOIN personnages p2 ON r.id_p2 = p2.id
+        JOIN relationtypes t ON t.id = r.type
+        WHERE r.id_p1 = :id OR r.id_p2 = :id
+        ';
+        $result = $this->execRequest($sql, ["id" => $id]);
 
         $typeList = [];
         foreach ($result as $row) {
