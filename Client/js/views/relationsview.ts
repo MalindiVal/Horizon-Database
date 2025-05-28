@@ -50,44 +50,46 @@ class RelationsView {
 
     // Example of your drawMindMap with hover area recording:
     drawMindMap(relations: Relation[]) {
-        let ctx = this.canvas.getContext("2d");
-        this.canvas.width = 1000;
-        this.canvas.height = 600;
-
+        const ctx = this.canvas.getContext("2d");
+        this.canvas.width = window.innerWidth * 0.9;
+        this.canvas.height = window.innerHeight * 0.8; 
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        let positions = {};
-        let x = 100;
-        let y = 100;
-        let spacingX = 400;
-        let spacingY = 80;
+        let centerX = this.canvas.width / 2;
+        let centerY = this.canvas.height / 2;
+        const radius = this.canvas.width/2 - 25 ;
+        if (radius*2 + 15> this.canvas.height){
+            this.canvas.height = radius*2 + 15
+            centerX = this.canvas.width / 2;
+            centerY = this.canvas.height / 2;
+        }
 
-        let leftNodes = new Set<number>();
-        let rightNodes = new Set<number>();
+        const uniqueIds = new Set<number>();
+        relations.forEach(r => {
+            uniqueIds.add(r.Id_P1);
+            uniqueIds.add(r.Id_P2);
+        });
 
+        const ids = Array.from(uniqueIds);
+        const total = ids.length;
+        const angleStep = (2 * Math.PI) / total;
+
+        const positions: { [key: number]: { x: number, y: number } } = {};
+
+        // 1. Place characters in a circle
+        ids.forEach((id, index) => {
+            const angle = index * angleStep;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+            positions[id] = { x, y };
+        });
+
+        this.hoverAreas = [];
+
+        // 2. Draw relationships (edges)
         relations.forEach(rel => {
-            leftNodes.add(rel.Id_P1);
-            rightNodes.add(rel.Id_P2);
-        });
-
-        let currentYLeft = y;
-        leftNodes.forEach(id => {
-            positions[id] = { x: x, y: currentYLeft };
-            currentYLeft += spacingY;
-        });
-
-        let currentYRight = y;
-        rightNodes.forEach(id => {
-            positions[id] = { x: x + spacingX, y: currentYRight };
-            currentYRight += spacingY;
-        });
-
-        this.hoverAreas = []; // reset hover areas
-
-        // Draw lines and save hover areas
-        relations.forEach(rel => {
-            let pos1 = positions[rel.Id_P1];
-            let pos2 = positions[rel.Id_P2];
+            const pos1 = positions[rel.Id_P1];
+            const pos2 = positions[rel.Id_P2];
 
             ctx.beginPath();
             ctx.moveTo(pos1.x, pos1.y);
@@ -95,7 +97,6 @@ class RelationsView {
             ctx.strokeStyle = "#444";
             ctx.stroke();
 
-            // Store line hover area
             this.hoverAreas.push({
                 type: "line",
                 rel,
@@ -103,12 +104,11 @@ class RelationsView {
                 to: pos2,
             });
 
-            // Draw and store text hover area
-            let midX = (pos1.x + pos2.x) / 2;
-            let midY = (pos1.y + pos2.y) / 2;
-
+            const midX = (pos1.x + pos2.x) / 2;
+            const midY = (pos1.y + pos2.y) / 2;
             ctx.fillStyle = "#000";
             ctx.font = "12px sans-serif";
+            ctx.textAlign = "center";
             ctx.fillText(rel.Titre, midX, midY - 5);
 
             let textWidth = ctx.measureText(rel.Titre).width;
@@ -128,9 +128,9 @@ class RelationsView {
             });
         });
 
-        // Draw nodes
-        for (let id in positions) {
-            let pos = positions[id];
+        // 3. Draw nodes (badges)
+        ids.forEach(id => {
+            const pos = positions[id];
             ctx.beginPath();
             ctx.arc(pos.x, pos.y, 25, 0, 2 * Math.PI);
             ctx.fillStyle = "#88c";
@@ -139,9 +139,12 @@ class RelationsView {
             ctx.fillStyle = "#fff";
             ctx.font = "bold 12px sans-serif";
             ctx.textAlign = "center";
-            ctx.fillText(this.personnage[id], pos.x, pos.y + 4);
-        }
+            const name = this.personnage[id] || "P" + id;
+            ctx.fillText(name, pos.x, pos.y + 4);
+        });
     }
+
+
 
     private onMouseMove(event: MouseEvent) {
         const rect = this.canvas.getBoundingClientRect();
@@ -159,7 +162,8 @@ class RelationsView {
                     mouseY >= area.bbox.y &&
                     mouseY <= area.bbox.y + area.bbox.height
                 ) {
-                    this.showTooltip(event.clientX, event.clientY, area.rel.Description || "No description");
+                    this.showTooltip(event.pageX, event.pageY, area.rel.Description || "No description");
+
                     foundHover = true;
                     break;
                 }
@@ -181,10 +185,16 @@ class RelationsView {
 
     private showTooltip(x: number, y: number, text: string) {
         this.tooltipDiv.textContent = text;
-        this.tooltipDiv.style.left = x + 10 + "px";
-        this.tooltipDiv.style.top = y + 10 + "px";
+
+        // Adjust for scroll position
+        const scrollX = window.scrollX;
+        const scrollY = window.scrollY;
+
+        this.tooltipDiv.style.left = scrollX + x + 10 + "px";
+        this.tooltipDiv.style.top = scrollY + y + 10 + "px";
         this.tooltipDiv.style.visibility = "visible";
     }
+
 
     private pointLineDistance(px: number, py: number, start: { x: number; y: number }, end: { x: number; y: number }): number {
         // Calculate perpendicular distance from point (px,py) to line segment (start,end)

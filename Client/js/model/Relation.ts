@@ -44,6 +44,27 @@ class Relation {
         return this.id_type;
     }
 
+     public set Id_P1(id : number) {
+        this.id_p1 = id;
+    }
+
+    public set Id_P2(id : number){
+        this.id_p2 = id;
+    }
+
+    public set Titre(title : string) {
+        this.titre = title;
+    }
+
+    public set Description(desc : string) {
+        this.description = desc;
+    }
+
+
+    public set IdType(id : number) {
+        this.id_type = id;
+    }
+
     public hydrate(data: any): void {
         
         if (data["id"] !== undefined) {
