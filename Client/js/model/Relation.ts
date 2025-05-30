@@ -37,7 +37,7 @@ class Relation {
     }
 
     public get Type(): string {
-        return this.Type;
+        return this.type;
     }
 
     public get IdType(): number {
