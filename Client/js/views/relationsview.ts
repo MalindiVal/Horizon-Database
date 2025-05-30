@@ -171,8 +171,8 @@ class RelationsView {
                 // Check if mouse is close to the line (distance <= threshold)
                 const dist = this.pointLineDistance(mouseX, mouseY, area.from, area.to);
                 if (dist < 5) { // 5 pixels tolerance
-                    this.showTooltip(event.clientX, event.clientY, area.rel.Description || "No description");
-                    foundHover = true;
+                    this.showTooltip(event.clientX,event.clientY,`${area.rel?.Titre || "Titre inconnu"}<br>Type de relation : ${area.rel?.Type || "Type inconnu"}<br>${area.rel?.Description || "Pas de description"}`);
+foundHover = true;
                     break;
                 }
             }
@@ -184,7 +184,7 @@ class RelationsView {
     }
 
     private showTooltip(x: number, y: number, text: string) {
-        this.tooltipDiv.textContent = text;
+        this.tooltipDiv.innerHTML = text;
 
         // Adjust for scroll position
         const scrollX = window.scrollX;
