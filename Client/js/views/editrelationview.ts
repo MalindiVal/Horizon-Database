@@ -34,7 +34,7 @@ class EditRelationView implements Observer{
 
     }
     AjoutPerso(p: Personnage): void {
-        window.location.href = "personnage.html?id="+p.Id;
+        
     }
     AjoutFaction(f: Faction): void {
         throw new Error("Method not implemented.");
@@ -43,7 +43,8 @@ class EditRelationView implements Observer{
         
     }
     AjoutRelation(r: Relation): void {
-        
+        alert("Creation de la relation réussi");
+        window.location.href = "relations.html";
     }
     Error(msg: string): void {
         alert(msg);     
