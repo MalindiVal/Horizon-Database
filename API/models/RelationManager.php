@@ -3,7 +3,13 @@ require_once("Model.php");
 require_once("Relation.php");
 class RelationManager extends Model{
     public function getAll() {
-        $sql = "SELECT * FROM relations";
+        $sql = "SELECT r.id,
+            r.titre,
+            r.description,
+            r.type as id_type,
+            t.type,
+            r.id_p2,
+            r.id_p1 FROM relations r JOIN relationtypes t ON t.id = r.type";
         $result = $this->execRequest($sql, []);
 
         $typeList = [];
@@ -24,6 +30,24 @@ class RelationManager extends Model{
         }
 
         return $typeList;
+    }
+
+    public function getById(int $id) {
+        $sql = 'SELECT 
+            r.id,
+            r.titre,
+            r.description,
+            r.type as id_type,
+            r.id_p2,
+            r.id_p1 FROM relations r WHERE r.id = :id';
+        $result = $this->execRequest($sql, ["id" => $id]);
+
+        $typeList = [];
+        foreach ($result as $row) {
+            $typeList[] = $row;
+        }
+
+        return $typeList[0];
     }
 
     public function getByCharacters(int $id) {
