@@ -1,26 +1,30 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Welcome to My Fantasy World. Explore the lore, characters, and factions of a unique and magical universe.">
-    <title>Project Horizon</title>
+    <meta name="description" content="Explore the characters of My Fantasy World. Learn about their backgrounds, powers, and relationships.">
+    <title>Editer Faction - Project Horizon</title>
     <link href="public/css/bootstrap.css" rel="stylesheet" >
     <link rel="stylesheet" href="public/css/fanta.css">
+
     <link rel="stylesheet" href="public/css/main.css">
-    <script src="js/model/Race.js"></script>
-    <script src="js/model/DAO.js"></script>
-    <script src="js/model/RaceDAO.js"></script>
-
-    <!--Controller -->
-    <script src="js/controllers/Observable.js" ></script>
-    <script src="js/controllers/Observer.js" ></script>
-    <script src="js/controllers/RaceController.js" ></script>
-
-    <!-- View -->
-    <script src="js/views/racesview.js"></script>
-    <script src="js/races.js"></script>
+    <link rel="stylesheet" href="public/css/edit.css">
+    <script src="public/js/bootstrap.js" ></script>
    
+   <!-- Métier -->
+   <script src="js/model/Faction.js" ></script>
+   <script src="js/model/DAO.js" ></script>
+   <script src="js/model/FactionDAO.js" ></script>
+   
+   <!--Controller -->
+   <script src="js/controllers/Observable.js" ></script>
+   <script src="js/controllers/Observer.js" ></script>
+   <script src="js/controllers/FactionController.js" ></script>
+   
+   <!-- View -->
+   <script src="js/views/editfactionview.js"></script>
+   <script src="js/editfaction.js"></script>
 </head>
 <body>
     <header>
@@ -53,24 +57,36 @@
             </div>
         </nav>
     </header>
-    
-    <main class="container mt-5">
-        <h1>Races</h1>
-       
-        <div class="row" id="raceslist">
-            <!-- Faction 1 -->
-            <div class="col-md-4 mb-4">
-                
-            </div>
 
-            
+    <main class="container mt-5">
+        <h1 id="title" >Edit Faction </h1>
+        <div class="section">
+            <label for="name">Nom</label>
+            <input type="text" name="name" id="name">
         </div>
+        
+        <div class="section">
+            <label for="tag">Tagline</label>
+            <input type="text" name="tag" id="tag">
+        </div>
+        
+        <div class="section" id="biodiv">
+            <label for="bio">Bio</label>
+            <textarea name="bio" id="bio"></textarea>
+        </div>
+
+        <div class="section" >
+            <label for="desc">Description</label>
+            <textarea name="desc" id="desc"></textarea>
+        </div>
+        
+        <button id="submit">Ajouter</button>
     </main>
 
     <footer class="bg-light text-center py-3">
         <p>&copy; 2025 My Fantasy World. All rights reserved.</p>
     </footer>
+
     
-    <script src="public/js/bootstrap.js" ></script>
 </body>
 </html>

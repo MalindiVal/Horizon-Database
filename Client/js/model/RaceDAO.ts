@@ -1,13 +1,13 @@
-class RaceDAO{
+class RaceDAO extends DAO{
     
-    private api : string;
     constructor(){
-        this.api = "http://localhost:80/horizon/API/controllers/races/";
+        super();
+        this.api += "type=race";
     }
 
     async GetAll() : Promise<Race[]> {
         let liste = [];
-        let apiurl = this.api + "getAll.php";
+        let apiurl = this.api + "&action=get-all";
         let response = await fetch(apiurl);
     
             if (response.status === 200) {
@@ -17,8 +17,7 @@ class RaceDAO{
                     data.forEach((row) => {
                         // Hydratation
                         let race = new Race();
-                        race.Id = row.Id;
-                        race.Nom = row.nom;
+                        race.hydrate(row);
                         liste.push(race);  // Correction ici
                     });
                 }else {
@@ -34,15 +33,14 @@ class RaceDAO{
 
     async GetById(id)  : Promise<Race> {
         let race = new Race();
-        let apiurl = this.api + "getById.php?id="+id;
+        let apiurl = this.api + "&action=get-by-id&id="+id;
         let response = await fetch(apiurl);
     
         if (response.status === 200) {
             // Extraction des données JSON
             let data = await response.json();
             if (data){
-                race.Id = data.Id;
-                race.Nom = data.nom;
+                race.hydrate(data);
             } else {
                 throw new Error(`HTTP Error! Status: ${response.status}`);
             }

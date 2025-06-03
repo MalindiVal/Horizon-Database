@@ -1,14 +1,14 @@
-class FactionDAO{
+class FactionDAO extends DAO{
     
-    private api : string;
     constructor(){
-        this.api = "http://localhost:80/horizon/API/controllers/factions/";
+        super();
+        this.api += "type=faction";
     }
 
     async GetAll() {
         
         let liste = [];
-        let apiurl = this.api + "getAll.php";
+        let apiurl = this.api + "&action=get-all";
         let response = await fetch(apiurl);
     
         if (response.status === 200) {
@@ -34,7 +34,7 @@ class FactionDAO{
     async GetById(id) {
         let faction = new Faction();
         let liste = [];
-        let apiurl = this.api + "getById.php?id="+id;
+        let apiurl = this.api + "&action=get-by-id&id="+id;
         let response = await fetch(apiurl);
         
     

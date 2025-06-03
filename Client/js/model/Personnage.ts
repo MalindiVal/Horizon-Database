@@ -6,6 +6,7 @@ class Personnage{
     private gender : string;
     private tagline : string;
     private description : string;
+    private race : string;
     private id_race : number;
 
     public get Id(){
@@ -30,6 +31,10 @@ class Personnage{
 
     public get IdRace(){
         return this.id_race;
+    }
+
+    public get Race(){
+        return this.race;
     }
 
     public get Description(){
@@ -88,6 +93,10 @@ class Personnage{
 
         if(data["id_race"]){
             this.IdRace = data["id_race"];
+        }
+
+        if(data["race"]){
+            this.race = data["race"];
         }
 
         if(data["description"]){

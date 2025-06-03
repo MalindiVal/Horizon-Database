@@ -1,13 +1,13 @@
-class PersonnageDAO{
+class PersonnageDAO extends DAO{
     
-    private api : string;
     constructor(){
-        this.api = "http://localhost:80/horizon/API/controllers/characters/";
+        super();
+        this.api += "type=personnage";
     }
 
     async GetAll() : Promise<Personnage[]> {
         let liste = [];
-        let apiurl = this.api + "getAll.php";
+        let apiurl = this.api + "&action=get-all";
         let response = await fetch(apiurl);
     
         if (response.status === 200) {
@@ -31,7 +31,7 @@ class PersonnageDAO{
 
     async GetById(id) : Promise<Personnage>{
         let char = new Personnage();
-        let apiurl = this.api + "getById.php?id="+id;
+        let apiurl = this.api + "&action=get-by-id&id="+id;
         let response = await fetch(apiurl);
     
         if (response.status === 200) {
@@ -51,7 +51,7 @@ class PersonnageDAO{
 
     async Add(char : Personnage) {
         let res = false
-        let apiurl = this.api + "Add.php";
+        let apiurl = this.api + "&action=add";
         let response = await fetch(apiurl,{
             method : "POST",
             headers: {
@@ -70,7 +70,7 @@ class PersonnageDAO{
     }
 
     async Update(char : Personnage) {
-        let apiurl = this.api + "Update.php";
+        let apiurl = this.api + "&action=update";
         let response = await fetch(apiurl,{
             method : "POST",
             headers: {

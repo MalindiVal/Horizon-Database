@@ -76,6 +76,10 @@ class Relation{
             $this->setId_P2($data["id_p2"]);
         }
 
+        if(isset($data["id_type"])){
+            $this->setId_Type($data["id_type"]);
+        }
+
         if(isset($data["description"])){
             $this->setDescription($data["description"]);
         }

@@ -30,7 +30,7 @@ class RaceView implements Observer{
         this.race = r;
         document.title = this.race.Nom + "- Project Horizon";
         this.title.innerHTML = this.race.Nom;
-        this.bio.innerHTML = this.race.Bio;
+        this.bio.innerHTML = this.race.Description;
     }
     Error(msg: string): void {
        

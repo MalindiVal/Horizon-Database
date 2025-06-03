@@ -10,7 +10,14 @@
     <link rel="stylesheet" href="public/css/fanta.css">
 
     <script src="js/model/Faction.js" ></script>
+    <script src="js/model/DAO.js" ></script>
     <script src="js/model/FactionDAO.js" ></script>
+
+    <!--Controller -->
+    <script src="js/controllers/Observable.js" ></script>
+    <script src="js/controllers/Observer.js" ></script>
+    <script src="js/controllers/FactionController.js" ></script>
+
     <script src="js/views/factionview.js" ></script>
     <script src="js/faction.js" ></script>
 </head>
@@ -47,6 +54,7 @@
     </header>
 
     <main class="container mt-5">
+        <a href="editfaction.html" id="editbutton">Editer</a>
         <div>
             <h1 id="faction-name">Faction Name</h1>
             <img src="faction-image.jpg" alt="Faction Image" class="faction-emblem">
