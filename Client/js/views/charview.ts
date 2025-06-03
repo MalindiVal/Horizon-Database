@@ -57,9 +57,17 @@ class CharView{
             let li = document.createElement("li");
             li.innerHTML = r.Titre + " de ";
             let a = document.createElement("a");
-            a.href = "personnage.html?id="+r.Id;
+            if (this.perso.Id == r.Id_P1){
+                a.href = "personnage.html?id="+r.Id_P2.toString();
+            } else {
+                a.href = "personnage.html?id="+r.Id_P1.toString();
+            }
+            
             a.innerHTML += r.Cible;
             li.appendChild(a);
+            let p = document.createElement("p");
+            p.innerHTML = " : " + r.Description;
+            li.appendChild(p);
             this.relationul.appendChild(li);
         });
         

@@ -19,6 +19,7 @@ require_once("Route/RouteUpdateRace.php");
 require_once("Route/RouteGetAllRelations.php");
 require_once("Route/RouteGetTypesRelations.php");
 require_once("Route/RouteGetRelationsByPersonnages.php");
+require_once("Route/RouteGetRelationById.php");
 require_once("Route/RouteAddRelation.php");
 require_once("Route/RouteUpdateRelation.php");
 
@@ -78,7 +79,8 @@ class Router {
 
         $this->routeList["relation"] =  [
             "get-all" => new RouteGetAllRelations($this->ctrlList["relation"]),
-            "get-by-id" => new RouteGetRelationsByPersonnages($this->ctrlList["relation"]),
+            "get-by-id-personnage" => new RouteGetRelationsByPersonnages($this->ctrlList["relation"]),
+            "get-by-id" => new RouteGetRelationById($this->ctrlList["relation"]),
             "add" => new RouteAddRelation($this->ctrlList["relation"]),
             "update" => new RouteUpdateRelation($this->ctrlList["relation"]),
             "get-all-types" => new RouteGetTypesRelations($this->ctrlList["relation"]),

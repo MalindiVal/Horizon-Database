@@ -19,7 +19,11 @@ class RelationController{
         echo json_encode($this->manager->getByCharacters($id));
     }
 
-    public function AddRelation(Relation $r){
+    public function getById(int $id){
+        echo json_encode($this->manager->getById($id));
+    }
+
+    public function Add(Relation $r){
         try {
             $res = $this->manager->AddRelation($r);
             echo json_encode($res > 0);
