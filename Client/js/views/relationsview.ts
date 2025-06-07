@@ -171,7 +171,7 @@ class RelationsView {
                 // Check if mouse is close to the line (distance <= threshold)
                 const dist = this.pointLineDistance(mouseX, mouseY, area.from, area.to);
                 if (dist < 5) { // 5 pixels tolerance
-                    this.showTooltip(event.clientX,event.clientY,`${area.rel?.Titre || "Titre inconnu"}<br>Type de relation : ${area.rel?.Type || "Type inconnu"}<br>${area.rel?.Description || "Pas de description"}`);
+                    this.showTooltip(event.clientX,event.clientY,`${this.personnage[area.rel?.Id_P1]} <--> ${this.personnage[area.rel?.Id_P2]} <br>${area.rel?.Titre || "Titre inconnu"}<br>Type de relation : ${area.rel?.Type || "Type inconnu"}<br>${area.rel?.Description || "Pas de description"}`);
 foundHover = true;
                     break;
                 }
