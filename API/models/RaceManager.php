@@ -17,42 +17,61 @@ class RaceManager extends Model{
     }
 
     public function getByID(int $id) {
-        $sql = 'SELECT * FROM races Where id = ?';  // Remplacez par le nom de votre table Pokemon
-        $result = $this->execRequest($sql, [$id]);
-        $res = [];
-        foreach ($result as $row) {
-            $race = new Race();
-            $race->hydrate($row);
-            $res[] = $row;
+        try{
+            $sql = 'SELECT * FROM races Where id = ?';  // Remplacez par le nom de votre table Pokemon
+            $result = $this->execRequest($sql, [$id]);
+            $res = [];
+            foreach ($result as $row) {
+                $race = new Race();
+                $race->hydrate($row);
+                $res[] = $row;
+                return $res[0];
+            }
+            
+            return null;
+        } catch (Exception $ex) {
+            throw $ex;
         }
-        return $res[0];
+        
     }
 
     public function getAllPeuplesByRace(int $baseid) {
-        $sql = 'SELECT r.* FROM races r JOIN peuples p ON p.id_race = r.id Where id_base = ?';  // Remplacez par le nom de votre table Pokemon
-        $result = $this->execRequest($sql, [$baseid]);
-        $row = array();
-       foreach($result as $res){
-        $race = new Race();
-        $race->hydrate($res);
-            $row[] = $res;
-        }
+        try {
+            $sql = 'SELECT r.* FROM races r JOIN peuples p ON p.id_race = r.id Where id_base = ?';  // Remplacez par le nom de votre table Pokemon
+            $result = $this->execRequest($sql, [$baseid]);
+            $row = array();
+            foreach($result as $res){
+                $race = new Race();
+                $race->hydrate($res);
+                $row[] = $res;
+            }
 
-        return $row;
+            return $row;
+        } catch (Exception $ex){
+            throw $ex;
+        }
     }
 
 
     public function getMainRace(int $id) {
-        $sql = 'SELECT r.* FROM peuples p JOIN races ON r.id = p.id_base Where p.id_race = ?';  // Remplacez par le nom de votre table Pokemon
-        $result = $this->execRequest($sql, [$id]);
-        $row = array();
-        $result = $result->fetch();
 
-            foreach($result as $res){
-                $row[] = $res;
-            }
-
-        return $row;
+        try{
+            $sql = 'SELECT r.* FROM peuples p JOIN races r ON r.id = p.id_base Where p.id_race = ?';  // Remplacez par le nom de votre table Pokemon
+            $result = $this->execRequest($sql, [$id]);
+                $res = [];
+                foreach ($result as $row) {
+                    $race = new Race();
+                    $race->hydrate($row);
+                    $res[] = $row;
+                }
+            if($res){
+                return $res[0];
+            } 
+            return $this->getByID($id);
+        } catch (Exception $ex){
+            throw $ex;
+        }
+        
     }
 
     public function UpdateRace(Race $race) : void {
