@@ -37,9 +37,9 @@ class RaceManager extends Model{
 
     public function getAllPeuplesByRace(int $baseid) {
         try {
-            $sql = 'SELECT r.* FROM races r JOIN peuples p ON p.id_race = r.id Where id_base = ?';  // Remplacez par le nom de votre table Pokemon
+            $sql = 'SELECT r.* FROM races r JOIN peuples p ON p.id_race = r.id Where p.id_base = ?';  // Remplacez par le nom de votre table Pokemon
             $result = $this->execRequest($sql, [$baseid]);
-            $row = array();
+            $row = [];
             foreach($result as $res){
                 $race = new Race();
                 $race->hydrate($res);
