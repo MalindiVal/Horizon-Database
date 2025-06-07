@@ -66,7 +66,7 @@ class CharView{
             a.innerHTML += r.Cible;
             li.appendChild(a);
             let p = document.createElement("p");
-            p.innerHTML = " : " + r.Description;
+            p.innerHTML = r.Description;
             li.appendChild(p);
             this.relationul.appendChild(li);
         });
