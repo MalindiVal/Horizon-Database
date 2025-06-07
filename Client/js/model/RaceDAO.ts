@@ -52,4 +52,26 @@ class RaceDAO extends DAO{
 
         return race;
     }
+
+    async GetMainRace(id)  : Promise<Race> {
+        let race = new Race();
+        let apiurl = this.api + "&action=get-main-races&id="+id;
+        let response = await fetch(apiurl);
+    
+        if (response.status === 200) {
+            // Extraction des données JSON
+            let data = await response.json();
+            if (data){
+                race.hydrate(data);
+            } else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
+            }
+            
+            
+        } else {
+            throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+
+        return race;
+    }
 }
