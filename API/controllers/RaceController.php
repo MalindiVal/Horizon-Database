@@ -12,15 +12,33 @@ class RaceController{
     }
 
     public function getById(int $id){
-        echo json_encode($this->manager->getByID($id));
+        try{
+            echo json_encode($this->manager->getByID($id));
+        } catch (Exception $ex){
+            http_response_code(404);
+            echo json_encode(["error" => $ex->getMessage()]);
+        }
+        
     }
 
     public function getAllPeuplesByRace(int $baseid) {
-        echo json_encode($this->manager->getAllPeuplesByRace($baseid));
+        try{
+            echo json_encode($this->manager->getAllPeuplesByRace($baseid));
+        } catch (Exception $ex){
+            http_response_code(204);
+            echo json_encode([]);
+        }
+        
     }
 
 
     public function getMainRace(int $id) {
-        echo json_encode($this->manager->getMainRace($id));
+        try{
+            echo json_encode($this->manager->getMainRace($id));
+        } catch (Exception $ex){
+            http_response_code(204);
+            echo json_encode([]);
+        }
+        
     }
 }
