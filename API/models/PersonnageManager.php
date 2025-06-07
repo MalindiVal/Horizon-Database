@@ -3,7 +3,7 @@ require_once("Model.php");
 require_once("Personnage.php");
 class PersonnageManager extends Model{
     public function getAll() {
-        $sql = "SELECT id,nom,tagline FROM personnages";
+        $sql = "SELECT id,nom,tagline FROM personnages Order BY nom";
         $result = $this->execRequest($sql, []);
 
         $typeList = [];
