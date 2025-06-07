@@ -51,6 +51,15 @@ class CharView{
         arace.href = "race.html?id="+this.perso.IdRace;
         arace.innerHTML = race.Nom;
         this.race.appendChild(arace)
+
+        let mainrace = await this.racedao.GetMainRace(Number(p.IdRace))
+        if (mainrace.Id != race.Id){
+            let mainlink = document.createElement("a");
+            mainlink.href = "race.html?id="+mainrace.Id;
+            mainlink.innerHTML = " (" + mainrace.Nom + ")";
+            this.race.appendChild(mainlink)
+        }
+        
         
         let relations = await this.relationdao.GetByCharacters(Number(id));
         relations.forEach(r => {
