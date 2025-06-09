@@ -5,6 +5,7 @@ class CharView{
     private personnagedao : PersonnageDAO;
     private racedao : RaceDAO;
     private relationdao : RelationDAO;
+    private factiondao : FactionDAO;
     
     private title : HTMLTitleElement;
     private race : HTMLParagraphElement;
@@ -12,6 +13,7 @@ class CharView{
     private desc : HTMLParagraphElement;
     private tag : HTMLTitleElement;
     private relationdiv : HTMLDivElement;
+    private factiondiv : HTMLDivElement;
     private relationul : HTMLUListElement;
     private editbutton : HTMLLinkElement;
 
@@ -21,6 +23,7 @@ class CharView{
         this.personnagedao = new PersonnageDAO();
         this.relationdao = new RelationDAO();
         this.racedao = new RaceDAO();
+        this.factiondao = new FactionDAO();
         this.title = document.getElementById("character-name") as HTMLTitleElement;
         this.race = document.getElementById("character-race") as HTMLParagraphElement;
         this.bio = document.getElementById("character-background") as HTMLParagraphElement;
@@ -28,6 +31,7 @@ class CharView{
         this.desc = document.getElementById("character-description") as HTMLParagraphElement;
         this.relationdiv = document.getElementById("character-relationships") as HTMLDivElement;
         this.editbutton = document.getElementById("editbutton") as HTMLLinkElement;
+        this.factiondiv = document.getElementById("character-factions") as HTMLDivElement;
         this.DisplayCharacter();
     }
 
@@ -60,6 +64,16 @@ class CharView{
             this.race.appendChild(mainlink)
         }
         
+        
+        let factions = await this.factiondao.GetByPersonnage(Number(id));
+        factions.forEach(r => {
+            let li = document.createElement("li");
+            let a = document.createElement("a");
+            a.href = "faction.html?id="+r.Id_Faction.toString();
+            a.innerHTML = r.Nom_Faction + " - " + r.Role;
+            li.appendChild(a);
+            this.factiondiv.appendChild(li);
+        });
         
         let relations = await this.relationdao.GetByCharacters(Number(id));
         relations.forEach(r => {

@@ -52,4 +52,30 @@ class FactionDAO extends DAO{
             }
         return faction;
     }
+
+    async GetByPersonnage(id : number) : Promise<Affiliation[]> {
+        
+        let liste = [];
+        let apiurl = this.api + "&action=get-by-personnage&id="+id;
+        let response = await fetch(apiurl);
+    
+        if (response.status === 200) {
+            // Extraction des données JSON
+            let data = await response.json();
+            if (data){
+                data.forEach((row) => {
+                    // Hydratation
+                    let faction = new Affiliation();
+                    faction.hydrate(row);
+                    liste.push(faction);  // Correction ici
+                });
+            } else {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
+            }
+        } else {
+            throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+
+        return liste;
+    }
 }

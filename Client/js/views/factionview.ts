@@ -41,7 +41,9 @@ class FactionView implements Observer{
     }
 
     async DisplayFaction(id) {
-        await this.dao.GetById(id);
+        let f = await this.dao.GetById(id);
+        this.title.innerHTML = f.Nom;
+        this.bio.innerHTML = f.Bio;
     }
 
 }
