@@ -52,7 +52,7 @@ class FactionManager extends Model{
     }
 
     public function AddFaction(Faction $faction) : int {
-        $sql = "INSERT INTO factions (nom,bio)  Values (?,?)";
+        $sql = "INSERT INTO factions (nom,histoire)  Values (?,?)";
         try{
             $result = $this->execRequest($sql, [
                 $faction->getNom(),
