@@ -78,4 +78,23 @@ class FactionDAO extends DAO{
 
         return liste;
     }
+    async Add(f : Faction) {
+        let res = false
+        let apiurl = this.api + "&action=add";
+        let response = await fetch(apiurl,{
+            method : "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body : JSON.stringify(f)
+        });
+    
+        if (response.ok) {
+            res =  await response.json(); // if your PHP returns true/false
+        } else {
+            throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+
+        return res;
+    }
 }
