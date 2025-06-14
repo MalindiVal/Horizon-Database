@@ -1,9 +1,10 @@
-class FactionView implements Observer{
+class FactionView{
 
     private dao : FactionDAO;
     private div : HTMLDivElement;
     private title : HTMLTitleElement;
     private bio : HTMLParagraphElement;
+    private members : HTMLUListElement;
 
 
     constructor(){
@@ -16,34 +17,31 @@ class FactionView implements Observer{
         const id = urlParams.get('id');
         this.title = document.getElementById("faction-name") as HTMLTitleElement;
         this.bio = document.getElementById("faction-background") as HTMLParagraphElement;
+        this.members = document.getElementById("faction-members") as HTMLUListElement;
             
         this.DisplayFaction(id)
     }
-    AjoutRelation(r: Relation): void {
-        throw new Error("Method not implemented.");
-    }
-
-    Notify(msg: string): void {
-        throw new Error("Method not implemented.");
-    }
-    AjoutPerso(p: Personnage): void {
-        throw new Error("Method not implemented.");
-    }
-    AjoutFaction(f: Faction): void {
-        this.title.innerHTML = f.Nom;
-        this.bio.innerHTML = f.Bio;
-    }
-    AjoutRace(r: Race): void {
-        throw new Error("Method not implemented.");
-    }
-    Error(msg: string): void {
-        this.div.innerHTML = "<p>Aucune faction trouvé.</p>";
-    }
 
     async DisplayFaction(id) {
-        let f = await this.dao.GetById(id);
-        this.title.innerHTML = f.Nom;
-        this.bio.innerHTML = f.Bio;
+        try{
+            let f = await this.dao.GetById(id);
+            this.title.innerHTML = f.Nom;
+            this.bio.innerHTML = f.Bio;
+
+            let members = await this.dao.GetMembres(id);
+            this.members.innerHTML = "";
+            for(let i = 0; i < members.length; i++){
+                let li = document.createElement("li");
+                let a = document.createElement("a");
+                a.innerHTML = members[i].Nom_Personnage + " - " + members[i].Role;
+                a.href = "personnage.html?id="+members[i].Id_Personnage;
+                li.appendChild(a);
+                this.members.appendChild(li);
+            }
+        } catch {
+            this.div.innerHTML = "<p>Aucune faction trouvé.</p>";
+        }
+        
     }
 
 }
