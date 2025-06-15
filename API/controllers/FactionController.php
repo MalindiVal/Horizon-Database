@@ -16,6 +16,16 @@ class FactionController{
         echo json_encode($this->manager->getByID($id));
     }
 
+    public function getByPersonnage(int $id){
+        echo json_encode($this->manager->getByPersonnage($id));
+    }
+
+    public function getMembers(int $id){
+        echo json_encode($this->manager->getMembers($id));
+    }
+
+    
+
     public function Add(Faction $perso){
         try {
             $res = $this->manager->AddFaction($perso);

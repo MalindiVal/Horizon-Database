@@ -8,6 +8,8 @@ require_once("Route/RouteGetAllFactions.php");
 require_once("Route/RouteGetFactionById.php");
 require_once("Route/RouteAddFaction.php");
 require_once("Route/RouteUpdateFaction.php");
+require_once("Route/RouteGetMembers.php");
+require_once("Route/RouteGetFactionsByPersonnage.php");
 
 require_once("Route/RouteGetAllRaces.php");
 require_once("Route/RouteGetRaceById.php");
@@ -66,6 +68,8 @@ class Router {
             "get-by-id" => new RouteGetFactionById($this->ctrlList["faction"]),
             "add" => new RouteAddFaction($this->ctrlList["faction"]),
             "update" => new RouteUpdateFaction($this->ctrlList["faction"]),
+            "get-by-personnage" => new RouteGetFactionsByPersonnage($this->ctrlList["faction"]),
+            "get-members" => new RouteGetMembers($this->ctrlList["faction"]),
         ];
 
         $this->routeList["race"] =  [

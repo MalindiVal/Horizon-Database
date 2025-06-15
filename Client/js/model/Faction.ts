@@ -40,5 +40,9 @@ class Faction{
         if(data["bio"]){
             this.bio = data["bio"];
         }
+
+        if(data["histoire"]){
+            this.bio = data["histoire"];
+        }
     }
 }

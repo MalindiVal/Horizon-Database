@@ -27,4 +27,14 @@ class FactionController extends Observable{
             this.NotifyError(e.Message);
         }
     }
+
+    async Add(f : Faction){ 
+        try{
+            let response = await this.dao.Add(f);
+            this.NotifyAjoutFaction(f);
+
+        } catch (e){
+            this.NotifyError(e.Message);
+        }
+    }
 }

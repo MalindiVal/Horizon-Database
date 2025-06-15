@@ -27,8 +27,32 @@ class FactionManager extends Model{
         return $row;
     }
 
+    public function getByPersonnage(int $id) {
+        $sql = 'SELECT f.id as id_faction , f.nom as nom_faction ,a.role FROM factions f Join Affilier a On a.id_faction = f.id Where a.id_personnage = ?';  // Remplacez par le nom de votre table Pokemon
+        $result = $this->execRequest($sql, [$id]);
+
+        $typeList = [];
+        foreach ($result as $row) {
+            $typeList[] = $row;
+        }
+
+        return $typeList;
+    }
+
+    public function getMembers(int $id) {
+        $sql = 'SELECT p.id as id_personnage, p.Nom as nom_personnage , a.role FROM personnages p  Join Affilier a On a.id_personnage = p.id Where a.id_faction = ?'; 
+        $result = $this->execRequest($sql, [$id]);
+
+        $typeList = [];
+        foreach ($result as $row) {
+            $typeList[] = $row;
+        }
+
+        return $typeList;
+    }
+
     public function AddFaction(Faction $faction) : int {
-        $sql = "INSERT INTO factions (nom,bio)  Values (?,?)";
+        $sql = "INSERT INTO factions (nom,histoire)  Values (?,?)";
         try{
             $result = $this->execRequest($sql, [
                 $faction->getNom(),
