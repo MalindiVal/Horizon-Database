@@ -10,7 +10,7 @@ class FactionController extends Observable{
         try{
             let response = await this.dao.GetAll();
             for (let i = 0; i < response.length; i++) {
-                this.NotifyAjoutFaction(response[i]);
+                this.NotifyFactionFound(response[i]);
             }
 
         } catch (e){
@@ -21,16 +21,27 @@ class FactionController extends Observable{
     async getById(id){
         try{
             let response = await this.dao.GetById(id);
-            this.NotifyAjoutFaction(response);
+            this.NotifyFactionFound(response);
+
+        } catch (e){
+            this.NotifyError(e.Message);
+        }
+    }
+    
+
+    async Add(f : Faction){ 
+        try{
+            let response = await this.dao.Add(f);
+            this.NotifyAjoutFaction(f);
 
         } catch (e){
             this.NotifyError(e.Message);
         }
     }
 
-    async Add(f : Faction){ 
+    async Update(f : Faction){ 
         try{
-            let response = await this.dao.Add(f);
+            let response = await this.dao.Update(f);
             this.NotifyAjoutFaction(f);
 
         } catch (e){

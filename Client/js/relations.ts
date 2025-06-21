@@ -1,5 +1,5 @@
 window.onload = function() {
-    let dao = new RelationDAO();
-    let ctrl = new RelationController(dao);
-    let view = new RelationsView(ctrl);
+    let ctrl = new RelationController(new RelationDAO());
+    let persoctrl = new PersonnageController(new PersonnageDAO());
+    let view = new RelationsView(ctrl,persoctrl);
 }

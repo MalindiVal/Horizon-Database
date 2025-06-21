@@ -13,7 +13,7 @@ class PersonnageController extends Observable{
         {
             let response = await this.dao.GetAll();
             response.forEach( element => {
-                this.NotifyAjoutPerso(element);
+                this.NotifyPersoFound(element);
                 list.push(element);
             });
         } catch {
@@ -27,7 +27,7 @@ class PersonnageController extends Observable{
         try
         {
             let response = await this.dao.GetById(id);
-            this.NotifyAjoutPerso(response);
+            this.NotifyPersoFound(response);
             perso = response;
 
         } catch {

@@ -27,7 +27,7 @@ class RaceController extends Observable{
         try
         {
             let response = await this.dao.GetById(id);
-            this.NotifyAjoutRace(response);
+            this.NotifyRaceFound(response);
             race = response
         } catch {
             this.NotifyError("Erreur");

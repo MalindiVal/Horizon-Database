@@ -1,6 +1,7 @@
 class EditRelationView implements Observer{
     
     private relationctrl : RelationController;
+    private personnagectrl : PersonnageController;
     private relation : Relation;
 
     private p1input : HTMLSelectElement;
@@ -13,10 +14,12 @@ class EditRelationView implements Observer{
     private title : HTMLTitleElement;
     private relationdiv : HTMLDivElement
 
-    constructor(relationctrl : RelationController,relation : Relation){
-        this.relation = relation;
+    constructor(relationctrl : RelationController, personnagectrl : PersonnageController){
+        
         this.relationctrl = relationctrl;
         this.relationctrl.register(this);
+        this.personnagectrl = personnagectrl;
+        personnagectrl.register(this);
         document.title = "Ajout d'une relation - Project Horizon";
         this.title = document.getElementById("title") as HTMLTitleElement;
         this.titleinput = document.getElementById("relation_title") as HTMLInputElement;
@@ -28,6 +31,27 @@ class EditRelationView implements Observer{
         this.validatebutton.addEventListener("click",() => this.Validate());
         this.title.innerHTML = "Ajout";
         this.init();
+    }
+    PersoFound(p: Personnage): void {
+        let option = document.createElement("option") as HTMLOptionElement;
+        option.value = p.Id.toString();
+        option.innerText = p.Nom;
+        this.p1input.appendChild(option);
+        this.p2input.appendChild(option);
+    }
+    FactionFound(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
+    RaceFound(r: Race): void {
+        throw new Error("Method not implemented.");
+    }
+    RelationFound(r: Relation): void {
+        this.relation = r;
+        this.p1input.value = r.Id_P1.toString();
+        this.p2input.value = r.Id_P2.toString();
+        this.typeinput.value = r.IdType.toString();
+        this.titleinput.value = r.Titre;
+        this.descinput.value = r.Description;
     }
 
     Notify(msg: string): void {
@@ -52,22 +76,16 @@ class EditRelationView implements Observer{
     }
 
     private async init(){
-        
-        let chardao = new PersonnageDAO();
-        let listcible = await chardao.GetAll();
-        listcible.forEach((element) => {
-            let option = document.createElement("option") as HTMLOptionElement;
-            option.value = element.Id.toString();
-            option.innerText = element.Nom;
-            this.p1input.appendChild(option);
-        });
 
-        listcible.forEach((element) => {
-            let option = document.createElement("option") as HTMLOptionElement;
-            option.value = element.Id.toString();
-            option.innerText = element.Nom;
-            this.p2input.appendChild(option);
-        });
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (id){
+            //this.relationctrl.
+        }
+        
+        let listcible = await this.personnagectrl.ListAllChars();
+        
         let relatiodao = new RelationDAO();
         let listtype = await relatiodao.GetAllTypes();
         listtype.forEach(element => {
