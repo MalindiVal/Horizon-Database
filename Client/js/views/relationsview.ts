@@ -4,7 +4,7 @@ class RelationsView implements Observer {
 
     private canvas: HTMLCanvasElement;
     private tooltipDiv: HTMLDivElement;
-    private personnages: { [id: number]: Personnage } = {};
+    private personnages: Personnage[] = [];
     private relations : Relation[] = [];
     private hoverAreas: Array<{
         type: "line" | "text",
@@ -47,7 +47,7 @@ class RelationsView implements Observer {
         throw new Error("Method not implemented.");
     }
     PersoFound(p: Personnage): void {
-        this.personnages[p.Id] = p;
+        this.personnages.push(p);
     }
     AjoutFaction(f: Faction): void {
         throw new Error("Method not implemented.");
@@ -62,10 +62,10 @@ class RelationsView implements Observer {
         throw new Error("Method not implemented.");
     }
     AjoutRelation(r: Relation): void {
-        this.relations.push(r);
+        
     }
     RelationFound(r: Relation): void {
-        throw new Error("Method not implemented.");
+        this.relations.push(r);
     }
     Error(msg: string): void {
         throw new Error("Method not implemented.");
@@ -74,13 +74,15 @@ class RelationsView implements Observer {
     private async init(){
         this.canvas.width = window.innerWidth * 0.9;
         this.canvas.height = window.innerHeight * 0.7;
-        let chars = await this.persoctrl.ListAllChars();
-        let data = await this.ctrl.listRelations();
+        await this.persoctrl.ListAllChars();
+        await this.ctrl.listRelations();
         this.drawMindMap();
     }
 
     // Example of your drawMindMap with hover area recording:
     drawMindMap() {
+        
+        // 1. Place characters in a circle
         const ctx = this.canvas.getContext("2d");
         this.canvas.width = window.innerWidth * 0.9;
         this.canvas.height = window.innerHeight * 0.8; 
@@ -95,24 +97,16 @@ class RelationsView implements Observer {
             centerY = this.canvas.height / 2;
         }
 
-        const uniqueIds = new Set<number>();
-        this.relations.forEach(r => {
-            uniqueIds.add(r.Id_P1);
-            uniqueIds.add(r.Id_P2);
-        });
-
-        const ids = Array.from(uniqueIds);
-        const total = ids.length;
-        const angleStep = (2 * Math.PI) / total;
-
+        const total = this.personnages.length;
         const positions: { [key: number]: { x: number, y: number } } = {};
 
-        // 1. Place characters in a circle
-        ids.forEach((id, index) => {
-            const angle = index * angleStep;
+        const angleStep = (2 * Math.PI) / total;
+        let angle = 0;
+        this.personnages.forEach(P => {
+            angle += angleStep;
             const x = centerX + radius * Math.cos(angle);
             const y = centerY + radius * Math.sin(angle);
-            positions[id] = { x, y };
+            positions[P.Id] = { x, y };
         });
 
         this.hoverAreas = [];
@@ -125,7 +119,7 @@ class RelationsView implements Observer {
             ctx.beginPath();
             ctx.moveTo(pos1.x, pos1.y);
             ctx.lineTo(pos2.x, pos2.y);
-            ctx.strokeStyle = "#444";
+            ctx.strokeStyle = this.getColorForRelationType(rel.Type);
             ctx.stroke();
 
             this.hoverAreas.push({
@@ -134,43 +128,44 @@ class RelationsView implements Observer {
                 from: pos1,
                 to: pos2,
             });
-
+            
+            // milieu de ligne
             const midX = (pos1.x + pos2.x) / 2;
             const midY = (pos1.y + pos2.y) / 2;
-            ctx.fillStyle = "#000";
-            ctx.font = "12px sans-serif";
-            ctx.textAlign = "center";
-            ctx.fillText(rel.Titre, midX, midY - 5);
 
-            let textWidth = ctx.measureText(rel.Titre).width;
-            let textHeight = 12; // approx font size
+            ctx.fillStyle = "#222";
+            ctx.font = "10px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(rel.Titre || "", midX, midY);
+
             this.hoverAreas.push({
                 type: "text",
                 rel,
                 from: pos1,
                 to: pos2,
-                textPos: { x: midX, y: midY - 5 },
+                textPos: { x: midX, y: midY },
                 bbox: {
-                    x: midX - textWidth / 2,
-                    y: midY - 5 - textHeight,
-                    width: textWidth,
-                    height: textHeight,
-                },
+                    x: midX - 20,
+                    y: midY - 10,
+                    width: 40,
+                    height: 20
+                }
             });
+
         });
 
         // 3. Draw nodes (badges)
-        ids.forEach(id => {
-            const pos = positions[id];
+        this.personnages.forEach(p => {
+            const pos = positions[p.Id];
             ctx.beginPath();
             ctx.arc(pos.x, pos.y, 25, 0, 2 * Math.PI);
             ctx.fillStyle = "#88c";
             ctx.fill();
 
             ctx.fillStyle = "#fff";
-            ctx.font = "bold 12px sans-serif";
+            ctx.font = "bold 10px sans-serif";
             ctx.textAlign = "center";
-            const name = this.personnages[id].Nom || "P" + id;
+            const name = p.Nom || "P" + p.Id;
             ctx.fillText(name, pos.x, pos.y + 4);
         });
     }
@@ -185,25 +180,27 @@ class RelationsView implements Observer {
         let foundHover = false;
 
         for (const area of this.hoverAreas) {
-            if (area.type === "text" && area.bbox) {
-                // Check if mouse is inside text bounding box
-                if (
-                    mouseX >= area.bbox.x &&
-                    mouseX <= area.bbox.x + area.bbox.width &&
-                    mouseY >= area.bbox.y &&
-                    mouseY <= area.bbox.y + area.bbox.height
-                ) {
-                    this.showTooltip(event.pageX, event.pageY, area.rel.Description || "No description");
-
-                    foundHover = true;
-                    break;
-                }
-            } else if (area.type === "line") {
+            if (area.type === "line") {
                 // Check if mouse is close to the line (distance <= threshold)
                 const dist = this.pointLineDistance(mouseX, mouseY, area.from, area.to);
                 if (dist < 5) { // 5 pixels tolerance
-                    this.showTooltip(event.clientX,event.clientY,`${this.personnages[area.rel?.Id_P1].Nom} <--> ${this.personnages[area.rel?.Id_P2].Nom} <br>${area.rel?.Titre || "Titre inconnu"}<br>Type de relation : ${area.rel?.Type || "Type inconnu"}<br>${area.rel?.Description || "Pas de description"}`);
-foundHover = true;
+                    let p1 = "";
+                    for(let i = 0; i < this.personnages.length; i++){
+                        if (area.rel.Id_P1 == this.personnages[i].Id){
+                            p1 = this.personnages[i].Nom;
+                            break;
+                        }
+                    }
+                    let p2 = "";
+                    for(let i = 0; i < this.personnages.length; i++){
+                        if (area.rel.Id_P2 == this.personnages[i].Id){
+                            p2 = this.personnages[i].Nom;
+                            break;
+                        }
+                    }
+                    let texte = `${p1} <--> ${p2} <br>${area.rel?.Titre || "Titre inconnu"}<br>Type de relation : ${area.rel?.Type || "Type inconnu"}<br>${area.rel?.Description || "Pas de description"}`
+                    this.showTooltip(event.clientX,event.clientY,texte);
+                    foundHover = true;
                     break;
                 }
             }
@@ -259,4 +256,16 @@ foundHover = true;
         const dy = py - yy;
         return Math.sqrt(dx * dx + dy * dy);
     }
+
+    private getColorForRelationType(type: string): string {
+        switch (type) {
+            case "Famille": return "#5a9";
+            case "Conflit": return "#e33";
+            case "Mentor/Eleve": return "#38f";
+            case "Amitié": return "#FFFF00";
+            case "Amour": return "#FFC0CB";
+            default: return "#888";
+        }
+    }
+
 }
