@@ -12,7 +12,7 @@ class RelationController extends Observable{
         try{
             let response = await this.dao.GetAll();
             response.forEach(element => {
-                this.NotifyAjoutRelation(element);
+                this.NotifyRelationFound(element);
                 list.push(element);
             });
 
