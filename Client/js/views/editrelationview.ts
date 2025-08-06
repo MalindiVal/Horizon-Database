@@ -37,7 +37,10 @@ class EditRelationView implements Observer{
         option.value = p.Id.toString();
         option.innerText = p.Nom;
         this.p1input.appendChild(option);
-        this.p2input.appendChild(option);
+        let option2 = document.createElement("option") as HTMLOptionElement;
+        option2.value = p.Id.toString();
+        option2.innerText = p.Nom;
+        this.p2input.appendChild(option2);
     }
     FactionFound(f: Faction): void {
         throw new Error("Method not implemented.");
