@@ -11,21 +11,10 @@ class FactionsView implements Observer{
         this.div = document.getElementById("factionlist") as HTMLDivElement;
         this.ListAllFactions();
     }
-    AjoutRelation(r: Relation): void {
+    PersoFound(p: Personnage): void {
         throw new Error("Method not implemented.");
     }
-    AjoutRace(r: Race): void {
-        throw new Error("Method not implemented.");
-    }
-
-    Notify(msg: string): void {
-        
-    }
-    AjoutPerso(p: Personnage): void {
-        
-    }
-
-    AjoutFaction(f: Faction): void {
+    FactionFound(f: Faction): void {
         let vig = document.createElement("div");
         vig.classList.add("col-md-4");
         vig.classList.add("mb-4");
@@ -57,6 +46,29 @@ class FactionsView implements Observer{
         vig.appendChild(carte);
 
         this.div.appendChild(vig);
+    }
+    RaceFound(r: Race): void {
+        throw new Error("Method not implemented.");
+    }
+    RelationFound(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRelation(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRace(r: Race): void {
+        throw new Error("Method not implemented.");
+    }
+
+    Notify(msg: string): void {
+        
+    }
+    AjoutPerso(p: Personnage): void {
+        
+    }
+
+    AjoutFaction(f: Faction): void {
+        
     }
 
     Error(msg: string): void {

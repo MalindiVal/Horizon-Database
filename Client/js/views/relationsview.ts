@@ -1,7 +1,11 @@
-class RelationsView {
+class RelationsView implements Observer {
+    private ctrl: RelationController;
+    private persoctrl: PersonnageController;
+
     private canvas: HTMLCanvasElement;
     private tooltipDiv: HTMLDivElement;
-    private personnage: { [id: number]: string } = {};
+    private personnages: { [id: number]: Personnage } = {};
+    private relations : Relation[] = [];
     private hoverAreas: Array<{
         type: "line" | "text",
         rel: Relation,
@@ -11,7 +15,13 @@ class RelationsView {
         bbox?: { x: number, y: number, width: number, height: number }
     }> = [];
 
-    constructor(ctrl: RelationController) {
+    constructor(ctrl: RelationController, persoctrl: PersonnageController) {
+        this.ctrl = ctrl;
+        this.ctrl.register(this);
+
+        this.persoctrl = persoctrl;
+        this.persoctrl.register(this);
+
         this.canvas = document.getElementById("mindmap") as HTMLCanvasElement;
 
         // Create tooltip div and hide initially
@@ -33,23 +43,44 @@ class RelationsView {
 
         this.init();
     }
+    AjoutPerso(p: Personnage): void {
+        throw new Error("Method not implemented.");
+    }
+    PersoFound(p: Personnage): void {
+        this.personnages[p.Id] = p;
+    }
+    AjoutFaction(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
+    FactionFound(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRace(r: Race): void {
+        throw new Error("Method not implemented.");
+    }
+    RaceFound(r: Race): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRelation(r: Relation): void {
+        this.relations.push(r);
+    }
+    RelationFound(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
+    Error(msg: string): void {
+        throw new Error("Method not implemented.");
+    }
 
     private async init(){
         this.canvas.width = window.innerWidth * 0.9;
         this.canvas.height = window.innerHeight * 0.7;
-        let relationdao = new RelationDAO();
-        let data = await relationdao.GetAll();
-        let charDao = new PersonnageDAO();
-        let chars = await charDao.GetAll();
-        chars.forEach(c => {
-            this.personnage[c.Id] = c.Nom;
-        })
-        
-        this.drawMindMap(data);
+        let chars = await this.persoctrl.ListAllChars();
+        let data = await this.ctrl.listRelations();
+        this.drawMindMap();
     }
 
     // Example of your drawMindMap with hover area recording:
-    drawMindMap(relations: Relation[]) {
+    drawMindMap() {
         const ctx = this.canvas.getContext("2d");
         this.canvas.width = window.innerWidth * 0.9;
         this.canvas.height = window.innerHeight * 0.8; 
@@ -65,7 +96,7 @@ class RelationsView {
         }
 
         const uniqueIds = new Set<number>();
-        relations.forEach(r => {
+        this.relations.forEach(r => {
             uniqueIds.add(r.Id_P1);
             uniqueIds.add(r.Id_P2);
         });
@@ -87,7 +118,7 @@ class RelationsView {
         this.hoverAreas = [];
 
         // 2. Draw relationships (edges)
-        relations.forEach(rel => {
+        this.relations.forEach(rel => {
             const pos1 = positions[rel.Id_P1];
             const pos2 = positions[rel.Id_P2];
 
@@ -139,7 +170,7 @@ class RelationsView {
             ctx.fillStyle = "#fff";
             ctx.font = "bold 12px sans-serif";
             ctx.textAlign = "center";
-            const name = this.personnage[id] || "P" + id;
+            const name = this.personnages[id].Nom || "P" + id;
             ctx.fillText(name, pos.x, pos.y + 4);
         });
     }
@@ -171,7 +202,7 @@ class RelationsView {
                 // Check if mouse is close to the line (distance <= threshold)
                 const dist = this.pointLineDistance(mouseX, mouseY, area.from, area.to);
                 if (dist < 5) { // 5 pixels tolerance
-                    this.showTooltip(event.clientX,event.clientY,`${this.personnage[area.rel?.Id_P1]} <--> ${this.personnage[area.rel?.Id_P2]} <br>${area.rel?.Titre || "Titre inconnu"}<br>Type de relation : ${area.rel?.Type || "Type inconnu"}<br>${area.rel?.Description || "Pas de description"}`);
+                    this.showTooltip(event.clientX,event.clientY,`${this.personnages[area.rel?.Id_P1].Nom} <--> ${this.personnages[area.rel?.Id_P2].Nom} <br>${area.rel?.Titre || "Titre inconnu"}<br>Type de relation : ${area.rel?.Type || "Type inconnu"}<br>${area.rel?.Description || "Pas de description"}`);
 foundHover = true;
                     break;
                 }

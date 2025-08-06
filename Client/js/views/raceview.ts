@@ -20,6 +20,15 @@ class RaceView implements Observer{
             
         this.DisplayRace()
     }
+    PersoFound(p: Personnage): void {
+        throw new Error("Method not implemented.");
+    }
+    RelationFound(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
+    FactionFound(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
     AjoutRelation(r: Relation): void {
         throw new Error("Method not implemented.");
     }
@@ -32,16 +41,22 @@ class RaceView implements Observer{
     AjoutFaction(f: Faction): void {
         throw new Error("Method not implemented.");
     }
+
     AjoutRace(r: Race): void {
+        
+    }
+
+    RaceFound(r: Race): void {
         this.race = r;
         document.title = this.race.Nom + "- Project Horizon";
         this.title.innerHTML = this.race.Nom;
         this.bio.innerHTML = this.race.Description;
         this.apparence.innerHTML = this.race.Apparence;
         this.culture.innerHTML = this.race.Culture;
-        this.AfficherPeuples();
+        this.AfficherPeuples(r.Id);
         
     }
+    
     Error(msg: string): void {
        
     }
@@ -51,13 +66,11 @@ class RaceView implements Observer{
         const id = urlParams.get('id');
         await this.ctrl.GetById(Number(id));
 
-        
-
     }
 
-    async AfficherPeuples(){
+    async AfficherPeuples(id : number){
         let dao = new RaceDAO();
-        let p = await dao.GetPeuples(this.race.Id);
+        let p = await dao.GetPeuples(id);
         if (p){
             p.forEach(peuple => {
                 let vig = document.createElement("div");

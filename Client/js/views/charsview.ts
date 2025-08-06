@@ -2,10 +2,9 @@ class CharsView implements Observer{
 
     private ctrl : PersonnageController;
     private div : HTMLDivElement;
-    private list : Array<Personnage>;
+
     constructor(ctrl : PersonnageController){
        
-        this.list = new Array<Personnage>();
         this.ctrl = ctrl;
         this.ctrl.register(this);
         const urlParams = new URLSearchParams(window.location.search);
@@ -14,20 +13,8 @@ class CharsView implements Observer{
         this.div = document.getElementById("characterlist") as HTMLDivElement;
         this.ListAllChars();
     }
-    AjoutRelation(r: Relation): void {
-        
-    }
-    AjoutRace(r: Race): void {
-        throw new Error("Method not implemented.");
-    }
-    AjoutFaction(f: Faction): void {
-        
-    }
-    Notify(msg: string): void {
-        
-    }
 
-    AjoutPerso(p: Personnage): void {
+    PersoFound(p: Personnage): void {
         let vig = document.createElement("div");
         vig.classList.add("col-md-4");
         vig.classList.add("mb-4");
@@ -59,6 +46,32 @@ class CharsView implements Observer{
         vig.appendChild(carte);
 
         this.div.appendChild(vig);
+    }
+
+    FactionFound(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
+    RaceFound(r: Race): void {
+        throw new Error("Method not implemented.");
+    }
+    RelationFound(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRelation(r: Relation): void {
+        
+    }
+    AjoutRace(r: Race): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutFaction(f: Faction): void {
+        
+    }
+    Notify(msg: string): void {
+        
+    }
+
+    AjoutPerso(p: Personnage): void {
+        
     }
 
     Error(msg: string): void {

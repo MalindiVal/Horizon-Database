@@ -20,10 +20,9 @@ class EditCharView implements Observer{
     private listtype: Array<RelationType>;
 
     constructor(ctrl : PersonnageController , racectrl : RaceController, relationctrl : RelationController){
-        this.perso = null;
+        this.perso = new Personnage();
         this.ctrl = ctrl;
         this.ctrl.register(this);
-        this.exist = false;
         this.racectrl = racectrl;
         this.racectrl.register(this);
         this.relationctrl = relationctrl;
@@ -44,53 +43,8 @@ class EditCharView implements Observer{
         addbutton.addEventListener("click", () => this.addRelationInput());
         this.init();
     }
-
-    Notify(msg: string): void {
-
-    }
-    AjoutPerso(p: Personnage): void {
-        window.location.href = "personnage.html?id="+p.Id;
-    }
-    AjoutFaction(f: Faction): void {
-        throw new Error("Method not implemented.");
-    }
-    AjoutRace(r: Race): void {
-        if (this.exist == false)
-        {
-            let option = document.createElement("option");
-            option.innerHTML = r.Nom;
-            option.value = r.Id.toString();
-            this.raceinput.appendChild(option);
-        }
-    }
-    AjoutRelation(r: Relation): void {
-        
-    }
-    Error(msg: string): void {
-        alert(msg);     
-        
-    }
-
-    private async init(){
-        let racedao = new RaceDAO();
-        let races = await racedao.GetAll();
-        races.forEach(r => {
-            if (this.exist == false)
-            {
-                let option = document.createElement("option");
-                option.innerHTML = r.Nom;
-                option.value = r.Id.toString();
-                this.raceinput.appendChild(option);
-            }
-        });
-
-        const urlParams = new URLSearchParams(window.location.search);
-        let id = Number(urlParams.get('id'));
-        let chardao = new PersonnageDAO();
-        let p = await chardao.GetById(id);
-        if(p){
+    PersoFound(p: Personnage): void {
             this.perso = p;
-            this.exist = true;
             this.title.innerHTML = "Edit";
             document.title = "Modification de " + this.perso.Nom + " - Project Horizon";
             this.nameinput.value = this.perso.Nom;
@@ -111,16 +65,55 @@ class EditCharView implements Observer{
             }
             this.taginput.value = this.perso.Tagline;
             this.bioinput.value = this.perso.Bio;
-        }
+    }
+    FactionFound(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
+    RaceFound(r: Race): void {
+        let option = document.createElement("option");
+        option.innerHTML = r.Nom;
+        option.value = r.Id.toString();
+        this.raceinput.appendChild(option);
+    }
+    RelationFound(r: Relation): void {
+        this.addRelationInput(r)
+    }
+
+    Notify(msg: string): void {
+
+    }
+    AjoutPerso(p: Personnage): void {
+        window.location.href = "personnage.html?id="+p.Id;
+    }
+    AjoutFaction(f: Faction): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRace(r: Race): void {
+        
+    }
+    AjoutRelation(r: Relation): void {
+        
+    }
+    Error(msg: string): void {
+        alert(msg);     
+        
+    }
+
+    private async init(){
+        let races = await this.racectrl.List();
+        let chardao = new PersonnageDAO();
         this.listcible = await chardao.GetAll();
         let relatiodao = new RelationDAO();
         this.listtype = await relatiodao.GetAllTypes();
-        let list = await relatiodao.GetByCharacters(this.perso.Id);
-        list.forEach(r => {
-            this.addRelationInput(r)
-        });
-        
 
+        const urlParams = new URLSearchParams(window.location.search);
+        let id = Number(urlParams.get('id'));
+        
+        if (id){
+            let p = await this.ctrl.GetById(id);
+            let list = await this.relationctrl.GetByPersonnage(id);
+        }
+        
     }
 
     addRelationInput(r : Relation = null){
@@ -228,7 +221,7 @@ class EditCharView implements Observer{
         this.perso.Bio = this.bioinput.value;
         this.perso.Description = this.descinput.value
         let res = false
-        if (this.exist){
+        if (this.perso.Id){
             res = await this.ctrl.Update(this.perso);
         } else {
             res = await this.ctrl.Add(this.perso);

@@ -10,22 +10,13 @@ class RacesView implements Observer{
         this.div = document.getElementById("raceslist") as HTMLDivElement;
         this.ListAllRaces();
     }
-    AjoutRelation(r: Relation): void {
+    PersoFound(p: Personnage): void {
         throw new Error("Method not implemented.");
     }
-
-    Notify(msg: string): void {
+    FactionFound(f: Faction): void {
         throw new Error("Method not implemented.");
     }
-    AjoutPerso(p: Personnage): void {
-        
-    }
-
-    AjoutFaction(f: Faction): void {
-        
-    }
-
-    AjoutRace(r: Race): void {
+    RaceFound(r: Race): void {
         let vig = document.createElement("div");
             vig.classList.add("col-md-4");
             vig.classList.add("mb-4");
@@ -57,6 +48,27 @@ class RacesView implements Observer{
             vig.appendChild(carte);
 
             this.div.appendChild(vig);
+    }
+    RelationFound(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutRelation(r: Relation): void {
+        throw new Error("Method not implemented.");
+    }
+
+    Notify(msg: string): void {
+        throw new Error("Method not implemented.");
+    }
+    AjoutPerso(p: Personnage): void {
+        
+    }
+
+    AjoutFaction(f: Faction): void {
+        
+    }
+
+    AjoutRace(r: Race): void {
+        
     }
     Error(msg: string): void {
         this.div.innerHTML = "<p>Aucune race trouvée.</p>";
