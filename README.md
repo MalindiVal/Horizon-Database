@@ -17,7 +17,8 @@ Horizon-Database/
 
 ## Pile technologique
 
-Frontend : HTML, CSS, TypeScript
-Backend : PHP, TypeScript
-Base de données : MySQL
-Hébergement : XAMPP
+- Frontend : HTML, CSS, TypeScript
+- Backend : PHP, TypeScript
+- Base de données : MySQL
+- Hébergement : XAMPP
+
