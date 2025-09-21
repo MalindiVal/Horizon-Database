@@ -1,0 +1,4 @@
+#relationtab{
+    display:grid;
+    grid-templates-columns: 5fr 2fr;
+}
